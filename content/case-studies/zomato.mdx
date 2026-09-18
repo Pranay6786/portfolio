@@ -1,0 +1,102 @@
+---
+slug: "zomato"
+title: "Zomato"
+subtitle: "Choosing a metric that can't be gamed by a discount campaign"
+kind: "featured"
+order: 4
+badges: ["METRICS & COHORTS", "DESK ANALYSIS"]
+metricStrip: "Funnel, cohorts and metrics · Tier-1 city food delivery"
+summary: "Funnel hypotheses, four retention cohorts, and why Weekly Ordering Households beats order volume as a North Star."
+disclaimer: "Independent product exercise. Not affiliated with Zomato. No internal data was available; every figure below is a hypothesis with the instrumentation that would test it."
+---
+
+## The constraint that shapes this case study
+
+I had no access to Zomato's funnel data, cohort tables or retention curves. My original version filled that gap with plausible-looking percentages - 68% reaching discovery, 47% reaching a menu, 81% Month-2 retention for high-frequency users.
+
+I've removed them. They weren't derived from anything, and a funnel chart with invented numbers is worse than no funnel chart, because it claims an analysis I never ran.
+
+What's left is what I could actually do without data: identify where the drop-offs should be, say why, and specify what I'd measure to find out if I was right. That's the honest version of this exercise, and it's closer to what the first week in the role would look like anyway.
+
+## The funnel, as hypotheses
+
+App open → discovery → menu view → cart created → checkout → order placed → delivered.
+
+Six transitions. My expectation is that two of them leak far more than the rest.
+
+**Menu view → cart created.** Long, unstructured menu listings produce decision fatigue at exactly the point where intent is highest. A user who opened a menu has already chosen a restaurant; losing them here is losing a nearly-converted order.
+
+**Cart created → checkout.** Delivery fees and surge charges appearing late is a trust problem, not a pricing problem. The user built a basket against one number and is shown another. <Confidence type="assumed" /> I'd expect this to be the single largest leak in the funnel.
+
+The remaining four, briefly: a generic homepage that ignores time of day and order history; restaurant cards that lack the two signals people actually decide on, ETA and current rating trend; forced address entry at checkout; and delivery windows that shift without explanation after the order is placed.
+
+**What would confirm or kill these.** Stage-to-stage conversion rates segmented by time of day and by whether the user has ordered before. If cart-to-checkout holds steady when fees are shown inline versus late, my main hypothesis is wrong and the leak is elsewhere - most likely menu fatigue.
+
+## Cohorts, and why the ordering matters more than the numbers
+
+Four segments, defined by behaviour rather than demographics:
+
+- **New users, first 30 days** - habit unformed, and a single bad first delivery ends the relationship.
+- **Repeat users, ordering regularly without discounts** - vulnerable to menu fatigue, the sense of having already seen everything nearby.
+- **High-frequency users, 3+ orders weekly** - highest value, and they feel small frictions most sharply because they encounter them most often.
+- **Discount-driven users** - purely transactional, ordering stops when campaigns stop.
+
+<Confidence type="assumed" /> My expectation is that retention runs in that order of value: high-frequency retains best, discount-driven worst, with new users low because the habit hasn't formed and repeat users in between.
+
+The ordering is the argument, and it holds without precise numbers. If discount-driven users churn as soon as promotions end, then discounting buys orders rather than customers, and growth spend is renting demand it will have to re-rent next month. That conclusion doesn't need a percentage - it needs the retention curves to be ordered the way I expect, which is a single query.
+
+## The decision: Weekly Ordering Households
+
+This is the part I'd defend hardest.
+
+The obvious North Star candidates for a food delivery business are order volume or daily active users. I rejected both, and the reason is that a metric's most important property is what it resists.
+
+**Order volume** rises with any promotion. A discount campaign moves it without moving anything real, which means the metric rewards exactly the behaviour the cohort analysis suggests is value-destroying.
+
+**Daily active users** counts app opens, not orders, and in food delivery a large share of opens are browsing that ends in nothing.
+
+**Weekly Ordering Households** measures something harder to fake. Households rather than accounts, because a single heavy user placing five orders shouldn't read the same as five households placing one - one is depth, the other is reach, and only the second means the business is growing. Weekly rather than daily, because food ordering is genuinely weekly-cyclical and a daily measure mostly reports what day it is. And because it counts distinct ordering households, a promotion can only move it by getting new households to order, which is the thing you actually want.
+
+**What it costs.** It's slower to move and less responsive, so it's a poor metric for evaluating a two-week experiment. That's why it needs a ladder beneath it.
+
+## The metric ladder
+
+Each initiative gets an input metric I control, an output metric it should move, and leading and lagging indicators - so an experiment can be read in days while the North Star is read in months.
+
+| Initiative | Input | Output | Leading | Lagging |
+| --- | --- | --- | --- | --- |
+| Inline fee transparency | % carts showing full estimate | Cart → checkout conversion | Cart abandonment | Checkout success rate |
+| Personalised home feed | Impressions on customised feed | Discovery → menu view | Module click-through | Weekly Ordering Households |
+| Restaurant card signals | % cards showing live ETA | Menu view click-through | Card tap rate | Order completion |
+| Menu combos | % menus with curated combos | Menu → cart created | Combo add-to-cart rate | Average order value |
+| One-tap checkout | % orders using saved details | Checkout → order placed | Checkout duration | 7-day repeat order rate |
+
+Cohort interventions run the same structure: second-order nudges for new users measured against Day-30 retention, cuisine recommendations for repeat users against Month-2, delivery SLAs for high-frequency users against support tickets, and a points programme for discount-driven users measured on orders placed without an active voucher.
+
+That last one is the real test. If points work, price-sensitive users keep ordering when campaigns stop - and that shows up as orders without a voucher code, not as total orders.
+
+## Prioritisation
+
+**Inline fee transparency first.** Highest expected impact against the leak I believe is largest, and it's a display change rather than an architectural one.
+
+**Second-order nudges for new users second** - lowest-retention cohort, and it's automatable and testable in a fortnight.
+
+**One-tap checkout and restaurant card signals follow**, both requiring more engineering. The loyalty points programme comes last: strategically the most important, because it's the only one that addresses the discount dependency directly, but it needs pricing, margin modelling and regional piloting before it can ship anywhere.
+
+**Note on framework.** The brief asked for RICE. I used impact against effort instead, because RICE's reach and confidence terms require data I didn't have, and scoring them would have produced precise-looking numbers with nothing underneath. Impact-effort is cruder and I can defend every cell. Given real funnel data I'd use RICE, and reach would likely reorder this list.
+
+## Risks I'd carry into the build
+
+**Cold start.** Personalisation assumes order history. New users have none, and the fallback - trending in their area - is a weaker experience for exactly the cohort with the worst retention.
+
+**Promotion withdrawal.** Shifting discount-driven users onto points can suppress orders short-term before the habit forms. This needs regional piloting, and it needs leadership to accept a dip.
+
+**ETA accuracy.** Live delivery signals depend on rider GPS and restaurant handoff timing. Showing an ETA that proves wrong damages trust more than showing none.
+
+<Callout title="What I'd do differently">
+
+I built a funnel chart and a retention curve on numbers I invented, and presented them as analysis. Removing them cost me nothing, because the reasoning was never resting on them - which is the clearest possible evidence that they shouldn't have been there.
+
+I'd also have separated the two questions I ran together. Funnel optimisation is about conversion within a session. Cohort retention is about whether someone comes back next week. They need different instrumentation and different experiments, and the deck treated them as one continuous analysis because the brief presented them as consecutive parts.
+
+</Callout>

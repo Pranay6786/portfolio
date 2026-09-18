@@ -1,0 +1,65 @@
+---
+slug: "uber"
+title: "Uber Find My Ride"
+subtitle: "Finding out the problem was narrower than the brief said"
+kind: "featured"
+order: 2
+badges: ["USER RESEARCH", "PRIMARY, n=8"]
+metricStrip: "Discovery and research · May 2026"
+summary: "Pickup friction is usually framed as something every rider faces. Eight interviews showed it concentrates in four venue types - which changes what you'd build first."
+disclaimer: "Originated as a structured product exercise. The brief described the pickup problem; the scoping decision and the research are mine."
+---
+
+## The brief said the problem was universal. My research said it wasn't.
+
+The prompt framed pickup friction as something Uber riders experience broadly - unclear pin drops, drivers who can't find you, the anxious minutes after booking. Solve it, and millions of rides get better.
+
+That framing contains a scoping assumption, and it's the wrong one. My job before proposing anything was to find out whether the pain was actually distributed the way the brief implied.
+
+It isn't.
+
+## What eight riders told me
+
+<Confidence type="primary" detail="n=8" /> Semi-structured interviews with 8 Uber users across different usage patterns - office commuters, a frequent flyer, a student, a safety-sensitive late-night rider, an infrequent tourist - conducted as an online survey with open-ended follow-ups.
+
+Three findings mattered.
+
+**The friction clusters, it doesn't spread.** Almost everyone described the same environments: malls, airports, office parks, dense urban roads. Multiple entrances, traffic restrictions, nowhere legal to stop. Nobody described struggling with pickup on an ordinary residential street. One rider described spending close to fifteen minutes at an airport terminal because neither they nor the driver could work out which pickup zone the other meant.
+
+**Users have already built their own solutions.** Every single person had a workaround - calling the driver, sending a gate number, walking to the main road. That tells you two things at once: the unmet need is real enough to change behaviour, and the behaviour change a product would require is small, because people are already doing the work manually.
+
+**And they're doing it outside the app.** Riders share live location over WhatsApp, drop pins in Google Maps, describe what they're wearing over a phone call. This is the finding that reframed the problem for me. When a user leaves your app to solve a problem your app created, you have already lost control of that moment - and Uber can't see, measure or improve any of it.
+
+## The decision: a beachhead, not a feature
+
+Given concentrated pain, there were two ways to go.
+
+**Build for all riders.** Improve pin accuracy, better maps, clearer ETAs. Broad reach, incremental benefit everywhere, nothing meaningfully fixed anywhere. The failure mode is a feature that helps slightly in the cases that were already fine.
+
+**Build for high-complexity venues first.** Airports, malls, stations, office parks. Smaller addressable surface, but it's where the cancellations, the repeat calls and the highest-value rides actually are.
+
+I chose the second. A product that works at Mumbai airport on a Friday evening will work anywhere - the reverse isn't true. Solving the easy cases teaches you nothing about the hard ones.
+
+**What that costs.** Daily office commuters are the largest segment by volume, and this deprioritises them. Their pain is real but lower-intensity - mild friction, repeated often, rarely ending in a cancellation. I'm accepting worse aggregate coverage in exchange for actually fixing the cases that break. If the goal were a metric like "riders helped," this is the wrong call.
+
+## The constraint that rules out the obvious answer
+
+The intuitive solution is to tell the rider where to go. Walk to Gate 2. Move to the main road.
+
+Two of my interviews made clear that's not a neutral instruction. Late-night riders, particularly women, explicitly factored safety into where they'd wait and would not relocate to a better pickup point after dark. Elderly riders and anyone with luggage face the same instruction differently again.
+
+So "fastest pickup" and "safest pickup" are not the same optimisation, and any guidance feature has to treat safety as a first-class variable rather than a filter applied afterwards. I noted this as a constraint on the solution space rather than a research insight - it didn't change the problem I was scoping, but it eliminates a whole class of solutions before design starts.
+
+## What competitors do, and what nobody does
+
+<Confidence type="secondary" /> Uber and Ola are both pin-based, with coordination falling back to phone calls. Lyft has designated airport pickup points - real progress, but static. Grab comes closest, using landmark-based and predefined zones, and it's built for Southeast Asian cities that look a lot like Indian ones.
+
+What none of them do is act before the confusion happens. Every system waits for the rider and driver to fail, then gives them tools to recover. That's the gap.
+
+<Callout title="What I'd do differently">
+
+I originally built a market sizing model for this - a funnel narrowing from all rides down to the ones with meaningful pickup friction. I've removed it. The percentages weren't derived from anything I could source, and a sizing model you can't defend is worse than no sizing model, because it makes the analysis look more rigorous than it is. The concentration argument never depended on it: eight interviews independently pointing at the same four venue types is the actual evidence, and it's stronger than an unsourced funnel would have been.
+
+I'd also have pushed further on the driver side. Every constraint that makes pickup hard - where you can legally stop, which entrance is reachable, how bad traffic is at that gate - is known to the driver and invisible to my research. I interviewed one side of a two-sided problem.
+
+</Callout>

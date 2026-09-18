@@ -1,0 +1,113 @@
+---
+slug: "outloud"
+title: "OutLoud"
+subtitle: "Building for people who can write English but freeze when they speak it"
+kind: "featured"
+order: 1
+badges: ["BUILT & MEASURED", "PRIMARY RESEARCH"]
+metricStrip: "49 sessions · 100% completed · 22 devices · live app"
+summary: "An AI speaking coach that gives you a private place to practise out loud. Researched, scoped, built, shipped, and tested with real users on their own phones."
+disclaimer: null
+---
+
+## The problem is not poor English
+
+Research kept surfacing the same pattern: a person understands English, reads and writes it capably, knows the answer to the question being asked - and still hesitates, overthinks grammar, loses their train of thought, or freezes when they have to say it under pressure.
+
+That reframes the product. This is not an English-learning tool. It is a speaking-practice tool for people whose knowledge already exceeds their ability to deliver it in real time.
+
+**Who it's for.** Indian job seekers and recent graduates, roughly 21-27, who can read and write English but struggle to speak spontaneously in interviews. Secondarily, early-career professionals facing the same thing in meetings and client calls. Explicitly not absolute beginners.
+
+**The job to be done.** When I have an interview or professional conversation coming up, I want to practise speaking my thoughts out loud in realistic situations, so that I can respond naturally without freezing or losing confidence.
+
+## What the research said, and what it challenged
+
+<Confidence type="primary" /> I ran a 42-response survey covering people's last real high-stakes speaking moment, what it cost them, and what they'd already tried. <Confidence type="secondary" /> Alongside it, I analysed public accounts of the same problem - useful for texture, not a substitute for interviews, and I've labelled them accordingly throughout.
+
+**What it confirmed.** Asked how comfortable they'd be practising out loud to an app with nobody listening, respondents averaged 4.29 out of 5, with 83.33% comfortable or very comfortable and nobody answering "very uncomfortable." The central bet - that removing the human listener is what makes practice possible - held. In their last high-stakes moment, 38.1% knew the answer but the words didn't come out. And 85.71% had never paid anything to improve their English, which settled pricing before I'd thought about it.
+
+**What it challenged, and this is the part worth reading.** The sample wasn't my persona. Almost two-thirds were already employed, and the ITI and first-job-seeker segments I'd designed for were 7.14% of respondents. Asked what they most wanted to practise, 57.14% said work calls and meetings - a scenario the product didn't have - while self-introduction, which it did have, was the least requested of those tested.
+
+I'd built for the wrong scenario. I swapped one in.
+
+I've kept the sample skew visible rather than quietly dropping it, because every finding above carries that limit and a reader deserves to weigh it themselves.
+
+## What I decided not to build
+
+The design decisions I'd defend hardest are all subtractions.
+
+**No score, ever.** Only 4.76% of respondents wanted one. More importantly, a score turns private practice into evaluation - the exact situation the user is avoiding.
+
+**Exactly one improvement, never a list.** Self-doubt is what compounds this problem. A list of corrections is a list of evidence against the user.
+
+**No feedback mid-conversation.** Correction interrupts the precise behaviour being trained: continuous speaking under pressure.
+
+**No grammar or accent feedback.** The user already reads and writes English. Correcting grammar reinforces the self-monitoring that causes the freeze in the first place.
+
+**No streaks.** Streak loss is a reason never to come back, and avoidance already drives this problem. The home screen shows a count that only rises - nothing on it can register that you were away.
+
+**Live transcript hidden while speaking.** Watching your words appear invites mid-answer self-editing.
+
+Also cut: pronunciation scoring, grammar courses, IELTS prep, social features, leaderboards, payments, a native app.
+
+## What broke
+
+Three failures worth recording.
+
+**The browser speech recogniser, abandoned after four rounds of testing.** Across two devices, two browsers and two languages, "front-end" came back as "front and," "front and turn," and "front and inter." A project name became "me Towers," then "metaphors." Android ends recognition on a one-to-two second pause and chimes on each restart - six chimes in a single 49-second answer, on a screen that says "Take your time." I replaced it by recording audio and sending it to Gemini, which transcribes and generates the follow-up in one call. Same script, word-perfect. Cost: about three seconds of wait instead of instant.
+
+**A silent quota failure that looked like the AI getting worse.** Follow-up questions and feedback both went bland late in testing. I spent two rounds rewriting prompts before adding diagnostics, which showed every call returning HTTP 429 and the app serving static fallback content for entire sessions. A leftover deployment secret had left it on a model with a 20-request daily allowance instead of the pinned one with 500. The app wasn't over quota - it was running on a model 25 times smaller than intended.
+
+"The model is producing worse output" should have been checked against "the model is not being called at all" before I touched a single prompt. That cost about two hours.
+
+**The newest model was the worst one.** The most recent available model took 74 seconds on one request and returned a 503 on another. Models are now pinned rather than auto-selected by recency, with a fallback chain on 429, 404 and 503.
+
+## What real users said
+
+Twelve people used the live product on their own phones and answered three open questions afterwards.
+
+**The core bet, confirmed unprompted.** Six of twelve volunteered that the absence of a human listener is what made speaking possible. "I was less nervous than I expected because there was no person judging me." "Because it doesn't feel like a human judging me, I could continue even when I used the wrong word." That's the original hypothesis repeated back by people who'd never seen it written down.
+
+**The first thirty seconds are the hardest part.** Three people independently described the same arc - awkward for twenty or thirty seconds, then normal. This is the most actionable finding in the set: drop-off risk concentrates at the opening and resolves on its own if the person stays. Anything easing the first thirty seconds is worth more than anything improving the rest of the session.
+
+**The counter-signal, recorded rather than buried.** One of twelve was intimidated rather than reassured. "Personally it put me on a spot and I was intimidated to talk and record my answer." That is the exact failure mode the design exists to prevent, and it happened anyway. I claim no mitigation. It sits in the risk register.
+
+**A request I deliberately didn't fulfil.** Five of twelve asked for feedback on how they spoke - pace, hesitation, confidence - rather than what they said. Technically feasible, since the audio already reaches the model. I held it for v2 for two reasons: feedback on delivery is feedback on the person, and I already have evidence this product can tip into pressure for the people it exists to help.
+
+## The metric I chose, and what I can honestly say about it
+
+<Confidence type="target" /> North Star: Week 4 Practice Completion. The percentage of identified users completing at least one session during the fourth week after signup. Target: 40% or more, across 50+ users.
+
+I picked this over the easier options deliberately. Session count rewards a launch push. Completion rate was already near-perfect and wouldn't tell me anything new. Week 4 answers the only question the product actually rests on - whether a nervous person opens this again on a Tuesday evening three weeks later, when nobody is asking them to.
+
+I also had to amend the definition mid-build. A completed session originally meant five minutes of speaking. Then a real user extended past the fourth question and finished in 148 seconds - a genuine, engaged session my own rule would have counted as a failure. A completed session became three or more spoken answers plus reaching the feedback screen, with duration recorded but never used as a gate.
+
+**What the data shows.** The prototype ran from 27 August to 3 September 2026. In that window: 49 sessions, all 49 completed, across 22 devices, with 16 people volunteering a phone number on a screen that was optional and shown only after the session had already ended. Nothing since 3 September.
+
+**Why it went flat.** Two causes, different in kind.
+
+The first is distribution. OutLoud was shared as a WhatsApp link. Within days that link had scrolled out of people's chat history, and I stopped actively sharing it after my 3 September evaluation. The channel expired before the retention question could be asked.
+
+The second is the product, and I'd predicted it. My risk register listed "nobody returns after the first session" as high likelihood and very high impact, and called it the largest open risk. My survey said 23.81% of people abandon things because they forget. I had already designed the counter - one reminder message, 48 hours after the first session, split across half of identified users. I deferred it to v2.
+
+So I built a habit product with no reminder, distributed through a channel with no persistence, and watched usage go to zero. Both were my decisions, made knowing what they cost.
+
+**Status.** The first users signed up on 27 August, so Week 4 for that cohort falls around 17-24 September. The instrumentation is live and recording. I'm sending one message to the 16 identified users inside that window - the reminder experiment I'd already specified - and I'll publish whatever comes back, including a zero.
+
+## The uncomfortable one
+
+OutLoud runs on a free AI tier where requests may be used to improve the provider's models. Users talk about being rejected, about their family situation, about what they're bad at - and their words leave the device.
+
+My mitigation was to say so plainly before the microphone is ever requested, and to define "private" consistently to mean nobody hears you, not your words never leave your phone. That may not be enough. The honest alternative - enabling billing, which removes training use entirely and would have cost a few hundred rupees at this volume - I didn't do, because the project ran at zero budget. That's a real reason. It isn't necessarily a good enough one.
+
+The same decision caused the quota failure above. Billing would have removed both problems at once.
+
+<Callout title="What I'd do differently">
+
+Not the product. The distribution.
+
+I spent build time instrumenting Week 4 properly and almost none on a channel that would still exist four weeks later. A habit product measured on a four-week window needs a way to reach people in week four. A WhatsApp link is not that. If I ran this again the reminder mechanism ships in v1 - not because it's a better feature, but because without it the North Star metric is unmeasurable by construction.
+
+</Callout>
+
+**Footnotes.** Owner's testing device (22 sessions) excluded from all figures. Sessions are logged at start and marked complete at three or more spoken answers plus the feedback screen reached; an abandoned session would appear as started-not-completed. All users were reached through one personal network.

@@ -1,0 +1,77 @@
+---
+slug: "emburse"
+title: "Emburse"
+subtitle: "Pressure-testing a strategy against two incumbents' live pricing"
+kind: "featured"
+order: 3
+badges: ["B2B STRATEGY", "DESK ANALYSIS + VERIFIED"]
+metricStrip: null
+summary: "A three-year product strategy for B2B expense management in India and APAC, with the competitive position checked against what Zoho and Expensify actually ship."
+disclaimer: "Independent product exercise, not affiliated with Emburse. The scenario - an early-stage product with basic receipt upload and limited adoption - was supplied by the assignment brief and does not describe the real company, which is an established expense-management provider. The strategy here responds to that fictional scenario."
+---
+
+## The wedge I started with, and why I abandoned it
+
+My first strategy said Emburse should move from reactive expense tracking to proactive spend control - policy enforcement before money is spent, rather than reconciliation after. Become the finance control tower.
+
+Then I checked what the incumbents actually ship.
+
+<Confidence type="secondary" /> Zoho Expense's Standard plan, at $3 per user per month billed annually, already includes multiple expense policies, corporate card management with real-time card feeds, and AI-powered expense audit with fraud detection. Its Premium tier at $5 adds live budget tracking and advanced approval management. Expensify's Control tier includes Workspace Rules for spending limits, receipt requirements, auto-approvals and prohibited-expense flagging.
+
+Proactive spend control isn't whitespace. It's table stakes, shipping at three dollars a seat.
+
+A wedge a competitor already occupies at a price you cannot undercut isn't a strategy. It's a feature request.
+
+## What is actually open
+
+Two gaps survived the check.
+
+**ERP depth as a default, not an upsell.** <Confidence type="secondary" /> Zoho gates ERP and HRMS integrations behind an add-on on its Standard plan. Expensify puts NetSuite, Sage Intacct and QuickBooks Desktop behind its Control tier. For a 100-500 employee Indian company running Tally, the integration it needs most is the thing it pays extra for.
+
+**The India stack, not just Indian pricing.** <Confidence type="assumed" /> Zoho is Indian and handles GST natively - I'm not going to claim otherwise. But Tally remains the default ledger for a large share of Indian mid-market finance teams, and GST input-credit reconciliation is a workflow, not a checkbox. My bet is that depth here is defensible in a way generic localisation isn't.
+
+Revised wedge: the mid-market company running Tally, filing GST, and unwilling to pay enterprise rates for the integration that makes the product usable. Narrower than where I started. Also defensible.
+
+## Who I'd build for
+
+<Confidence type="desk" /> Companies of 100-500 employees, particularly fast-growing startups in India and APAC.
+
+**Not enterprise.** Sales cycles of 6-18 months, heavy compliance and customisation, SAP and Oracle already embedded, and an implementation burden a young product can't carry.
+
+**Not sub-50.** The founder still approves expenses personally. No urgency, low willingness to pay, minimal contract value, little room to expand.
+
+The threshold that matters is the point where manual expense management becomes genuinely painful but no heavy ERP has been committed to. Observable signals: reimbursements running through spreadsheets or email, approvals happening over WhatsApp, month-end close taking days, no departmental spend visibility.
+
+**Who feels it, in order.** Finance teams first - they own the chaos and they're the buyer and champion. CFOs second, as economic buyer, feeling it as absent visibility and budget leakage. Employees and managers third, as affected users rather than purchasers. <Confidence type="assumed" /> This ordering is reasoning about roles, not research. A real version starts with ten conversations with mid-market finance managers.
+
+## Land and expand
+
+Enter on employee reimbursements - the use case the product already supports, with no ERP migration, no IT sign-off, and one finance team able to adopt alone.
+
+Then expand on trigger, not on schedule:
+
+- Finance asks where money is leaking → budgets and analytics
+- Policy violations surface after the fact → corporate cards with pre-approval
+- CFO wants control across channels → vendor payments
+
+<Confidence type="target" /> Roadmap ambition: Year 1 fix the core workflow and ship Tally, Zoho Books and QuickBooks integrations as standard. Year 2 turn accumulated transaction data into spend intelligence. Year 3 move into corporate payments and become the system of record.
+
+**On the revenue numbers.** My original version carried ARR targets, customer counts and NPS goals by year. I've removed them. I had no basis for any of them - no comparable ACV data, no funnel assumptions, no pricing model. Numbers that specific imply research I hadn't done. The phasing logic is worth keeping; the figures were decoration.
+
+## The moat question, honestly
+
+The strongest claimed moat was data network effects - the platform gets smarter as transaction volume grows, and a new entrant can't match it.
+
+That argument cuts against me. Zoho already has the volume, is already shipping AI-powered audit and fraud detection, and was there first. Data network effects favour incumbents by definition, which makes it a moat I'd be building into rather than defending with.
+
+What's more plausible for a challenger is integration depth creating switching cost. Once expense flows post automatically to a company's Tally ledger with GST input credit correctly booked, replacing the product means breaking finance operations mid-quarter. Less exciting than a data flywheel, considerably more likely to be true.
+
+<Callout title="What I'd do differently">
+
+I wrote a competitive table before I looked at the competitors. It marked Expensify as too expensive for mid-market and Zoho as limited on spend control, and both claims were wrong - Expensify Collect is a flat $5 per member, and Zoho ships policy engines and card feeds at $3. I had built a strategy on a market that didn't exist.
+
+Checking took about thirty minutes. It should have happened before the wedge was chosen, not after the report was written.
+
+The broader lesson is the one I'd carry into a real role: a strategy that has never been tested against a competitor's live pricing page is a hypothesis wearing a suit.
+
+</Callout>

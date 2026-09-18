@@ -10,9 +10,9 @@ const LABELS: Record<ConfidenceType, string> = {
   primary: "PRIMARY",
   secondary: "SECONDARY",
   assumed: "ASSUMED",
-  desk: "DESK",
+  desk: "DESK ANALYSIS",
+  built: "BUILT & MEASURED",
   target: "TARGET",
-  built: "BUILT",
 };
 
 export default function Confidence({
