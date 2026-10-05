@@ -1,11 +1,11 @@
----
+﻿---
 slug: "outloud"
 title: "OutLoud"
 subtitle: "Building for people who can write English but freeze when they speak it"
 kind: "featured"
 order: 1
 badges: ["BUILT & MEASURED", "PRIMARY RESEARCH"]
-metricStrip: "49 sessions · 100% completed · 22 devices · live app"
+metricStrip: "89 sessions · 100% completed · 27 devices · live app"
 summary: "An AI speaking coach that gives you a private place to practise out loud. Researched, scoped, built, shipped, and tested with real users on their own phones."
 disclaimer: null
 ---
@@ -82,17 +82,35 @@ I picked this over the easier options deliberately. Session count rewards a laun
 
 I also had to amend the definition mid-build. A completed session originally meant five minutes of speaking. Then a real user extended past the fourth question and finished in 148 seconds - a genuine, engaged session my own rule would have counted as a failure. A completed session became three or more spoken answers plus reaching the feedback screen, with duration recorded but never used as a gate.
 
-**What the data shows.** The prototype ran from 27 August to 3 September 2026. In that window: 49 sessions, all 49 completed, across 22 devices, with 16 people volunteering a phone number on a screen that was optional and shown only after the session had already ended. Nothing since 3 September.
+## What the data shows
 
-**Why it went flat.** Two causes, different in kind.
+The app has recorded 89 sessions across 27 devices, every one of them completed. 16 people volunteered a phone number, on a screen that was optional and shown only after the session had already ended.
 
-The first is distribution. OutLoud was shared as a WhatsApp link. Within days that link had scrolled out of people's chat history, and I stopped actively sharing it after my 3 September evaluation. The channel expired before the retention question could be asked.
+The timeline falls into four parts.
 
-The second is the product, and I'd predicted it. My risk register listed "nobody returns after the first session" as high likelihood and very high impact, and called it the largest open risk. My survey said 23.81% of people abandon things because they forget. I had already designed the counter - one reminder message, 48 hours after the first session, split across half of identified users. I deferred it to v2.
+**Launch week and the days after: 49 sessions.** Distributed as a WhatsApp link to my own network.
 
-So I built a habit product with no reminder, distributed through a channel with no persistence, and watched usage go to zero. Both were my decisions, made knowing what they cost.
+**Weeks two and three: nothing.** The link had scrolled out of people's chat history, and I stopped actively sharing it after my first evaluation. The channel expired before the retention question could be asked.
 
-**Status.** The first users signed up on 27 August, so Week 4 for that cohort falls around 17-24 September. The instrumentation is live and recording. I'm sending one message to the 16 identified users inside that window - the reminder experiment I'd already specified - and I'll publish whatever comes back, including a zero.
+**Week four: 7 sessions.** Unprompted. Nobody was messaged, nothing was shared, and the link was three weeks stale. People came back to a product that had no way of reminding them it existed.
+
+**Week five: 33 sessions.** One message, and the day after it.
+
+That the Week 4 window produced returning users at all is the only unprompted retention signal the project has. It is a small number against a dead channel, and I have not converted it into a Week 4 Practice Completion figure, because a rate computed on a channel that stopped working measures the channel rather than the product.
+
+## One message, thirty-two sessions
+
+The sharpest result in this project came from the cheapest intervention in it.
+
+In week five I sent a single message to the people who had already used OutLoud. That day the app recorded 32 sessions, all completed. The product had not changed. The users had not changed. The only new thing was a reason to open it.
+
+For the month before that message, the app had been close to dormant. One message produced more than four times the preceding month's total in a single day.
+
+This is the finding the project turns on. A habit product measured on a four-week window needs a way to reach people in week four, and OutLoud did not have one - not because the product failed to hold people, but because the channel carrying it had a shelf life of days. The same users, reached again, returned immediately.
+
+I had predicted exactly this and not acted on it. My risk register listed "nobody returns after the first session" as high likelihood and very high impact, and called it the largest open risk. My survey said 23.81% of people abandon things because they forget. I had already designed the counter - one reminder message, 48 hours after the first session, split across half of identified users - and deferred it to v2. Week five is what that deferral cost, and what reversing it recovered.
+
+**What this does not prove.** I sent one message to everyone. There was no holdout group, so I cannot separate "a reminder works" from "any contact from the person who built it works." It is a strong signal and a weak experiment, and the difference matters.
 
 ## The uncomfortable one
 
@@ -106,8 +124,10 @@ The same decision caused the quota failure above. Billing would have removed bot
 
 Not the product. The distribution.
 
-I spent build time instrumenting Week 4 properly and almost none on a channel that would still exist four weeks later. A habit product measured on a four-week window needs a way to reach people in week four. A WhatsApp link is not that. If I ran this again the reminder mechanism ships in v1 - not because it's a better feature, but because without it the North Star metric is unmeasurable by construction.
+I spent build time instrumenting Week 4 properly and almost none on a channel that would still exist four weeks later. A WhatsApp link is not that channel. If I ran this again the reminder mechanism ships in v1 - not because it's a better feature, but because without it the North Star metric is unmeasurable by construction.
+
+Week five is the evidence, arriving late and in the wrong form. One message outperformed a month of the product sitting there being available. The right version ships automatically, keeps a holdout group, and produces an experiment instead of a result.
 
 </Callout>
 
-**Footnotes.** Owner's testing device (22 sessions) excluded from all figures. Sessions are logged at start and marked complete at three or more spoken answers plus the feedback screen reached; an abandoned session would appear as started-not-completed. All users were reached through one personal network.
+**Footnotes.** Figures exclude the owner's testing device: 25 of 114 recorded sessions were mine, 22 during the launch window and 3 on the day the reminder was sent. Device count excludes it likewise. Sessions are logged at start and marked complete at three or more spoken answers plus the feedback screen reached; an abandoned session would appear as started-not-completed. Median duration and the extension rate are recorded but omitted here, because the export cannot separate them by device and they would therefore include my own testing. All users were reached through one personal network.
