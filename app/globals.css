@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
+/*
+ * Colour tokens. Dark is the default; light applies when data-theme="light" is
+ * set on <html>. These are the only raw hex values in the project - everything
+ * else reads them through a token or a Tailwind colour utility mapped below.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+
+  --bg: #0f0f0f;
+  --surface: #17171a;
+  --text: #edeae4;
+  --text-muted: #a8a29a;
+  --text-faint: #858078;
+  --accent: #d99a4e;
+  --accent-dim: #7a5526;
+  --border: #2a2a28;
 }
 
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #fbfaf7;
+  --surface: #f2f0ea;
+  --text: #1a1a18;
+  --text-muted: #57544e;
+  --text-faint: #6e6a62;
+  --accent: #8a5a12;
+  --accent-dim: #c9a97a;
+  --border: #dedad1;
+}
+
+/*
+ * Tailwind theme mapping. `inline` keeps the var() reference in the generated
+ * utility, so utilities follow the active theme instead of baking in a value.
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-border: var(--border);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-serif: var(--font-source-serif);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
 }

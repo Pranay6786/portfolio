@@ -37,3 +37,29 @@ Frontmatter schema, enforced by `validateFrontmatter` in `lib/content.ts`, which
 Routing: `app/work/[slug]/page.tsx` uses `generateStaticParams` with `dynamicParams = false`, so every case study is prerendered at build time and unknown slugs return a 404. `notFound()` from `next/navigation` covers the same case defensively.
 
 Components: four fixed content components in `components/` (`Confidence`, `MetricStrip`, `ContentTable`, `Callout`). All are server components with no client hooks and no styling; `ContentTable` is mapped onto the markdown `table` element.
+## 2026-10-06 - Design tokens and fonts
+
+Typography and colour tokens only. No component, page or article styling yet.
+
+Fonts, all loaded through `next/font/google` in `app/layout.tsx` with no package installed. Each is exposed as a CSS custom property and the three classes sit together on the `html` element:
+
+- Source Serif 4 (`--font-source-serif`) - case study body prose and article headings. Variable weight, normal and italic.
+- Geist Sans (`--font-geist-sans`) - interface text.
+- Geist Mono (`--font-geist-mono`) - confidence labels, metric strips and table contents.
+
+The roles are recorded here but not yet applied; `body` still carries the starter `font-family` until the next stage.
+
+Colour tokens, defined once in `app/globals.css` and nowhere else. Dark is the default on `:root`, light applies under `:root[data-theme="light"]`, and `color-scheme` is set to match in each so form controls and scrollbars follow the theme. The starter `--background`/`--foreground` pair and the `prefers-color-scheme` block were removed; nothing referenced them outside that file.
+
+| Token | Dark | Light |
+| --- | --- | --- |
+| `--bg` | `#0F0F0F` | `#FBFAF7` |
+| `--surface` | `#17171A` | `#F2F0EA` |
+| `--text` | `#EDEAE4` | `#1A1A18` |
+| `--text-muted` | `#A8A29A` | `#57544E` |
+| `--text-faint` | `#858078` | `#6E6A62` |
+| `--accent` | `#D99A4E` | `#8A5A12` |
+| `--accent-dim` | `#7A5526` | `#C9A97A` |
+| `--border` | `#2A2A28` | `#DEDAD1` |
+
+Every token is mapped into the Tailwind v4 theme in the same file with `@theme inline`, so colour utilities resolve through `var()` and follow the active theme rather than baking in a value. `--font-serif` was added alongside the existing `--font-sans` and `--font-mono` mappings. `body` takes `var(--bg)` and `var(--text)`.

@@ -19,6 +19,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Preserve existing functionality unless a change explicitly requires modifying it.
 - Priorities, in order: maintainability, accessibility, responsive design, performance.
 - Record every significant build decision in `BUILDLOG.md`.
+- All colours come from tokens. No raw hex may appear outside `app/globals.css`.
 ## Content and components
 
 - All case study content lives in `content/case-studies/` as `.mdx` files, one file per case study. Nothing else reads or writes that directory.
