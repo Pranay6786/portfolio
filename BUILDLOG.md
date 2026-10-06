@@ -63,3 +63,36 @@ Colour tokens, defined once in `app/globals.css` and nowhere else. Dark is the d
 | `--border` | `#2A2A28` | `#DEDAD1` |
 
 Every token is mapped into the Tailwind v4 theme in the same file with `@theme inline`, so colour utilities resolve through `var()` and follow the active theme rather than baking in a value. `--font-serif` was added alongside the existing `--font-sans` and `--font-mono` mappings. `body` takes `var(--bg)` and `var(--text)`.
+## 2026-10-06 - Case study styling
+
+Type scale and font roles for the case study pages. No header, footer, navigation or homepage yet.
+
+Fonts by element:
+
+- Source Serif 4 (`--font-serif`): case study title, subtitle, summary, all article prose, article headings h2/h3/h4 and the callout title.
+- Geist Sans (`--font-sans`): `body` default and the disclaimer.
+- Geist Mono (`--font-mono`): confidence labels, metric strips, badge pills, table contents and inline code.
+
+Type scale:
+
+| Element | Size | Line height |
+| --- | --- | --- |
+| Case study title | 2rem, 2.375rem from the `sm` breakpoint | 1.15 |
+| Subtitle | 1.1875rem, 1.3125rem from `sm` | snug |
+| Article h2 | 1.75rem | 1.25 |
+| Article h3 | 1.3125rem | 1.35 |
+| Article h4 | 1.125rem | 1.4 |
+| Callout title | 1.1875rem | 1.35 |
+| Body prose, summary | 1.0625rem | 1.7 |
+| Metric strip, table, disclaimer | 0.8125rem | 1.5 |
+| Confidence label, badge pill | 0.6875rem | inherited |
+
+Headings take more space above than below (h2 3rem above, 0.875rem below) so sections read as breaks rather than floating labels.
+
+Measure: `[data-article]` is capped at 68ch and centred, and the page frame is set to 36.5rem to match it at the prose size, with 1.25rem of page padding that rises to 1.5rem from the `sm` breakpoint.
+
+Colour discipline: accent is used only for confidence labels and prose links. Badges and the disclaimer use `--border`, `--text-muted` and `--text-faint`, keeping the accent rare enough to stay a signal.
+
+The prose rules live in `@layer base` rather than unlayered. Unlayered CSS outranks every Tailwind layer regardless of specificity, which would have made the page header's utilities unusable inside the same `[data-article]` element; in the base layer the utilities win and the header can opt out of a prose rule by setting its own.
+
+`ContentTable` renders a scroll container around the table, so a wide table scrolls inside its own box instead of widening the page on narrow screens.

@@ -23,7 +23,13 @@ export default function Confidence({
   detail?: string;
 }) {
   return (
-    <span data-confidence={type}>
+    // `display: inline` is deliberate: padding on an inline box does not grow
+    // the line box, so the label sits inside a sentence without opening up the
+    // surrounding leading.
+    <span
+      data-confidence={type}
+      className="font-mono text-[0.6875rem] uppercase tracking-[0.09em] text-accent border border-accent-dim rounded-[2px] px-[0.4em] py-[0.1em] align-baseline whitespace-nowrap"
+    >
       {LABELS[type]}
       {detail ? ` ${detail}` : ""}
     </span>
