@@ -155,6 +155,56 @@ export function getCaseStudyBySlug(slug: string): CaseStudy | undefined {
   return getAllCaseStudies().find((study) => study.frontmatter.slug === slug);
 }
 
+export type Section = {
+  id: string;
+  text: string;
+};
+
+/**
+ * Turns heading text into an ASCII-safe anchor: lowercase, words joined by
+ * hyphens. Accented letters are decomposed and their marks dropped so that
+ * "Café" and "Cafe" both produce "cafe" rather than a percent-encoded id.
+ */
+export function slugify(text: string): string {
+  return text
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/['‘’]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * The ordered list of `##` headings in a case study body, as anchor targets.
+ * Fenced code blocks are skipped so a commented-out heading cannot leak in.
+ * Repeated heading text gets a numeric suffix, so ids stay unique.
+ */
+export function getSections(body: string): Section[] {
+  const seen = new Map<string, number>();
+  const sections: Section[] = [];
+  let inFence = false;
+
+  for (const line of body.split("\n")) {
+    if (/^\s*(```|~~~)/.test(line)) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence || !line.startsWith("## ")) {
+      continue;
+    }
+
+    const text = line.slice(3).trim();
+    const base = slugify(text);
+    const count = seen.get(base) ?? 0;
+
+    seen.set(base, count + 1);
+    sections.push({ id: count === 0 ? base : `${base}-${count + 1}`, text });
+  }
+
+  return sections;
+}
+
 /**
  * Compiles an MDX body into a React component. Runs during prerendering, so the
  * compile cost is paid at build time.

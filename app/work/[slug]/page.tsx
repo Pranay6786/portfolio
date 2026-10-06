@@ -1,12 +1,15 @@
 import { notFound } from "next/navigation";
+import ArticleHeading from "@/components/ArticleHeading";
 import Callout from "@/components/Callout";
 import Confidence from "@/components/Confidence";
 import ContentTable from "@/components/ContentTable";
 import MetricStrip from "@/components/MetricStrip";
+import SectionIndex from "@/components/SectionIndex";
 import {
   compileCaseStudyBody,
   getAllCaseStudies,
   getCaseStudyBySlug,
+  getSections,
   type MdxComponentMap,
 } from "@/lib/content";
 
@@ -17,6 +20,7 @@ const mdxComponents: MdxComponentMap = {
   Callout,
   Confidence,
   MetricStrip,
+  h2: ArticleHeading,
   table: ContentTable,
 };
 
@@ -35,11 +39,19 @@ export default async function CaseStudyPage({
   }
 
   const { frontmatter } = study;
+  const sections = getSections(study.body);
   const Body = await compileCaseStudyBody(study.body);
 
   return (
-    <main className="mx-auto w-full max-w-[40rem] px-5 py-14 sm:px-6 sm:py-20">
-      <article data-article="">
+    // The index column and the article are centred together as one group:
+    // 13rem + 3rem gap + 40rem. Below lg the index is not rendered and the
+    // article alone stays centred, exactly as before.
+    <main className="mx-auto flex w-full max-w-[56rem] justify-center gap-12 px-5 py-14 sm:px-6 sm:py-20">
+      <div className="hidden w-52 shrink-0 lg:block">
+        <SectionIndex sections={sections} />
+      </div>
+
+      <article data-article="" className="w-full max-w-[40rem] min-w-0">
         <header className="mb-2 border-b border-border pb-8">
           <h1 className="font-serif text-[2rem] font-semibold leading-[1.15] text-text sm:text-[2.375rem]">
             {frontmatter.title}

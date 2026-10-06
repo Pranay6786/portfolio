@@ -50,6 +50,13 @@
   --font-serif: var(--font-source-serif);
 }
 
+/* Anchor jumps from the section index glide, unless the reader opts out. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   background: var(--bg);
   color: var(--text);
