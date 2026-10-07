@@ -9,7 +9,7 @@
     "actions": [
       { "label": "View work", "href": "#work" },
       { "label": "Résumé", "href": "/resume.pdf" },
-      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/pranay-patil" }
+      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/pranaypatil6786" }
     ]
   },
 
@@ -170,8 +170,8 @@
     ],
     "actions": [
       { "label": "Email", "href": "mailto:pranaydp36@gmail.com" },
-      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/pranay-patil" },
-      { "label": "GitHub", "href": "https://github.com/pranaypatil" },
+      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/pranaypatil6786" },
+      { "label": "GitHub", "href": "https://github.com/Pranay6786" },
       { "label": "Résumé", "href": "/resume.pdf" }
     ]
   }
