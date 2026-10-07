@@ -111,3 +111,20 @@ Known limit: `ArticleHeading` sees only its own children, so it cannot apply the
 The MDX components map is now five entries: `Callout`, `Confidence`, `MetricStrip`, `h2` mapped to `ArticleHeading`, and `table` mapped to `ContentTable`.
 
 Layout: the index column (13rem) and the article (40rem) are centred together as a 56rem group with a 3rem gap. Below the `lg` breakpoint the index is hidden with `display: none`, which also removes it from the accessibility tree, and the article reads exactly as it did before. Anchor jumps scroll smoothly only under `prefers-reduced-motion: no-preference`.
+## 2026-10-07 - Site header and theme toggle
+
+Every page now carries a sticky site header, 56px tall (`h-14`), full width, with a `--border` hairline along the bottom and a solid `--bg` background so article prose does not show through as it scrolls under. It sits at `z-50`, above the section index. Its inner row matches `main`: `max-w-[56rem]` with the same horizontal padding, so the site title lines up with the content below it. Left: "Pranay Patil" linking to `/`. Right: the theme toggle.
+
+`ThemeToggle` is the project's second and last client component, for the click handler and local state. It is text only, no icon. `SiteHeader` itself stays a server component.
+
+Theme persistence uses the single `localStorage` key `portfolio-theme`, holding `"dark"` or `"light"`. Every read and write is wrapped in try/catch, since `localStorage` throws outright in some privacy modes; the toggle still switches the theme when persistence fails.
+
+Anti-flash: an inline script in `<head>` in the root layout reads that key and sets `data-theme="light"` on the document element when that is the stored value. It runs synchronously during HTML parsing, before first paint, which is the approach the framework documents in `02-guides/preventing-flash-before-hydration.md`. Dark is the default and carries no attribute, so only a saved "light" needs applying. `<html>` takes `suppressHydrationWarning` because the script changes it before React hydrates. The toggle re-reads the key in a `useLayoutEffect`, which runs before paint: that syncs the button's own label and, per the same guide, re-applies the attribute after React's Strict Mode remount clears it in development.
+
+Three values moved to clear the new header:
+
+- `ArticleHeading` scroll margin: `scroll-mt-24` to `scroll-mt-[8.5rem]` (96px to 136px)
+- `SectionIndex` `ACTIVATION_LINE`: 112 to 152
+- The index nav: `sticky top-20 max-h-[calc(100vh-7rem)]` to `sticky top-[5.5rem] max-h-[calc(100vh-9rem)]`
+
+`main`'s top padding dropped from `py-14 sm:py-20` to `pt-8 sm:pt-12`, keeping the bottom padding, so the page does not open with a large empty band under the header.

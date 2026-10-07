@@ -43,7 +43,7 @@ export default async function CaseStudyPage({
   const Body = await compileCaseStudyBody(study.body);
 
   return (
-    <main className="mx-auto w-full max-w-[56rem] px-5 py-14 sm:px-6 sm:py-20">
+    <main className="mx-auto w-full max-w-[56rem] px-5 pt-8 pb-14 sm:px-6 sm:pt-12 sm:pb-20">
       {/* Masthead: centred on the content width, above the two-column group. */}
       <header className="mx-auto mb-12 max-w-[40rem] border-b border-border pb-10 text-center">
         <h1 className="font-serif text-[2rem] font-semibold leading-[1.15] text-text sm:text-[2.375rem]">

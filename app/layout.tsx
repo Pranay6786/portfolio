@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
+import SiteHeader from "@/components/SiteHeader";
+import { THEME_STORAGE_KEY } from "@/components/ThemeToggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,13 +26,27 @@ export const metadata: Metadata = {
     "Product management portfolio - case studies, decisions and evidence",
 };
 
+// Runs synchronously while the browser parses the head, so the stored theme is
+// on the document before anything paints. Dark is the default and carries no
+// attribute, so only a saved "light" needs applying.
+const themeScript = `(function(){try{if(localStorage.getItem(${JSON.stringify(
+  THEME_STORAGE_KEY,
+)})==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}})()`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="min-h-full flex flex-col">
+        <SiteHeader />
+        {children}
+      </body>
     </html>
   );
 }
