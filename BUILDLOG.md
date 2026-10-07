@@ -164,3 +164,19 @@ Trade-off: with no height limit and no scrolling, a case study with enough secti
 Index links gained `pr-3`, so text wraps at 196px and the 1.06 scale stays inside the 208px column: 196 x 1.06 = 207.76px.
 
 `SiteHeader`'s inner container widened from `max-w-[56rem]` to `max-w-[61rem]` to match `main`, so the site title lines up with the content below it again.
+
+## 2026-10-07 - Case study bar
+
+Case study pages gain a compact sticky bar that shows the title and subtitle once the masthead has scrolled out of view. `CaseStudyBar` is the project's third client component. It is 64px tall (`h-16`), sticky at `top-14` directly under the site header, full width with a `--border` hairline and a solid `--bg` background, at `z-40` so it sits under the header (`z-50`) and over the article. Its inner row matches `main`: `max-w-[61rem]`, `px-5 sm:px-6`. The title is serif at 0.9375rem, and the subtitle is sans at 0.8125rem in `--text-muted`, kept to one line with an ellipsis and hidden below `sm`.
+
+Why a compact bar rather than pinning the full masthead: the masthead is roughly 400px tall, and pinning it would take nearly half of a 900px viewport on a page built for reading. The bar keeps the title in view for 64px.
+
+Visibility uses an IntersectionObserver, not a scroll listener. The page places an empty sentinel `<div id="masthead-end">` straight after the masthead `<header>`. The observer's root is inset by the 56px header, and the bar shows only while the sentinel is not intersecting and sits above that line. The second check keeps the bar hidden when the sentinel is still below the viewport, for example under a masthead taller than the screen. While hidden, the component renders nothing, so the server HTML carries no bar. The id lives in `lib/case-study-bar.ts`, for the same reason as `THEME_STORAGE_KEY` in `lib/theme.ts`: a constant imported from a `"use client"` module into a server component is a client reference, not the value.
+
+The bar renders outside `main` so it spans the full width, with `-mb-16` cancelling its own height. It overlays the page when it appears instead of pushing the content down 64px mid-read. It repeats the h1, so it carries `aria-hidden`. Under `prefers-reduced-motion: no-preference` it fades in over 200ms using `@starting-style` (Tailwind's `starting:` variant). Under `reduce` it appears with no transition. Nothing moves or transforms.
+
+Three offsets moved to clear the taller fixed region, 56px header + 64px bar = 120px:
+
+- `ArticleHeading` scroll margin: `scroll-mt-[8.5rem]` to `scroll-mt-[12.5rem]` (136px to 200px, 80px below the bar)
+- `SectionIndex` `ACTIVATION_LINE`: 152 to 216, 16px below where a linked heading lands
+- The index nav: `sticky top-[5.5rem]` to `sticky top-[9.5rem]` (88px to 152px, 32px below the bar)

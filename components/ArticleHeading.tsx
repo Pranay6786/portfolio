@@ -21,11 +21,12 @@ function toText(node: ReactNode): string {
 /**
  * The `h2` the MDX components map renders. The id is derived from the heading
  * text with the same slugify the section index uses, so the two agree. The
- * scroll margin keeps a linked heading clear of the viewport edge.
+ * scroll margin keeps a linked heading clear of the site header and the case
+ * study bar, 120px together, with room to spare.
  */
 export default function ArticleHeading({ children }: { children?: ReactNode }) {
   return (
-    <h2 id={slugify(toText(children))} className="scroll-mt-[8.5rem]">
+    <h2 id={slugify(toText(children))} className="scroll-mt-[12.5rem]">
       {children}
     </h2>
   );

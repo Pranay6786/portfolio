@@ -5,11 +5,12 @@ import type { Section } from "@/lib/content";
 
 /**
  * Headings above this line in the viewport count as the section being read. It
- * sits just below the 136px scroll margin on the headings, which itself clears
- * the 56px header, so a heading landed on by an anchor click is unambiguously
- * past the line and highlights itself rather than the section before it.
+ * sits just below the 200px scroll margin on the headings, which itself clears
+ * the 56px header and the 64px case study bar, so a heading landed on by an
+ * anchor click is unambiguously past the line and highlights itself rather than
+ * the section before it.
  */
-const ACTIVATION_LINE = 152;
+const ACTIVATION_LINE = 216;
 
 /**
  * Scroll-following list of the article's sections. The only client component in
@@ -80,7 +81,7 @@ export default function SectionIndex({ sections }: { sections: Section[] }) {
   return (
     <nav
       aria-label="Sections in this case study"
-      className="sticky top-[5.5rem] overflow-x-clip"
+      className="sticky top-[9.5rem] overflow-x-clip"
     >
       <ul className="flex flex-col gap-5">
         {sections.map((section) => {
