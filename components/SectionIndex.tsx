@@ -80,7 +80,7 @@ export default function SectionIndex({ sections }: { sections: Section[] }) {
   return (
     <nav
       aria-label="Sections in this case study"
-      className="sticky top-[5.5rem] max-h-[calc(100vh-9rem)] overflow-y-auto overflow-x-hidden"
+      className="sticky top-[5.5rem] overflow-x-clip"
     >
       <ul className="flex flex-col gap-5">
         {sections.map((section) => {
@@ -91,7 +91,7 @@ export default function SectionIndex({ sections }: { sections: Section[] }) {
               <a
                 href={`#${section.id}`}
                 aria-current={isActive ? "true" : undefined}
-                className={`block origin-left font-sans text-[0.8125rem] leading-5 motion-safe:transition-[color,scale] motion-safe:duration-150 ${
+                className={`block origin-left pr-3 font-sans text-[0.8125rem] leading-5 motion-safe:transition-[color,scale] motion-safe:duration-150 ${
                   isActive
                     ? "text-accent motion-safe:scale-[1.06]"
                     : "text-faint motion-safe:scale-100"

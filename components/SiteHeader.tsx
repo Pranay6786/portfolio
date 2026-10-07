@@ -10,7 +10,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 h-14 w-full border-b border-border bg-bg">
-      <div className="mx-auto flex h-full w-full max-w-[56rem] items-center justify-between px-5 sm:px-6">
+      <div className="mx-auto flex h-full w-full max-w-[61rem] items-center justify-between px-5 sm:px-6">
         <Link href="/" className="font-sans text-sm text-text">
           Pranay Patil
         </Link>

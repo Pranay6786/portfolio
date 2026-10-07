@@ -154,3 +154,13 @@ The vertically centred index is reverted. The column is back to `hidden w-52 shr
 Spacing: the gap between the index and the article went from `gap-12` to `gap-20` (3rem to 5rem), and `main` widened from `max-w-[56rem]` to `max-w-[61rem]` to keep the group centred: 13rem + 5rem + 40rem = 58rem, plus 3rem of horizontal padding at `sm` and above = 61rem. Index items went from `gap-3` to `gap-5` (12px to 20px).
 
 The active index item now scales to 1.06 from its left edge (`origin-left`), with a 150ms transition on `color` and `scale`. All of it sits behind `motion-safe:`, so under `prefers-reduced-motion: reduce` there is no scaling and no transition, and the active item is marked by colour alone. It uses the CSS `scale` property, Tailwind v4's form of `transform: scale()`, which honours `transform-origin` the same way. This is the only animation in the project.
+
+## 2026-10-07 - Section index at natural height
+
+The section index `<nav>` lost its `max-h-[calc(100vh-9rem)]` and `overflow-y-auto`, which removes the scrollbar that showed beside it. It is now `sticky top-[5.5rem] overflow-x-clip`, at natural height. It uses `overflow-x-clip` rather than `overflow-x-hidden`: CSS turns `overflow-y: visible` into `auto` whenever the other axis is `hidden`, so `hidden` would have kept the nav a vertical scroll box. The active item's 1.06 scale reaches about 0.6-1.2px below the nav when the last section is active, which could bring the scrollbar back on systems that always show scrollbars. `clip` clips the same way without making the nav scrollable.
+
+Trade-off: with no height limit and no scrolling, a case study with enough sections to be taller than the viewport would have its lower index items unreachable while the nav is stuck. The longest current index is nine items, OutLoud's. Calculated at `gap-5` with wrapped headings, it is about 420-460px tall, ending at 508-548px from the top of a 900px viewport.
+
+Index links gained `pr-3`, so text wraps at 196px and the 1.06 scale stays inside the 208px column: 196 x 1.06 = 207.76px.
+
+`SiteHeader`'s inner container widened from `max-w-[56rem]` to `max-w-[61rem]` to match `main`, so the site title lines up with the content below it again.
