@@ -43,7 +43,7 @@ export default async function CaseStudyPage({
   const Body = await compileCaseStudyBody(study.body);
 
   return (
-    <main className="mx-auto w-full max-w-[56rem] px-5 pt-8 pb-14 sm:px-6 sm:pt-12 sm:pb-20">
+    <main className="mx-auto w-full max-w-[61rem] px-5 pt-8 pb-14 sm:px-6 sm:pt-12 sm:pb-20">
       {/* Masthead: centred on the content width, above the two-column group. */}
       <header className="mx-auto mb-12 max-w-[40rem] border-b border-border pb-10 text-center">
         <h1 className="font-serif text-[2rem] font-semibold leading-[1.15] text-text sm:text-[2.375rem]">
@@ -84,10 +84,10 @@ export default async function CaseStudyPage({
       </header>
 
       {/* The index column and the article are centred together as one group:
-          13rem + 3rem gap + 40rem. Below lg the index is not rendered and the
+          13rem + 5rem gap + 40rem. Below lg the index is not rendered and the
           article alone stays centred. */}
-      <div className="flex justify-center gap-12">
-        <div className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-52 shrink-0 flex-col justify-center lg:flex">
+      <div className="flex justify-center gap-20">
+        <div className="hidden w-52 shrink-0 lg:block">
           <SectionIndex sections={sections} />
         </div>
 

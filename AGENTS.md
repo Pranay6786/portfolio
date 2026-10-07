@@ -11,7 +11,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Project rules
 
 - This is a personal product management portfolio for Pranay Patil, targeting APM and Junior PM roles.
-- Never add a production dependency without explicit approval. The three current ones are `next`, `react` and `react-dom`.
+- Never add a production dependency without explicit approval. The six current ones are `next`, `react`, `react-dom`, `@mdx-js/mdx`, `gray-matter` and `remark-gfm`.
 - No backend, no database, no API routes, no authentication, no analytics, no animation library, no icon library, no state management library.
 - All portfolio copy lives in `content/`. Do not hardcode portfolio copy into components.
 - Copy rule: use hyphens, never em dashes.

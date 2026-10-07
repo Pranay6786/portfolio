@@ -144,3 +144,13 @@ New token `--accent-tint`, mapped to `--color-accent-tint`: `#fbede5` in light, 
 The section index column is now the sticky element: `sticky top-14` (below the 56px header), `h-[calc(100vh-3.5rem)]`, a flex column with `justify-center`, so the nav sits in the vertical middle of the viewport once the column is stuck. Centring uses flexbox, not transforms. The `<nav>` lost its own sticky positioning and now uses `max-h-full` with `overflow-y-auto`, so a long list still scrolls inside the box and never exceeds it.
 
 Known trade-off: before the column sticks, it sits at its natural position below the masthead, so at 1440x900 the nav starts near or just below the bottom of the viewport on page load. It reaches the centred position after roughly 500px of scrolling. Accepted as specified.
+
+## 2026-10-07 - Light accent-dim correction, section index back to top-anchored
+
+Light `--accent-dim` moved from `#e09a72` to `#d1692e`, the same hue and saturation, darker. The earlier value was 2.03:1 on `--accent-tint` and 2.23:1 on `--bg`. The new one is 3.18:1 on `--accent-tint`, 3.49:1 on `--bg` and 3.19:1 on `--surface`, all above 3:1.
+
+The vertically centred index is reverted. The column is back to `hidden w-52 shrink-0 lg:block`, and the `<nav>` is again `sticky top-[5.5rem] max-h-[calc(100vh-9rem)] overflow-y-auto overflow-x-hidden`. Reason: before the column stuck, the centred nav sat at its natural position under the masthead, which at 1440x900 put it at or just below the bottom of the viewport on page load. It only reached the middle after roughly 500px of scrolling.
+
+Spacing: the gap between the index and the article went from `gap-12` to `gap-20` (3rem to 5rem), and `main` widened from `max-w-[56rem]` to `max-w-[61rem]` to keep the group centred: 13rem + 5rem + 40rem = 58rem, plus 3rem of horizontal padding at `sm` and above = 61rem. Index items went from `gap-3` to `gap-5` (12px to 20px).
+
+The active index item now scales to 1.06 from its left edge (`origin-left`), with a 150ms transition on `color` and `scale`. All of it sits behind `motion-safe:`, so under `prefers-reduced-motion: reduce` there is no scaling and no transition, and the active item is marked by colour alone. It uses the CSS `scale` property, Tailwind v4's form of `transform: scale()`, which honours `transform-origin` the same way. This is the only animation in the project.
