@@ -128,3 +128,9 @@ Three values moved to clear the new header:
 - The index nav: `sticky top-20 max-h-[calc(100vh-7rem)]` to `sticky top-[5.5rem] max-h-[calc(100vh-9rem)]`
 
 `main`'s top padding dropped from `py-14 sm:py-20` to `pt-8 sm:pt-12`, keeping the bottom padding, so the page does not open with a large empty band under the header.
+
+## 2026-10-07 - Light accent from amber to rust
+
+The light-theme accent moved from amber to rust: `--accent` from `#7a4a08` to `#9a3412`, and `--accent-dim` from `#a8822f` to `#c2714a`. Dark tokens are unchanged.
+
+The darkened amber already had enough contrast against the background (7.16:1 on `--bg`), but it looked too close to the near-black body text, so confidence labels and links did not stand out at a glance. The problem was telling accent apart from body text, not contrast. Rust is a distinctly different hue, and it still clears the thresholds: `--accent` 7.00:1 on `--bg` and 6.41:1 on `--surface`, and `--accent-dim` 3.50:1 on `--bg`.
