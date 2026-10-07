@@ -3,15 +3,20 @@
 import { useEffect, useState } from "react";
 import type { Section } from "@/lib/content";
 
+/** Headings above this line in the viewport count as the section being read. */
+const ACTIVATION_LINE = 96;
+
 /**
  * Scroll-following list of the article's sections. The only client component in
  * the project: it needs IntersectionObserver and local state, both browser-only.
  *
- * The observer's rootMargin narrows the viewport to a band below the top, so a
- * heading counts as current once it reaches reading position rather than the
- * moment it appears at the bottom. When the band is empty - a section longer
- * than the band, for instance - the last match stays active rather than
- * clearing, so the list never goes blank mid-scroll.
+ * The observer is the trigger, not the answer. It fires whenever a heading
+ * crosses the top of the viewport, and the handler then resolves the current
+ * section from the headings' actual positions: the last one whose top has
+ * passed the activation line. Reading positions rather than intersection state
+ * keeps the highlight correct when several headings are skipped at once - a
+ * flick scroll, an anchor jump, End - which a set of currently-intersecting
+ * entries cannot represent, since the skipped headings never enter the band.
  */
 export default function SectionIndex({ sections }: { sections: Section[] }) {
   const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? "");
@@ -25,25 +30,23 @@ export default function SectionIndex({ sections }: { sections: Section[] }) {
       return;
     }
 
-    const visible = new Set<string>();
+    const resolveActive = () => {
+      let current = headings[0].id;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            visible.add(entry.target.id);
-          } else {
-            visible.delete(entry.target.id);
-          }
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top > ACTIVATION_LINE) {
+          break;
         }
+        current = heading.id;
+      }
 
-        const current = sections.find((section) => visible.has(section.id));
-        if (current) {
-          setActiveId(current.id);
-        }
-      },
-      { rootMargin: "-80px 0px -65% 0px", threshold: 0 },
-    );
+      setActiveId(current);
+    };
+
+    const observer = new IntersectionObserver(resolveActive, {
+      rootMargin: `-${ACTIVATION_LINE}px 0px 0px 0px`,
+      threshold: 0,
+    });
 
     for (const heading of headings) {
       observer.observe(heading);
