@@ -184,3 +184,20 @@ Three offsets moved to clear the fixed region, 56px header + 112px bar = 168px:
 - The index nav: `sticky top-[5.5rem]` to `sticky top-[12rem]` (88px to 192px, 24px below the bar)
 
 The masthead's h1 and subtitle also gained `text-balance` (`text-wrap: balance`), so a title or subtitle that wraps splits its lines evenly instead of leaving a short last line. Browsers without support wrap as before.
+
+## 2026-10-07 - Homepage
+
+`/` replaces the scaffold heading with the homepage: a hero, then seven numbered sections - work, decide, background, skills, certifications, education, contact. It is fully static, with no client components, hooks, event handlers or animation. The page sits in `max-w-[61rem]` with the header's padding, and the sections are separated by `--border` hairlines (`divide-y`) with `py-16 sm:py-24` each.
+
+Content split: the work cards are built from case study frontmatter, filtered to `kind: "featured"` and kept in `order`. Each card shows the subtitle as its heading, then the title, summary, badges and metric strip, and links whole to `/work/{slug}`. Editing a case study's frontmatter changes its card with nothing else to touch. Everything else on the page comes from `content/homepage.json`, which carries no copy of any case study field. The page metadata comes from the same JSON: the hero subhead as the title, the hero lines as the description.
+
+`lib/homepage.ts` defines `HomepageContent`, matching the JSON's shape, plus `validateHomepage` and the loader `getHomepageContent`. Validation is as strict as `validateFrontmatter`, and it also rejects any key the type does not define, so a misspelt field is reported by name instead of silently not rendering. Errors name the field by its full path. For example, a number in place of a link fails the build with: `Invalid content in content/homepage.json: field "decide.steps[2].href" must be a string, received number.` Lists must be non-empty, and invalid JSON fails with the parser's message.
+
+Section components, all server components in `components/home/`:
+
+- `HeroSection`, `WorkSection`, `DecideSection`, `BackgroundSection`, `SkillsSection`, `CertificationsSection`, `EducationSection`, `ContactSection`: one per section, each taking its slice of `HomepageContent` as typed props (`WorkSection` also takes the featured frontmatter).
+- `SectionHeader`: the shared mono kicker line ("{kicker} / {number}") and serif title, with optional subtitle and intro. The JSON's `work.intro`, `decide.intro` and `background.subtitle` render through it.
+- `Pill`: the masthead badge styling, used for card badges and skill items, never in the accent.
+- `TextLink` and `ActionLinks`: accent links underlined like article links, using `next/link` for app routes and a plain `<a>` for anchors, files, `mailto:` and external sites.
+
+Work cards reuse the existing `MetricStrip`. `/work` and `/about` are linked but not built yet, so they 404 for now. The résumé is committed as `public/resume.pdf`, the path the JSON links to; it was supplied as `PranayPatil_Resume.pdf` and renamed to match.
