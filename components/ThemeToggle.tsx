@@ -1,10 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useState } from "react";
-
-export const THEME_STORAGE_KEY = "portfolio-theme";
-
-type Theme = "dark" | "light";
+import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
 
 /** Dark is the default: light is the only theme carrying a data attribute. */
 function applyTheme(theme: Theme) {
