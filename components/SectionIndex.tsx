@@ -80,7 +80,7 @@ export default function SectionIndex({ sections }: { sections: Section[] }) {
   return (
     <nav
       aria-label="Sections in this case study"
-      className="sticky top-[5.5rem] max-h-[calc(100vh-9rem)] overflow-y-auto overflow-x-hidden"
+      className="max-h-full overflow-y-auto overflow-x-hidden"
     >
       <ul className="flex flex-col gap-3">
         {sections.map((section) => {

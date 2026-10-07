@@ -87,7 +87,7 @@ export default async function CaseStudyPage({
           13rem + 3rem gap + 40rem. Below lg the index is not rendered and the
           article alone stays centred. */}
       <div className="flex justify-center gap-12">
-        <div className="hidden w-52 shrink-0 lg:block">
+        <div className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-52 shrink-0 flex-col justify-center lg:flex">
           <SectionIndex sections={sections} />
         </div>
 

@@ -134,3 +134,13 @@ Three values moved to clear the new header:
 The light-theme accent moved from amber to rust: `--accent` from `#7a4a08` to `#9a3412`, and `--accent-dim` from `#a8822f` to `#c2714a`. Dark tokens are unchanged.
 
 The darkened amber already had enough contrast against the background (7.16:1 on `--bg`), but it looked too close to the near-black body text, so confidence labels and links did not stand out at a glance. The problem was telling accent apart from body text, not contrast. Rust is a distinctly different hue, and it still clears the thresholds: `--accent` 7.00:1 on `--bg` and 6.41:1 on `--surface`, and `--accent-dim` 3.50:1 on `--bg`.
+
+## 2026-10-07 - Light accent to orange, confidence tint, centred section index
+
+The light-theme accent moved from rust to orange: `--accent` from `#9a3412` to `#c2410c`, and `--accent-dim` from `#c2714a` to `#e09a72`. Measured in light mode: `--accent` is 4.96:1 on `--bg` and 4.52:1 on `--accent-tint`. `--accent-dim` is 2.03:1 on `--accent-tint` and 2.23:1 on `--bg`, below 3:1. It is kept as specified by the author's decision, and it only draws the confidence label's border, not text.
+
+New token `--accent-tint`, mapped to `--color-accent-tint`: `#fbede5` in light, `transparent` in dark. `Confidence` now takes it as its background and renders at weight 600, so in light mode the label reads as orange on a faint warm tint. In dark mode the background is transparent and the text and border tokens are unchanged, so only the weight differs.
+
+The section index column is now the sticky element: `sticky top-14` (below the 56px header), `h-[calc(100vh-3.5rem)]`, a flex column with `justify-center`, so the nav sits in the vertical middle of the viewport once the column is stuck. Centring uses flexbox, not transforms. The `<nav>` lost its own sticky positioning and now uses `max-h-full` with `overflow-y-auto`, so a long list still scrolls inside the box and never exceeds it.
+
+Known trade-off: before the column sticks, it sits at its natural position below the masthead, so at 1440x900 the nav starts near or just below the bottom of the viewport on page load. It reaches the centred position after roughly 500px of scrolling. Accepted as specified.
