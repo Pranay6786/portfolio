@@ -25,7 +25,7 @@ function toText(node: ReactNode): string {
  */
 export default function ArticleHeading({ children }: { children?: ReactNode }) {
   return (
-    <h2 id={slugify(toText(children))} className="scroll-mt-20">
+    <h2 id={slugify(toText(children))} className="scroll-mt-24">
       {children}
     </h2>
   );

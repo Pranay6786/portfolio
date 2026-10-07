@@ -3,20 +3,23 @@
 import { useEffect, useState } from "react";
 import type { Section } from "@/lib/content";
 
-/** Headings above this line in the viewport count as the section being read. */
-const ACTIVATION_LINE = 96;
+/**
+ * Headings above this line in the viewport count as the section being read. It
+ * sits just below the 96px scroll margin on the headings, so a heading landed
+ * on by an anchor click is unambiguously past the line and highlights itself
+ * rather than the section before it.
+ */
+const ACTIVATION_LINE = 112;
 
 /**
  * Scroll-following list of the article's sections. The only client component in
- * the project: it needs IntersectionObserver and local state, both browser-only.
+ * the project: it needs browser geometry and local state.
  *
- * The observer is the trigger, not the answer. It fires whenever a heading
- * crosses the top of the viewport, and the handler then resolves the current
- * section from the headings' actual positions: the last one whose top has
- * passed the activation line. Reading positions rather than intersection state
- * keeps the highlight correct when several headings are skipped at once - a
- * flick scroll, an anchor jump, End - which a set of currently-intersecting
- * entries cannot represent, since the skipped headings never enter the band.
+ * The current section is resolved from the headings' measured positions - the
+ * last one whose top has passed the activation line - recalculated from a
+ * passive scroll listener, throttled to one pass per animation frame. Position
+ * reading is what keeps the highlight correct when several headings are skipped
+ * at once: a flick scroll, an anchor jump, End.
  */
 export default function SectionIndex({ sections }: { sections: Section[] }) {
   const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? "");
@@ -43,16 +46,31 @@ export default function SectionIndex({ sections }: { sections: Section[] }) {
       setActiveId(current);
     };
 
-    const observer = new IntersectionObserver(resolveActive, {
-      rootMargin: `-${ACTIVATION_LINE}px 0px 0px 0px`,
-      threshold: 0,
-    });
+    // Throttle to one recalculation per frame: scroll fires far more often.
+    let frame = 0;
+    const schedule = () => {
+      if (frame !== 0) {
+        return;
+      }
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        resolveActive();
+      });
+    };
 
-    for (const heading of headings) {
-      observer.observe(heading);
-    }
+    resolveActive();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("hashchange", schedule);
 
-    return () => observer.disconnect();
+    return () => {
+      if (frame !== 0) {
+        cancelAnimationFrame(frame);
+      }
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("hashchange", schedule);
+    };
   }, [sections]);
 
   if (sections.length === 0) {

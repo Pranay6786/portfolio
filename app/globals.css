@@ -88,6 +88,12 @@ body {
     margin-block: 1.25rem;
   }
 
+  /* The article now opens on its first heading, level with the section index,
+     so its leading margin would otherwise push the two out of alignment. */
+  [data-article] > :first-child {
+    margin-block-start: 0;
+  }
+
   [data-article] h2 {
     font-family: var(--font-serif), ui-serif, Georgia, serif;
     font-size: 1.75rem;
