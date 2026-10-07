@@ -167,16 +167,20 @@ Index links gained `pr-3`, so text wraps at 196px and the 1.06 scale stays insid
 
 ## 2026-10-07 - Case study bar
 
-Case study pages gain a compact sticky bar that shows the title and subtitle once the masthead has scrolled out of view. `CaseStudyBar` is the project's third client component. It is 64px tall (`h-16`), sticky at `top-14` directly under the site header, full width with a `--border` hairline and a solid `--bg` background, at `z-40` so it sits under the header (`z-50`) and over the article. Its inner row matches `main`: `max-w-[61rem]`, `px-5 sm:px-6`. The title is serif at 0.9375rem, and the subtitle is sans at 0.8125rem in `--text-muted`, kept to one line with an ellipsis and hidden below `sm`.
+Case study pages gain a sticky bar that works as a condensed masthead, appearing once the masthead has scrolled out of view. `CaseStudyBar` is the project's third client component and takes `title`, `subtitle` and `badges`. It is 112px tall (`h-28`), sticky at `top-14` directly under the site header, full width with a `--border` hairline and a solid `--bg` background, at `z-40` so it sits under the header (`z-50`) and over the article. Its inner container matches `main`: `max-w-[61rem]`, `px-5 sm:px-6`.
 
-Why a compact bar rather than pinning the full masthead: the masthead is roughly 400px tall, and pinning it would take nearly half of a 900px viewport on a page built for reading. The bar keeps the title in view for 64px.
+It has two lines, centred vertically. The first holds the title, serif at 1.0625rem in `--text`, truncated if needed, with the badges on the right. The badges use the masthead's pill styling at a smaller size: mono at 0.625rem, `--border` border, `--surface` background, `--text-muted` text. The second line holds the subtitle, serif at 0.875rem in `--text-muted`, one line with an ellipsis. Badges and subtitle both hide below `sm`, which leaves only the title there. A first version was a single 64px line with the title and subtitle side by side. It was expanded so the bar reads as a condensed masthead rather than a different element.
+
+Why a condensed bar rather than pinning the full masthead: the masthead is roughly 400px tall, and pinning it would take nearly half of a 900px viewport on a page built for reading. The bar keeps the title, subtitle and badges in view for 112px.
 
 Visibility uses an IntersectionObserver, not a scroll listener. The page places an empty sentinel `<div id="masthead-end">` straight after the masthead `<header>`. The observer's root is inset by the 56px header, and the bar shows only while the sentinel is not intersecting and sits above that line. The second check keeps the bar hidden when the sentinel is still below the viewport, for example under a masthead taller than the screen. While hidden, the component renders nothing, so the server HTML carries no bar. The id lives in `lib/case-study-bar.ts`, for the same reason as `THEME_STORAGE_KEY` in `lib/theme.ts`: a constant imported from a `"use client"` module into a server component is a client reference, not the value.
 
-The bar renders outside `main` so it spans the full width, with `-mb-16` cancelling its own height. It overlays the page when it appears instead of pushing the content down 64px mid-read. It repeats the h1, so it carries `aria-hidden`. Under `prefers-reduced-motion: no-preference` it fades in over 200ms using `@starting-style` (Tailwind's `starting:` variant). Under `reduce` it appears with no transition. Nothing moves or transforms.
+The bar renders outside `main` so it spans the full width, with `-mb-28` cancelling its own height. It overlays the page when it appears instead of pushing the content down 112px mid-read. It repeats the masthead, so it carries `aria-hidden`. Under `prefers-reduced-motion: no-preference` it fades in over 200ms using `@starting-style` (Tailwind's `starting:` variant). Under `reduce` it appears with no transition. Nothing moves or transforms.
 
-Three offsets moved to clear the taller fixed region, 56px header + 64px bar = 120px:
+Three offsets moved to clear the fixed region, 56px header + 112px bar = 168px:
 
-- `ArticleHeading` scroll margin: `scroll-mt-[8.5rem]` to `scroll-mt-[12.5rem]` (136px to 200px, 80px below the bar)
-- `SectionIndex` `ACTIVATION_LINE`: 152 to 216, 16px below where a linked heading lands
-- The index nav: `sticky top-[5.5rem]` to `sticky top-[9.5rem]` (88px to 152px, 32px below the bar)
+- `ArticleHeading` scroll margin: `scroll-mt-[8.5rem]` to `scroll-mt-[15.5rem]` (136px to 248px, 80px below the bar)
+- `SectionIndex` `ACTIVATION_LINE`: 152 to 264, 16px below where a linked heading lands
+- The index nav: `sticky top-[5.5rem]` to `sticky top-[12rem]` (88px to 192px, 24px below the bar)
+
+The masthead's h1 and subtitle also gained `text-balance` (`text-wrap: balance`), so a title or subtitle that wraps splits its lines evenly instead of leaving a short last line. Browsers without support wrap as before.

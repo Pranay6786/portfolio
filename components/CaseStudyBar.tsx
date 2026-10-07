@@ -7,10 +7,11 @@ import { MASTHEAD_SENTINEL_ID } from "@/lib/case-study-bar";
 const HEADER_HEIGHT = 56;
 
 /**
- * Compact title bar for a case study, shown once the masthead has scrolled out
- * of view. Visibility follows an IntersectionObserver on a sentinel the page
- * places after the masthead, not a scroll listener. The root is inset by the
- * header height, so "out of view" means passed under the site header.
+ * Condensed masthead for a case study - title, subtitle and badges - shown once
+ * the masthead has scrolled out of view. Visibility follows an
+ * IntersectionObserver on a sentinel the page places after the masthead, not a
+ * scroll listener. The root is inset by the header height, so "out of view"
+ * means passed under the site header.
  *
  * The bar is shown only while the sentinel is above that line. Not intersecting
  * also covers a sentinel still below the viewport - a masthead taller than the
@@ -23,9 +24,11 @@ const HEADER_HEIGHT = 56;
 export default function CaseStudyBar({
   title,
   subtitle,
+  badges,
 }: {
   title: string;
   subtitle: string;
+  badges: string[];
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -58,14 +61,30 @@ export default function CaseStudyBar({
   return (
     <div
       aria-hidden="true"
-      className="sticky top-14 z-40 -mb-16 h-16 w-full border-b border-border bg-bg motion-safe:transition-opacity motion-safe:duration-200 motion-safe:starting:opacity-0"
+      className="sticky top-14 z-40 -mb-28 h-28 w-full border-b border-border bg-bg motion-safe:transition-opacity motion-safe:duration-200 motion-safe:starting:opacity-0"
     >
       <div className="mx-auto flex h-full w-full max-w-[61rem] items-center px-5 sm:px-6">
-        <div className="flex min-w-0 items-baseline gap-3">
-          <p className="my-0 max-w-full shrink-0 truncate font-serif text-[0.9375rem] text-text">
-            {title}
-          </p>
-          <p className="my-0 hidden min-w-0 truncate font-sans text-[0.8125rem] text-muted sm:block">
+        <div className="flex w-full min-w-0 flex-col gap-1">
+          <div className="flex min-w-0 items-center justify-between gap-4">
+            <p className="my-0 min-w-0 truncate font-serif text-[1.0625rem] leading-snug text-text">
+              {title}
+            </p>
+
+            {badges.length > 0 ? (
+              <ul className="my-0 hidden shrink-0 list-none gap-1.5 ps-0 sm:flex">
+                {badges.map((badge) => (
+                  <li
+                    key={badge}
+                    className="my-0 rounded-full border border-border bg-surface px-2 py-0.5 font-mono text-[0.625rem] uppercase tracking-[0.08em] text-muted"
+                  >
+                    {badge}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+
+          <p className="my-0 hidden truncate font-serif text-[0.875rem] leading-snug text-muted sm:block">
             {subtitle}
           </p>
         </div>

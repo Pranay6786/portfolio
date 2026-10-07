@@ -47,15 +47,19 @@ export default async function CaseStudyPage({
   return (
     <>
       {/* Outside main so it spans the full width, like the site header. */}
-      <CaseStudyBar title={frontmatter.title} subtitle={frontmatter.subtitle} />
+      <CaseStudyBar
+        title={frontmatter.title}
+        subtitle={frontmatter.subtitle}
+        badges={frontmatter.badges}
+      />
 
       <main className="mx-auto w-full max-w-[61rem] px-5 pt-8 pb-14 sm:px-6 sm:pt-12 sm:pb-20">
         {/* Masthead: centred on the content width, above the two-column group. */}
         <header className="mx-auto mb-12 max-w-[40rem] border-b border-border pb-10 text-center">
-          <h1 className="font-serif text-[2rem] font-semibold leading-[1.15] text-text sm:text-[2.375rem]">
+          <h1 className="font-serif text-[2rem] font-semibold leading-[1.15] text-balance text-text sm:text-[2.375rem]">
             {frontmatter.title}
           </h1>
-          <p className="mt-3 mb-0 font-serif text-[1.1875rem] leading-snug text-muted sm:text-[1.3125rem]">
+          <p className="mt-3 mb-0 font-serif text-[1.1875rem] leading-snug text-balance text-muted sm:text-[1.3125rem]">
             {frontmatter.subtitle}
           </p>
 
