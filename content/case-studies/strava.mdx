@@ -7,12 +7,12 @@ order: 8
 badges: ["UX EVALUATION", "DESK ANALYSIS"]
 metricStrip: "7 issues · 10 heuristics · 3 UX laws · 3 first-sprint fixes"
 summary: "A heuristic evaluation of Strava's Record an Activity flow, and the harder part - deciding which findings were worth a sprint and which were just true."
-disclaimer: "Structured learning programme assignment. Not affiliated with Strava. An independent evaluation of the public iOS app, with no access to Strava's internal data, research or roadmap. The 'after' screens are my own mockups, not Strava designs."
+disclaimer: "Independent evaluation of the public Strava iOS app. Not affiliated with Strava, and conducted with no access to its internal data, research or roadmap. The 'after' screens are my own mockups, not Strava designs."
 ---
 
-The brief was open: pick a digital product, pick one flow, evaluate it against Nielsen's ten usability heuristics and at least three UX laws, then recommend changes. The open part is what makes it a product exercise rather than a checklist. A heuristic evaluation will always produce findings. Deciding which ones deserve engineering time is the actual work.
+Strava's Record an Activity flow is the highest-frequency action in the product and the one most exposed to context. People start a recording while standing at a trailhead, adjusting an armband, or leaving a gym - not sitting still and reading the screen. That context turns small interface decisions into real failures, which is why I picked this flow over onboarding, the social feed or segment discovery.
 
-I chose Strava's Record an Activity flow because it is the highest-frequency action in the product and the one most exposed to context. People start a recording while standing at a trailhead, adjusting an armband, or leaving a gym - not sitting still and reading the screen. That context turns small interface decisions into real failures.
+A heuristic evaluation will always produce findings. Deciding which ones deserve engineering time is the actual work, and that is what this is about.
 
 ## Scope, and what this method cannot tell you
 
@@ -24,7 +24,7 @@ I decided to state that limit up front rather than bury it, because it changes h
 
 ## What the walkthrough surfaced
 
-Each screen was assessed twice - once holistically to understand the intended design, then systematically against each heuristic.
+Each screen was assessed twice - once holistically to understand the intended design, then systematically against Nielsen's ten usability heuristics and three UX laws.
 
 Severity is defined by exposure, not by how annoying the problem feels. **High** means every user meets it on every recording session. **Medium** means it hits a specific moment or a subset of users. **Low** means it is real and minor. That rule is what lets the ranking survive someone disagreeing with my taste.
 
@@ -94,6 +94,6 @@ The recurring theme across the findings is that Strava's Record flow is well-bui
 
 The evaluation would be stronger with even a small round of moderated testing on the pre-recording stage specifically, since that is where my confidence is lowest - I am inferring that users miss the activity type selector from its visual treatment, not observing it. If I were doing this inside a product team, I would also want the accidental-recording rate from analytics before committing to the countdown, since that single number would either justify the fix immediately or kill it.
 
-I would also treat the mockups as what they are. They communicate the proposed change clearly enough for a case study, but they are illustrations rather than specifications - no states, no measurements, no edge cases. A real handoff needs the empty state, the error state, and what happens when the countdown is cancelled halfway.
+I would also treat the mockups as what they are. They communicate the proposed change clearly enough, but they are illustrations rather than specifications - no states, no measurements, no edge cases. A real handoff needs the empty state, the error state, and what happens when the countdown is cancelled halfway.
 
 </Callout>

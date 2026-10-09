@@ -7,14 +7,16 @@ order: 9
 badges: ["PRODUCT REQUIREMENTS", "FICTIONAL SCENARIO"]
 metricStrip: "Gamification and community · first-month retention"
 summary: "A PRD for gamification and community features on a fitness platform, where the design decision that mattered was making the two features depend on each other."
-disclaimer: "Structured learning programme assignment. VitaFit is a fictional platform supplied in the brief. No real user data, analytics or company was involved. The screens below are my own mockups."
+disclaimer: "VitaFit is a fictional fitness platform, used here to work through a retention problem end to end. No real user data, analytics or company was involved. The screens are my own mockups."
 ---
 
-The brief asked for a PRD covering two features - a rewards system and community challenges - plus flow visualisations for each. The easy failure mode is to write two PRDs and staple them together. The two features only work if they solve different halves of the same problem.
+VitaFit loses users in the first week or two. The reflexive response to that is to add engagement features - points, challenges, something social - and the reflexive failure is to write two feature specs and staple them together.
+
+This PRD covers a rewards system and community challenges. The decision that matters is that they are not two features. They solve different halves of one problem, and neither works without the other.
 
 ## The problem, stated precisely
 
-Users drop off in the first week or two. Two causes sit underneath that:
+Two causes sit underneath the drop-off:
 
 They cannot see progress. Early fitness results are invisible - nobody loses weight in six days - so the only feedback available is the feeling of having shown up, which fades once novelty does.
 
@@ -24,7 +26,7 @@ They have nobody to show up for. A workout library is a solo product. Willpower 
 These two compound. A user who cannot see progress and has no accountability is not two small problems - it is the standard churn profile. That is why the response is paired: points and streaks supply the internal reason to return, challenges supply the external one.
 </Callout>
 
-<Confidence type="assumed" /> The brief described the engagement gap but supplied no analytics. The specific claims below - that drop-off concentrates in weeks one and two, that lapsed users rarely return unprompted, that social sessions outperform solo ones - are stated in the brief or are well-established patterns in habit-forming consumer products. None are measured from a real VitaFit cohort, because no such cohort exists.
+<Confidence type="assumed" /> No analytics were available for this scenario. The specific claims below - that drop-off concentrates in weeks one and two, that lapsed users rarely return unprompted, that social sessions outperform solo ones - are well-established patterns in habit-forming consumer products rather than measurements from a real VitaFit cohort, because no such cohort exists.
 
 ## What goes in V1, and what does not
 
@@ -43,7 +45,7 @@ The rest allowance in that first row was not in my original scope, and the secti
 
 ## The flows, and where the retention pressure sits
 
-The brief asked for screen-by-screen visualisation. The useful version annotates each screen with what it is doing behaviourally, not what it contains.
+Each screen is worth describing by what it is doing behaviourally, not by what it contains.
 
 **The gamification loop** runs home screen, workout, reward, and back. The home screen leads with the streak framed as something at risk rather than something earned, because loss framing turns opening the app into a decision rather than a scroll.
 
