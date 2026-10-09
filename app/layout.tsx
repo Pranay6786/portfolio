@@ -21,7 +21,10 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Pranay Patil",
+  title: {
+    default: "Pranay Patil",
+    template: "%s - Pranay Patil",
+  },
   description:
     "Product management portfolio - case studies, decisions and evidence",
 };
