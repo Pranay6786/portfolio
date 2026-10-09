@@ -1,0 +1,94 @@
+---
+slug: "zepto"
+title: "Zepto"
+subtitle: "Why price trust, not price, was the AOV lever"
+kind: "library"
+order: 6
+badges: ["PRODUCT STRATEGY", "PRIMARY, n=11"]
+metricStrip: "Survey n=11 · quick commerce, India · average order value"
+summary: "A strategy exercise on raising average order value in quick commerce, where the useful finding was that the blocker is perceived value, not actual pricing."
+disclaimer: "Self-directed strategy exercise. Not affiliated with Zepto. Uses public information and a small informal survey, with no access to Zepto's internal data, pricing or roadmap."
+---
+
+Zepto built its brand on ten-minute delivery. Speed is now table stakes in Indian quick commerce, which makes it a weak place to compete. The more interesting question is what makes a basket bigger, not what makes it faster.
+
+I framed the exercise around average order value for working couples and families. <Confidence type="assumed" /> I picked those two because a household buying for several people has a higher basket ceiling than a single user, and because depletion-driven ordering should under-serve them most. That is reasoning about household structure, not a segmentation I measured.
+
+## What the survey actually showed
+
+I ran an informal survey to pressure-test my assumptions before building any recommendation.
+
+<Confidence type="primary" detail="n=11" /> Eleven respondents. This is a directional signal from a convenience sample, not research. It is large enough to tell me which questions to ask next and too small to support any claim about the population. Every number below is reported as a count, not a percentage, because percentages on eleven responses imply a precision that does not exist.
+
+Seven of eleven said running out of essentials triggers an order. Six said convenience. Five each said forgetting an item and a sudden craving. Only three said a planned grocery refill.
+
+On what stops them consolidating small orders into one: five said they do not plan purchases in advance, five said they need items urgently, four said they usually forget items later, four said they did not want to spend too much in one go.
+
+On frustrations, seven named high delivery charges, six out-of-stock items, five limited product availability, four prices higher than offline stores.
+
+Two things in that pattern changed my direction. First, the dominant trigger is depletion, not planning - which means basket size is capped by what the user happens to remember at that moment, not by catalogue or discovery. Second, four people said online prices are higher than offline, and that belief is doing work whether or not it is true. Nobody in the sample described checking.
+
+## The reframe
+
+The obvious read of "prices feel higher" is a pricing problem, and pricing is expensive to change and easy for competitors to match. But the survey did not show people comparing prices and finding Zepto expensive. It showed people assuming, without any way to verify.
+
+<Callout>
+That distinction is the whole strategy. If the blocker is actual price, the fix is margin. If the blocker is unverified assumption, the fix is visibility - and visibility is cheaper, more defensible, and does not start a discount war.
+</Callout>
+
+So I grouped the blockers into three, each pointing at a different kind of intervention:
+
+**Price trust deficit.** Users assume kirana is cheaper for staples and cannot check. Addressable with transparent comparison, not with discounts.
+
+**Basket risk perception.** A large cart feels high-stakes because it cannot be edited after checkout and the saving is invisible. Addressable with post-checkout editing and cumulative savings visibility.
+
+**No habit loop.** Quick commerce sits in the "backup" slot, not the weekly-ritual slot. Addressable with one-tap reorder and timed prompts, which is the cheapest of the three to build.
+
+## Checking the wedge before committing to it
+
+An earlier version of this exercise went straight from the reframe to a roadmap. That was a mistake I had already made once, in a separate strategy piece, by proposing a wedge a competitor had occupied years earlier. So I checked.
+
+<Confidence type="secondary" /> No major Indian quick-commerce app ships in-app price comparison - not Zepto, not Blinkit, not Instamart. There is no cross-platform comparison and nothing comparing against local kirana prices.
+
+What does exist is third-party tooling built to fill the gap. Smartprix launched a tool in July 2026 that compares cart totals across Blinkit, Zepto and Instamart. A standalone comparison app exists on iOS. There are browser extensions for tracking spend across these platforms. The Smartprix write-up describes the problem as users having to open four apps and rebuild the cart in each one.
+
+That changes the strength of my finding rather than its direction. Eleven people saying they assume prices are higher is thin. Eleven people plus independent developers shipping comparison tools unprompted is two sources pointing at the same gap - and those tools exist precisely because the apps do not close it.
+
+It also sharpens the risk. The gap is open, but it is open because closing it is uncomfortable for the platform: a comparison surfaced inside Zepto will sometimes tell the user to buy elsewhere. That is the real reason nobody has shipped it, and any version of this proposal has to survive that conversation internally rather than treat the whitespace as free.
+
+## Prioritisation, and where the method is weak
+
+I scored six initiatives to force a sequence rather than ship a wish list.
+
+| Initiative | Blocker addressed | Priority |
+| --- | --- | --- |
+| One-tap repeat order | No habit loop | P0 |
+| AI price estimator | Price trust deficit | P1 |
+| Repositioning to planned shopping | All three | P1 |
+| Mid-order cart editing | Basket risk perception | P2 |
+| Savings dashboard | Price trust deficit | P2 |
+| Voice ordering | No habit loop | P3 |
+
+Repeat order ranked first on a wide margin: it reaches nearly every existing user, it is the lowest-effort item on the list, and it attacks the depletion-trigger problem directly by making the remembered-items constraint irrelevant. Voice ordering ranked last - high engineering cost against the weakest evidence in my sample, and it only pays off after the habit loop already exists.
+
+The P1 that needs more work than its rank suggests is the price estimator. Comparing against kirana prices requires kirana price data, and I have no source for it. Scraping competitor apps is fragile and contested; crowdsourcing from users is slow and noisy; licensing from a market research provider costs money I did not scope. The feature is ranked on expected impact, not on feasibility, and if I were sequencing this for real I would put the savings dashboard ahead of it, because cumulative savings can be computed from Zepto's own order history with no external data at all.
+
+<Confidence type="assumed" /> I scored Reach, Impact and Confidence on a one-to-ten scale and inverted Effort so a higher score meant lower effort. That is not standard RICE, where Impact uses a fixed multiplier scale and Effort divides. My version produces a usable ordering but the absolute scores are not comparable to RICE scores computed conventionally, and I would use the standard form if repeating this.
+
+## What I deliberately did not include
+
+The original version of this exercise carried a market sizing section and a table of projected impact percentages for each initiative. I removed both.
+
+The sizing numbers were estimates I could not source. The projected lifts - fifteen to twenty-five percent on AOV, twenty percent on repeat rate - were targets I had assigned, not forecasts derived from anything. Leaving them in would have made the work look more rigorous than it was, which is the opposite of what a strategy document is for.
+
+What survives is the part that holds: a reframe from pricing to price transparency, three named blockers, and a sequence that starts with the cheapest fix against the strongest signal.
+
+<Callout title="What I'd do differently">
+
+The sample is the weakness. Eleven responses from a convenience sample told me which hypothesis to chase and nothing more. With more time I would run the same survey to a few hundred respondents segmented by household type, and separately validate the central claim directly - put a real price comparison in front of a small cohort and measure whether basket size moves. That single test would either support the entire strategy or collapse it, and it is cheaper than any of the six initiatives.
+
+I would also check the competitive landscape first rather than second. I did the check here because I had been caught out by skipping it before, which means the lesson cost me two exercises instead of one.
+
+</Callout>
+
+**Sources.** Smartprix's quick-commerce cart comparison tool, July 2026. Quick Compare, iOS App Store. Both accessed October 2026.

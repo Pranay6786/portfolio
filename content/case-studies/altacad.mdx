@@ -1,0 +1,96 @@
+---
+slug: "altacad"
+title: "AltAcad"
+subtitle: "Treating privacy as the constraint, not the trade-off"
+kind: "library"
+order: 10
+badges: ["SYSTEMS DESIGN", "ASSIGNMENT BRIEF"]
+metricStrip: null
+summary: "A systems design proposal for a personalised learning recommendation engine, where the central decision was to cap personalisation at what privacy allows rather than the reverse."
+disclaimer: "Airtribe assignment brief. AltAcad is a fictional platform supplied in the brief. No real platform, user data or infrastructure was involved."
+---
+
+The brief set three business objectives - engagement up twenty-five percent, completion up thirty, satisfaction up twenty - and asked for a recommendation system to deliver them, covering three user types, functional and non-functional requirements, system design, and one named trade-off.
+
+The trade-off is where the exercise stops being a template.
+
+## The learner this is for
+
+Take a working professional taking evening courses after a full day. She has some background in her field and wants to move sideways into a related one. She opens the platform, and the homepage offers her an introduction to a subject she already knows, a course three levels above where she is, and something unrelated that happens to be popular. She browses for eleven minutes, saves nothing, and does not come back on Thursday.
+
+Nothing is broken. She did not hit an error, the catalogue is not thin, and the courses are good. The system simply has no idea where she is, so it cannot tell her where to go next. That is the failure the recommendation engine exists to prevent, and it is worth holding onto while the rest of this talks about services and databases.
+
+## Why the objectives connect
+
+They are not three separate goals. A learner disengages because they cannot find content matched to their level or direction, so they browse instead of learning. Matching them to appropriately levelled courses and suggesting a coherent next step is the same intervention for all three numbers - it raises engagement by removing search effort, raises completion by preventing the mismatch that causes abandonment, and raises satisfaction because reaching a goal is what satisfaction measures.
+
+That framing determined the architecture. The recommendation engine is not a feature bolted onto a catalogue; it sits in the path of every learner session.
+
+## Three users, one system
+
+Learners receive recommendations. Instructors supply the content those recommendations draw from, and need engagement data to know what to make next. Administrators keep the thing running and watch the recommendation engine's own health as a monitored service, not as a black box.
+
+The design gives each a separate dashboard, because their jobs share almost no surface. The only shared requirement is the notification layer.
+
+| User | High priority | Deferred |
+| --- | --- | --- |
+| Learner | Secure login, profile and goals, personalised recommendations, search and catalogue | Saved courses, learning pathways |
+| Instructor | Course management and upload | Analytics dashboard |
+| Administrator | User management, performance monitoring, security logs | - |
+| System | - | Notifications and alerts |
+
+## The engine
+
+A hybrid, deliberately. Content-based filtering matches course attributes to stated interests and works from day one for a new learner with no history. Collaborative filtering learns from patterns across similar learners and gets stronger as the base grows but is useless at the start. Behavioural signals adjust against what the learner is doing right now.
+
+Using all three is not hedging. Each covers the others' failure window - content-based carries the cold start, collaborative carries the mature state, behavioural carries the drift between a learner's stated goal and their actual activity.
+
+| Category | Requirement |
+| --- | --- |
+| Performance | Recommendations within one second of page load; search within two |
+| Scalability | Growing user base and catalogue without redesign; room for future models |
+| Availability | 99.9% uptime target with automatic failover and backups |
+| Compliance | Informed consent before collection; GDPR-equivalent access and deletion |
+| Security and retention | Encryption in transit and at rest, role-based access, minimal retention |
+| Monitoring | Continuous tracking of response times and recommendation accuracy |
+| Extensibility | Modular services addable independently |
+
+Backend is microservices behind an API gateway handling authentication, routing, and rate limiting, with databases separated by purpose - user, course, recommendation history, analytics, logging. Separation is for blast radius and query performance, not elegance: a fault in the analytics service should not take recommendations down.
+
+## Defining the accuracy the engine optimises for
+
+The monitoring row above says "recommendation accuracy," and that phrase is where this kind of document usually stops thinking. It matters which number sits behind it, because the engine will optimise for whatever is measured.
+
+Click-through on a recommended course is the easy proxy and the wrong one. It rewards an enticing title over a correct match, which means a system tuned on click-through learns to surface courses that look appealing to someone at any level - exactly the behaviour that left the learner above with eleven minutes of browsing and nothing saved.
+
+The measure that matches the objective is completion rate of recommended courses against non-recommended ones. If learners finish what the engine suggests more often than what they find themselves, the engine is working. If they click more and finish less, it is making the problem worse while reporting success.
+
+That definition belongs in the specification, not in a later analytics ticket, because it changes what the engine is built to do.
+
+## The decision that mattered
+
+Personalisation accuracy rises with data volume. Tracking every click, every search, every hesitation would produce better recommendations. It would also expand the breach surface and feel intrusive to the learner being tracked.
+
+The conventional framing treats this as a dial to be balanced. I do not think it is.
+
+<Callout>
+Trust is a precondition, not a competing value. A learner who does not trust the platform ignores its recommendations regardless of how accurate they are - so accuracy bought with trust buys nothing. Privacy is the constraint; personalisation is what you optimise inside it.
+</Callout>
+
+In practice that means: collect only what the recommendation requires rather than everything observable, state plainly why each thing is collected, make personalisation opt-in and reversible, give access and deletion on request, encrypt everywhere, restrict by role.
+
+The cost is real and I would state it to a stakeholder rather than hide it. Recommendations will be marginally less precise than a maximally instrumented system would produce, and cold start will be slower because less behavioural signal is available early. I take that trade because disengaged or distrustful users threaten the three business objectives more than slightly looser recommendations do.
+
+## Assumptions this design rests on
+
+<Confidence type="assumed" /> A course catalogue already exists to recommend from. Learners provide reasonably accurate profile information at registration. Instructors keep course metadata current. Cloud infrastructure is available. Enough behavioural data accumulates over time to make collaborative filtering meaningful.
+
+The third and fifth are the fragile ones. Stale instructor metadata degrades content-based filtering silently - the engine keeps recommending confidently from wrong difficulty labels, and nothing in the system surfaces that. The fifth is a chicken-and-egg problem the design does not solve: collaborative filtering needs a base that only good recommendations will build.
+
+<Callout title="What I'd do differently">
+
+I would write the metadata problem into the design rather than list it as an assumption. Content-based filtering rests entirely on instructors labelling difficulty honestly and keeping it current, and there is no incentive for them to do either - an instructor who marks a course "intermediate" reaches more learners than one who marks it "advanced." A design that depends on accurate labels needs either a verification step or a signal that catches drift, and mine has neither.
+
+The accuracy definition above was also the last thing I worked out, not the first. I specified monitoring before deciding what was being monitored, which is the wrong order for a system whose entire job is ranking.
+
+</Callout>

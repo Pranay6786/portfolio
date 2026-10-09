@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ArticleHeading from "@/components/ArticleHeading";
 import Callout from "@/components/Callout";
@@ -28,6 +29,24 @@ const mdxComponents: MdxComponentMap = {
 
 export function generateStaticParams() {
   return getAllCaseStudies().map((study) => ({ slug: study.frontmatter.slug }));
+}
+
+// An unknown slug returns no metadata rather than throwing: the page itself
+// calls notFound(), and the 404 keeps the layout's default title.
+export async function generateMetadata({
+  params,
+}: PageProps<"/work/[slug]">): Promise<Metadata> {
+  const { slug } = await params;
+  const study = getCaseStudyBySlug(slug);
+
+  if (!study) {
+    return {};
+  }
+
+  return {
+    title: study.frontmatter.title,
+    description: study.frontmatter.summary,
+  };
 }
 
 export default async function CaseStudyPage({

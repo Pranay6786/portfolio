@@ -1,0 +1,79 @@
+---
+slug: "twitter"
+title: "Twitter (X)"
+subtitle: "Activation is the wrong metric, and that is the whole problem"
+kind: "library"
+order: 7
+badges: ["GROWTH ANALYSIS", "DESK ANALYSIS"]
+metricStrip: "AARRR funnel · new-user journey · acquisition to referral"
+summary: "An AARRR funnel analysis of X, where the central finding was that the product defines activation as posting while most new users arrive to read."
+disclaimer: "Structured learning programme assignment. Not affiliated with X. An independent analysis using the public product and publicly discussed user feedback, with no access to internal analytics, experiments or roadmap."
+---
+
+X does not have a demand problem. People arrive constantly through search results, shared links, and trending news. The constraint is conversion - how many of those arrivals turn into users who come back. Mapping the product onto the AARRR funnel makes the location of that constraint specific rather than vague.
+
+## Method, and its hard limit
+
+Three inputs: a walkthrough of the install, sign-up, first session, and return journey; publicly discussed feedback and app-store review themes; and behavioural patterns established across consumer social products.
+
+<Confidence type="assumed" /> No internal analytics were available. Every quantity in this analysis is either directional or an industry benchmark, labelled as such where it appears. The cohort drop-off shape I worked from illustrates where attrition concentrates in social products generally - it is not a measurement of X's funnel. The analysis is a set of testable hypotheses about where users are lost, not a report of where they are lost.
+
+I decided to label this throughout rather than once, because the temptation in funnel work is to produce confident-looking percentages that are actually assumptions wearing a number.
+
+## Where the funnel narrows
+
+Two personas anchor the walkthrough: a lurker arriving from a search result or shared link to follow a topic, and a caster arriving from a creator's referral to publish and build an audience.
+
+| Stage | Friction | Missed opportunity |
+| --- | --- | --- |
+| Acquisition | Sign-up wall is identical regardless of what content brought the user | No differentiated path for creator referral, cold search, or friend invite |
+| Activation | Treated as posting; onboarding suggests broad topics, not relevant accounts | Reading, liking and bookmarking are not reinforced as activation signals |
+| Retention | Leans on notification volume rather than an intrinsic return reason | No lightweight opt-in ritual at a predictable moment |
+| Revenue | Creator earnings lack real-time visibility into what drives them | Subscription and fan-support bundles underdeveloped |
+| Referral | Invite is buried in settings; repost grows reach, not the user base | No incentive for either side on completed activation |
+
+On the activation row specifically: walking the current sign-up in October 2026, onboarding asks the new user to pick interest categories and then drops them into a feed assembled from those topics. It does not walk them through following specific accounts, and the empty-state prompts point toward composing a post. That is the behaviour I am describing as the definitional problem, and it is what a reader can go and check.
+
+The largest cliff sits between account creation and first meaningful interaction. The reason it sits there is a definitional choice, not an interface one.
+
+<Callout>
+X treats posting as the activation event. Most new arrivals are readers - they came for a specific post, a topic, or an event. Defining activation around the behaviour of the minority means the product optimises onboarding for people who were going to stay anyway, and asks everyone else to do the hardest possible first action.
+</Callout>
+
+That reframe is what drives the rest of the analysis. If activation is redefined as reaching a personalised feed - following five to seven relevant accounts and seeing one real session - then it becomes achievable for nearly every new user, and it becomes measurable.
+
+## Epics, and the sequencing argument
+
+<Confidence type="assumed" /> I ranked five epics rather than scoring them. An earlier version carried RICE scores to one decimal place, which implied I had reach and impact figures for a product whose analytics I cannot see. The ordering below is the part I can defend; the numbers were decoration and I removed them.
+
+| Rank | Epic | Stage |
+| --- | --- | --- |
+| 1 | Guided activation flow | Activation |
+| 2 | Smart content onboarding feed | Acquisition into activation |
+| 3 | Creator revenue dashboard | Revenue |
+| 4 | Reply-to-follow nudges | Retention |
+| 5 | Group DM invite loops | Referral |
+
+The top two rank highest for the same structural reason: a user lost at sign-up never reaches retention, revenue, or referral at all. Fixing the top of the funnel is not a preference for early-stage work, it is arithmetic - every downstream investment multiplies against a larger surviving base.
+
+They also share engineering. The guided activation flow needs follow-relevance logic; the onboarding feed needs the acquisition context that produced the arrival. Built together, one informs the other. Built apart, the onboarding feed seeds a session that the activation flow then overwrites.
+
+The creator revenue dashboard ranks third despite serving the fewest users, because user count is the wrong lens for it. It serves creators, not new users, and creator supply is what the casual user's feed is made of. Starving that supply degrades the retention the first two epics are trying to build.
+
+Reply-to-follow nudges and invite loops sit last deliberately. Both reuse logic the earlier epics create, and both are cheap enough that running them early would mean spending the quarter on the smallest available wins.
+
+## What should be measured
+
+Three numbers, chosen to be read together rather than separately:
+
+Share of new users reaching five follows in their first session - the new activation definition, and the direct test of whether the reframe holds. Day-seven retention segmented by acquisition source - which reveals whether preserving arrival context actually matters or whether all sources converge. Mid-tier creator payout satisfaction, by survey or churn - the leading indicator for content supply.
+
+If the first number rises and the second does not follow, the activation threshold is wrong and should be retested at a different follow count. That failure case is worth stating in advance, because a metric that cannot fail is not a metric.
+
+<Callout title="What I'd do differently">
+
+The follow-count threshold is the weakest link. I took five follows from general social-product benchmarks, but the correct number for X specifically is an empirical question that a cohort analysis would answer in an afternoon with internal data. Building a guided flow around the wrong threshold would produce a worse outcome than the current generic flow, so that measurement is the first thing I would want before any of this shipped.
+
+I would also have ranked rather than scored from the start. Producing RICE numbers I could not source made the analysis look more quantitative than it was, and the ordering - which is the actual output - never depended on them.
+
+</Callout>
