@@ -4,13 +4,14 @@
  * server and a client component can both import them without either changing
  * kind. Change the frame here, once.
  *
- * A fixed 9:16 frame, capped at 20rem and centred, with a hairline border and
- * surface background so letterboxing reads as deliberate. Images inside use
- * `fill` with `object-contain`, so no screenshot is cropped and the frame's
- * height never depends on the image.
+ * The frame is an invisible box: no border, no background. It exists only to
+ * hold a stable height - a fixed 9:16 ratio, capped at 20rem and centred - so
+ * the figure is the same size whichever image is inside it, and BeforeAfter
+ * never shifts the page when toggled. Images use `fill` with `object-contain`,
+ * so none is cropped. One narrower or wider than 9:16 sits inside the box with
+ * empty space beside or above it.
  */
-export const IMAGE_FRAME_CLASS =
-  "relative mx-auto aspect-[9/16] w-full max-w-[20rem] border border-border bg-surface";
+export const IMAGE_FRAME_CLASS = "relative mx-auto aspect-[9/16] w-full max-w-[20rem]";
 
 /** `next/image` `sizes` for an image filling the frame. */
 export const IMAGE_FRAME_SIZES = "(max-width: 22.5rem) 100vw, 20rem";

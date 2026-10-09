@@ -240,3 +240,20 @@ Shared frame: the frame and caption treatment that `BeforeAfter` introduced move
 The VitaFit screenshots measure 0.458-0.516 wide-to-tall (374-412 x 787-823), all narrower than the 9:16 frame. They show uncropped, with bands either side: at 320px wide, `reward.png` (0.458) is about 261px wide with roughly 30px bands. All three are under 420px wide, so on a 2x display they upscale and may look soft. Wider exports would fix that.
 
 Known lint finding, not from this change: `eslint components` reports `react-hooks/set-state-in-effect` in `ThemeToggle.tsx`'s layout effect. The file is unchanged since the theme toggle landed, and this stage did not touch it.
+
+## 2026-10-09 - Invisible image frame and the fictional-scenario badge
+
+AltAcad and VitaFit's second badge changed from "ASSIGNMENT BRIEF" to "FICTIONAL SCENARIO", in their frontmatter only. It shows on their mastheads, case study bars and `/work` cards.
+
+The image frame no longer draws anything. `border border-border bg-surface` was removed from `IMAGE_FRAME_CLASS` in `components/image-frame.ts`. The box keeps its 9:16 ratio, centring and `max-w-[20rem]`, and exists only to hold a stable height, so a BeforeAfter toggle never shifts the page. `Screen` and `BeforeAfter` pick this up through the shared constant, with no change to either component.
+
+A taller ratio was considered, so every image would fit by width and render at the full 320px, and rejected on cost. Measured from the files (width x height, w/h, height at 320px wide):
+
+- strava/countdown-before 652 x 1280, 0.5094, 628.2px; countdown-after 768 x 1376, 0.5581, 573.3px
+- strava/save-before 653 x 1280, 0.5102, 627.3px; save-after 768 x 1376, 0.5581, 573.3px
+- strava/sheet-before 297 x 591, 0.5025, 636.8px; sheet-after 376 x 671, 0.5604, 571.1px
+- vitafit/home 412 x 799, 0.5156, 620.6px; challenge 374 x 787, 0.4752, 673.4px; reward 377 x 823, 0.4581, 698.6px
+
+Fitting the tallest, `reward.png` (0.4581), needs a box of 320 x 698.6px. The shortest, `sheet-after.png` (0.5604), would then sit 571.1px tall in it, leaving 127.5px empty, about 64px above and below, well over the roughly 80px budget. 9:16 stays (a 568.9px box). Images narrower than 0.5625 fit by height and show 260.6-293.3px wide. The afters (0.558-0.560) show at 317.5-318.8px.
+
+The better fix, not applied: size each figure to its own content. `Screen` holds one image and needs no fixed box, so it can render at the image's intrinsic ratio, full width, with no empty space. `BeforeAfter` only needs a stable height across its own pair, so its box can match the taller of the two. That leaves 53.9-65.7px of space under the shorter image in each Strava pair, all under 80px. It needs the image dimensions at build time, which neither component has today.
