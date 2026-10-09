@@ -265,3 +265,14 @@ Four case studies were replaced with revised versions as supplied: `strava.mdx`,
 Why: the studies now open on the problem rather than on the task that produced them, so they read as product work, not coursework. The disclaimers still say plainly what is fictional (VitaFit, AltAcad, Emburse's scenario) and what is independent and unaffiliated (Strava, Uber, Twitter, Emburse). Uber's subtitle became "Finding out the problem was narrower than it looked" and its first heading "It looks like a universal problem. It isn't.", with the heading count unchanged at five. The subtitle reaches the homepage and `/work` cards through frontmatter with no other edit.
 
 A case-insensitive search of `content/` for "brief", "assignment" and "programme" still finds four uses that refer to the original task. `zomato.mdx` line 100 ("because the brief presented them as consecutive parts") and `homepage.json` lines 34 and 35 ("Briefs arrive pre-framed", "Uber: the brief said universal, research said concentrated") are left as they are for the author to decide. Line 35 no longer matches Uber's reframed opening. The other three hits are unrelated senses: "briefly", and a loyalty "points programme" twice.
+
+## 2026-10-09 - Last section activates in the index, four small edits
+
+Section index fix: the last section never became active when it was short. The page ran out of scroll before its heading could rise past the 264px activation line, so the position rule never selected it. `resolveActive` in `SectionIndex` now checks the bottom first. `maxScroll = document.documentElement.scrollHeight - window.innerHeight` is the furthest the page can scroll. If the page scrolls at all (`maxScroll > 2`) and `window.scrollY >= maxScroll - 2`, the last heading is set active and the function returns. The 2px tolerance (`BOTTOM_TOLERANCE`) covers zoomed and high-density screens, where the maximum scroll position can stop a fraction short. Every other position uses the existing rule. Clicking the last index item asks the browser to scroll its heading to 248px from the top. On a short final section it cannot, so the scroll stops at the bottom, and the scroll and `hashchange` handlers then select the last section through the same check.
+
+Four edits:
+
+- Uber's frontmatter `title` changed from "Uber Find My Ride" to "Uber". That reaches the masthead, the page title, the case study bar and both work cards.
+- The grades were removed from the homepage education details: "B.E. Computer Engineering with Honors in AI & ML", "HSC" and "SSC".
+- `TextLink` opens files and other sites in a new tab with `target="_blank"` and `rel="noopener noreferrer"`. App routes, `mailto:` links and in-page anchors such as `#work` stay in the current tab. The anchors are left out because opening an in-page jump in a new tab would be wrong.
+- `WorkCard` shows the study title in `--accent` instead of `--text-muted`. Only the colour changed.

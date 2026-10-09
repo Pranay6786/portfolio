@@ -23,7 +23,7 @@ export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
       >
         {study.subtitle}
       </h3>
-      <p id={`card-${study.slug}-title`} className="mt-2 font-sans text-[0.875rem] text-muted">
+      <p id={`card-${study.slug}-title`} className="mt-2 font-sans text-[0.875rem] text-accent">
         {study.title}
       </p>
       <p className="mt-4 max-w-[40rem] font-serif text-[1.0625rem] leading-[1.7] text-text">
