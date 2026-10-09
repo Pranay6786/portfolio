@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { MASTHEAD_SENTINEL_ID } from "@/lib/case-study-bar";
 
-/** Height of the site header the bar sits under: `h-14`. */
-const HEADER_HEIGHT = 56;
+/** Height of the site header band the bar sits under: `h-16`. */
+const HEADER_HEIGHT = 64;
 
 /**
  * Condensed masthead for a case study - title, subtitle and badges - shown once
@@ -61,7 +61,7 @@ export default function CaseStudyBar({
   return (
     <div
       aria-hidden="true"
-      className="sticky top-14 z-40 -mb-28 h-28 w-full border-b border-border bg-bg motion-safe:transition-opacity motion-safe:duration-200 motion-safe:starting:opacity-0"
+      className="sticky top-16 z-40 -mb-28 h-28 w-full border-b border-border bg-bg motion-safe:transition-opacity motion-safe:duration-200 motion-safe:starting:opacity-0"
     >
       <div className="mx-auto flex h-full w-full max-w-[61rem] items-center px-5 sm:px-6">
         <div className="flex w-full min-w-0 flex-col gap-1">

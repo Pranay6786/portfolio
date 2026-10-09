@@ -293,3 +293,18 @@ Icons arrive for the first time, in `components/icons.tsx` only: a home mark, a 
 Two small fixes: the first background paragraph on the homepage gained one sentence naming the two engineering-degree projects, and `TextLink` adds a visually hidden " (opens in new tab)" to links that open in a new tab, so screen reader users are warned.
 
 Watch item: the nav labels are the kickers as written, so "Build" links to the Work section and "Work" links to Background.
+
+## 2026-10-09 - Larger pill nav aligned to the content, offsets moved
+
+The header pill grew and now spans the content width. The band went from 56px to 64px (`h-14` to `h-16`) and the pill from 40px to 48px (`h-10` to `h-12`), keeping 8px above and below. The band's inner wrapper copies `main`'s frame exactly (`mx-auto max-w-[61rem] px-5 sm:px-6`) and the pill fills it (`w-full`), so the pill's edges sit on the content's edges below at every width. A `max-w-[61rem]` on the pill itself would have matched `main`'s outer box instead and overhung the text by 1.5rem each side on wide screens. Contents are spread with `justify-between`: an icon button at each end and, on the homepage, the section links between. The two ends are both 36px icon buttons (`h-9 w-9`, up from 32px), so the links sit centred. The divider between the home mark and the links was dropped, since the spacing now separates them. Links went from 0.8125rem to 0.875rem with `px-3.5 py-2`.
+
+On every page except `/`, the "Pranay Patil" text link became the home icon linking to `/`, with `aria-label="Home"` and the homepage home mark's styling.
+
+Offsets moved with the taller band:
+
+- Homepage sections: `scroll-mt-16` to `scroll-mt-20`, so a clicked section lands at 80px, 16px under the band. The nav's activation line went from 80 to 96, 16px below that.
+- Case study bar: `top-14` to `top-16`, and its observer's `HEADER_HEIGHT` from 56 to 64, so it still shows once the masthead passes under the band. The band and bar together are now 64 + 112 = 176px.
+- `ArticleHeading` scroll margin: `scroll-mt-[15.5rem]` to `scroll-mt-[16rem]` (256px), 80px below the bar. The `SectionIndex` activation line went from 264 to 272, 16px below that.
+- Section index nav: `top-[12rem]` to `top-[12.5rem]` (200px), 24px below the bar.
+
+`background.kicker` in `content/homepage.json` changed from "Work" to "About". The nav link and the Background section's kicker now read "About" instead of a second "Work" beside the "Build" link to the work section.
