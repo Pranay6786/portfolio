@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ArticleHeading from "@/components/ArticleHeading";
+import BeforeAfter from "@/components/BeforeAfter";
 import Callout from "@/components/Callout";
 import CaseStudyBar from "@/components/CaseStudyBar";
 import Confidence from "@/components/Confidence";
@@ -20,6 +21,7 @@ import {
 export const dynamicParams = false;
 
 const mdxComponents: MdxComponentMap = {
+  BeforeAfter,
   Callout,
   Confidence,
   MetricStrip,
