@@ -5,7 +5,7 @@ import type { HomepageContent } from "@/lib/homepage";
 /** Skill groups, each a mono heading over a wrap of pills. */
 export default function SkillsSection({ content }: { content: HomepageContent["skills"] }) {
   return (
-    <section id="skills" aria-labelledby="skills-title" className="scroll-mt-20 py-16 sm:py-24">
+    <section id="skills" aria-labelledby="skills-title" className="scroll-mt-[6.25rem] py-16 sm:py-24">
       <SectionHeader
         titleId="skills-title"
         number={content.number}

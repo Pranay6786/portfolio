@@ -338,3 +338,18 @@ Offsets back to the 56px band:
 - Section index nav: `top-[13.5rem]` to `top-[12rem]` (192px), 24px below the bar, leaving 708px on a 900px screen.
 
 Calculated fit at `md` (768px): the pill is min(720px, 52rem = 832px) = 720px wide and 706px inside. The two 36px buttons leave 634px, and the seven links need about 405-432px (41 characters at 13px plus 7 x 16px padding), so they fit on one line with about 200px to spare.
+
+## 2026-10-09 - Pill lowered, bolder labels and icons
+
+The pill sits lower without a gap above the header. The header stays `sticky top-0`, the band grew from `h-14` to `h-[4.75rem]` (76px), and the band's inner wrapper aligns the pill to the bottom with `items-end pb-1`. The 48px pill now runs from 24px to 72px, 4px above the band's bottom edge, about half a centimetre lower than before. The band still starts at 0, so on inner pages its solid `--bg` covers the full 76px, including the 24px above the pill.
+
+Weight and size: the nav links are `font-semibold` and grew from 0.8125rem to 0.875rem. The shared icon `strokeWidth` went from 1.75 to 2.25, with paths, viewBox and the 18px size unchanged. `skills.kicker` became "Skills".
+
+Calculated fit at `md` (768px): the pill is 720px wide and 706px inside, and the two 36px buttons leave 634px. The labels are now 42 characters at 14px semibold, about 0.6-0.65em each, so 353-382px, plus 7 x 16px padding is 465-494px. They fit on one line with 140-169px to spare.
+
+Offsets for the 76px band:
+
+- Homepage sections: `scroll-mt-20` to `scroll-mt-[6.25rem]`, so a clicked section lands at 100px, 24px under the band and 28px under the pill. Nav activation line: 96 to 116, 16px below that.
+- `CaseStudyBar`: `top-14` to `top-[4.75rem]`, `HEADER_HEIGHT` 56 to 76. Band and bar together: 76 + 112 = 188px.
+- `ArticleHeading`: `scroll-mt-[15.5rem]` to `scroll-mt-[16.75rem]` (268px), 80px below the bar. `SectionIndex` activation line: 264 to 284, 16px below that.
+- Section index nav: `top-[12rem]` to `top-[13.25rem]` (212px), 24px below the bar, leaving 688px on a 900px screen.

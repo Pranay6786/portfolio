@@ -5,7 +5,7 @@ import type { HomepageContent } from "@/lib/homepage";
 /** The decision steps, each pointing at the case study where it was used. */
 export default function DecideSection({ content }: { content: HomepageContent["decide"] }) {
   return (
-    <section id="decide" aria-labelledby="decide-title" className="scroll-mt-20 py-16 sm:py-24">
+    <section id="decide" aria-labelledby="decide-title" className="scroll-mt-[6.25rem] py-16 sm:py-24">
       <SectionHeader
         titleId="decide-title"
         number={content.number}
