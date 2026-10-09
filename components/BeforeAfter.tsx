@@ -2,6 +2,11 @@
 
 import Image from "next/image";
 import { useId, useState } from "react";
+import {
+  IMAGE_CAPTION_CLASS,
+  IMAGE_FRAME_CLASS,
+  IMAGE_FRAME_SIZES,
+} from "@/components/image-frame";
 
 type Side = "before" | "after";
 
@@ -23,7 +28,8 @@ const LABELS: Record<Side, string> = {
  * keeps its layout box, so lazy loading still fetches it as the frame nears
  * the viewport and it is ready before it is shown. `display: none` would stop
  * a lazy image loading at all. `object-contain` keeps either proportion whole
- * in the 9:16 frame, so switching never changes the figure's height.
+ * in the 9:16 frame, so switching never changes the figure's height. The
+ * frame and caption classes are shared with Screen, in image-frame.ts.
  */
 export default function BeforeAfter({
   before,
@@ -73,14 +79,14 @@ export default function BeforeAfter({
         ))}
       </fieldset>
 
-      <div className="relative mx-auto mt-4 aspect-[9/16] w-full max-w-[20rem] border border-border bg-surface">
+      <div className={`mt-4 ${IMAGE_FRAME_CLASS}`}>
         {SIDES.map((side) => (
           <Image
             key={side}
             src={images[side].src}
             alt={images[side].alt}
             fill
-            sizes="(max-width: 22.5rem) 100vw, 20rem"
+            sizes={IMAGE_FRAME_SIZES}
             aria-hidden={active === side ? undefined : true}
             className={active === side ? "object-contain" : "object-contain invisible"}
           />
@@ -88,7 +94,7 @@ export default function BeforeAfter({
       </div>
 
       {caption ? (
-        <figcaption className="mx-auto mt-3 max-w-[20rem] font-sans text-[0.8125rem] leading-5 text-faint">
+        <figcaption className={IMAGE_CAPTION_CLASS}>
           {caption}
         </figcaption>
       ) : null}

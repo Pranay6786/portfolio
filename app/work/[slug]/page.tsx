@@ -7,6 +7,7 @@ import CaseStudyBar from "@/components/CaseStudyBar";
 import Confidence from "@/components/Confidence";
 import ContentTable from "@/components/ContentTable";
 import MetricStrip from "@/components/MetricStrip";
+import Screen from "@/components/Screen";
 import SectionIndex from "@/components/SectionIndex";
 import { MASTHEAD_SENTINEL_ID } from "@/lib/case-study-bar";
 import {
@@ -25,6 +26,7 @@ const mdxComponents: MdxComponentMap = {
   Callout,
   Confidence,
   MetricStrip,
+  Screen,
   h2: ArticleHeading,
   table: ContentTable,
 };
