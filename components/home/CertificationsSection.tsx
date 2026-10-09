@@ -8,7 +8,7 @@ export default function CertificationsSection({
   content: HomepageContent["certifications"];
 }) {
   return (
-    <section id="certifications" aria-labelledby="certifications-title" className="scroll-mt-24 py-16 sm:py-24">
+    <section id="certifications" aria-labelledby="certifications-title" className="scroll-mt-20 py-16 sm:py-24">
       <SectionHeader
         titleId="certifications-title"
         number={content.number}

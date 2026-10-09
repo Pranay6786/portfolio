@@ -323,3 +323,18 @@ Offsets moved with the 80px band:
 - Section index nav: `top-[12.5rem]` to `top-[13.5rem]` (216px), 24px below the bar. That leaves 684px on a 900px screen for an index of about 460px.
 
 Content: `skills.kicker` changed from "Stack" to "Skill", and `education.publication` now opens "Publication:" instead of "Published:". The publication line takes the institution's type treatment - serif, 1.0625rem, `leading-snug` - in italic and `--text-muted` instead of 0.875rem in `--text-faint`, with its position and `mt-10` unchanged. It keeps regular weight, not the institutions' semibold, so it reads as a note under the list rather than a fourth entry.
+
+## 2026-10-09 - Pill nav scaled to 0.75x and narrowed
+
+The header pill was scaled down by roughly 0.75x. Band `h-20` to `h-14` (56px), pill `h-16` to `h-12` (48px, now 4px clear above and below), icon buttons `h-11 w-11` to `h-9 w-9` (36px), links 0.9375rem to 0.8125rem with `py-2`, pill padding `px-2` to `px-1.5`. The pill is also narrower: the band's inner wrapper still copies `main`'s frame (`max-w-[61rem] px-5 sm:px-6`), and inside it the pill is `mx-auto w-full max-w-[52rem]`. It is centred and narrower than the content on wide screens, and still shrinks with the frame on small ones. `justify-evenly` on the links and the centred two-icon layout on other pages are unchanged.
+
+The icon glyphs went from 16px to 18px through the shared `Icon` wrapper's `width` and `height` defaults, so they do not look lost in the 36px buttons. Paths, viewBox and stroke width are unchanged.
+
+Offsets back to the 56px band:
+
+- Homepage sections: `scroll-mt-24` to `scroll-mt-20`, so a clicked section lands at 80px, 24px under the band. Nav activation line: 112 to 96, 16px below that.
+- `CaseStudyBar`: `top-20` to `top-14`, `HEADER_HEIGHT` 80 to 56. Band and bar together: 56 + 112 = 168px.
+- `ArticleHeading`: `scroll-mt-[17rem]` to `scroll-mt-[15.5rem]` (248px), 80px below the bar. `SectionIndex` activation line: 288 to 264, 16px below that.
+- Section index nav: `top-[13.5rem]` to `top-[12rem]` (192px), 24px below the bar, leaving 708px on a 900px screen.
+
+Calculated fit at `md` (768px): the pill is min(720px, 52rem = 832px) = 720px wide and 706px inside. The two 36px buttons leave 634px, and the seven links need about 405-432px (41 characters at 13px plus 7 x 16px padding), so they fit on one line with about 200px to spare.

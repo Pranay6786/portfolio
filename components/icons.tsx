@@ -2,7 +2,7 @@ import type { ReactNode, SVGProps } from "react";
 
 /*
  * The project's only icons: hand-written inline SVG, no library. Each is drawn
- * on a 24-unit grid and rendered at 16px, stroked in currentColor at one shared
+ * on a 24-unit grid and rendered at 18px, stroked in currentColor at one shared
  * width, and hidden from assistive technology - the control around an icon
  * carries its accessible name. Add an icon here or nowhere.
  */
@@ -12,8 +12,8 @@ type IconProps = Omit<SVGProps<SVGSVGElement>, "children">;
 function Icon({ children, ...props }: IconProps & { children: ReactNode }) {
   return (
     <svg
-      width={16}
-      height={16}
+      width={18}
+      height={18}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

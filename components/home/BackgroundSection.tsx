@@ -9,7 +9,7 @@ export default function BackgroundSection({
   content: HomepageContent["background"];
 }) {
   return (
-    <section id="background" aria-labelledby="background-title" className="scroll-mt-24 py-16 sm:py-24">
+    <section id="background" aria-labelledby="background-title" className="scroll-mt-20 py-16 sm:py-24">
       <SectionHeader
         titleId="background-title"
         number={content.number}
