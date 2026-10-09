@@ -18,7 +18,7 @@
     "kicker": "Build",
     "title": "Selected Work",
     "intro": "Four projects, four different problems.",
-    "allWorkLabel": "All work, including five shorter pieces",
+    "allWorkLabel": "All work",
     "allWorkHref": "/work"
   },
 
@@ -88,7 +88,7 @@
       ]
     },
     "linkText": "More about the salon, and what it taught me",
-    "linkHref": "/about"
+    "linkHref": "/work/salon"
   },
 
   "skills": {

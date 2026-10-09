@@ -201,3 +201,13 @@ Section components, all server components in `components/home/`:
 - `TextLink` and `ActionLinks`: accent links underlined like article links, using `next/link` for app routes and a plain `<a>` for anchors, files, `mailto:` and external sites.
 
 Work cards reuse the existing `MetricStrip`. `/work` and `/about` are linked but not built yet, so they 404 for now. The résumé is committed as `public/resume.pdf`, the path the JSON links to; it was supplied as `PranayPatil_Resume.pdf` and renamed to match.
+
+## 2026-10-09 - Salon case study and the /work index
+
+`content/case-studies/salon.mdx` adds the first `kind: "library"` study, placed as supplied (`order: 5`). It routes through the existing `app/work/[slug]/page.tsx` with no code change. Its section index lists its five `##` headings, and it is not on the homepage, whose cards stay limited to `kind: "featured"`.
+
+The work card moved out of `WorkSection` into `components/WorkCard.tsx`, unchanged, so the homepage and `/work` render the same card from frontmatter: subtitle as an h3, then title, summary, badges as `Pill`s and the metric strip, with the whole card linking to `/work/{slug}`. `WorkSection` now renders `<WorkCard>` per list item.
+
+`app/work/page.tsx` is a static index of every case study, framed like the homepage (`max-w-[61rem]`, same padding). A header with a mono kicker, a serif h1 and a one-line intro sits above two groups, featured then library, each under a mono heading in `--text-faint` and kept in `order`. A group with no studies is omitted with its heading. The page's copy - kicker, title, intro and the two group headings - lives in `content/work.json`, not the component, per the rule that all portfolio copy lives in `content/`. `lib/work-index.ts` validates it with the same strictness as `homepage.json`: every field is required and non-empty, unknown keys are rejected, and errors name the field. The metadata title and description come from the same file.
+
+Two values in `content/homepage.json` changed, nothing else: `background.linkHref` from `/about` to `/work/salon`, and `work.allWorkLabel` from "All work, including five shorter pieces" to "All work". With `/work` and `/work/salon` built, every internal link on the homepage now resolves.

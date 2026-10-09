@@ -1,0 +1,9 @@
+{
+  "kicker": "Work",
+  "title": "Work",
+  "intro": "Every case study on this site. The four featured pieces first, then shorter work.",
+  "groups": {
+    "featured": "Featured",
+    "library": "Library"
+  }
+}
