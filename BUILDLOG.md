@@ -308,3 +308,18 @@ Offsets moved with the taller band:
 - Section index nav: `top-[12rem]` to `top-[12.5rem]` (200px), 24px below the bar.
 
 `background.kicker` in `content/homepage.json` changed from "Work" to "About". The nav link and the Background section's kicker now read "About" instead of a second "Work" beside the "Build" link to the work section.
+
+## 2026-10-09 - Spread and enlarged pill nav, two content edits
+
+On the homepage the section links now spread across the pill instead of clumping in the middle. The `<nav>` takes `flex-1` between the two `shrink-0` icon buttons, and its list uses `justify-evenly`. The brief offered `justify-between` or `justify-around`. `justify-between` would put the end links 8px from the buttons with about 60px between links. `justify-around` gives the ends half a gap. `justify-evenly` makes every gap equal, between links and between an end link and its button, which reads as one even row. On other pages the pill holds only the two icon buttons and centres them together (`justify-center gap-2`), still spanning the content width.
+
+Sizes: band `h-16` to `h-20` (80px), pill `h-12` to `h-16` (64px, 8px clear above and below), icon buttons `h-9 w-9` to `h-11 w-11` (44px), pill padding `px-1.5` to `px-2`, links 0.875rem to 0.9375rem with `px-2 py-2.5`, since the even spacing now supplies the gaps. Calculated fit at the `md` breakpoint (768px): the pill is 720px wide and 702px inside, the buttons take 88px, leaving 614px for links that need about 450-481px (41 characters at 15px plus 7 x 16px padding), so they fit on one line with 133-164px to spare.
+
+Offsets moved with the 80px band:
+
+- Homepage sections: `scroll-mt-20` to `scroll-mt-24`, so a clicked section lands at 96px, 16px under the band. Nav activation line: 96 to 112, 16px below that.
+- `CaseStudyBar`: `top-16` to `top-20`, and `HEADER_HEIGHT` from 64 to 80. Band and bar together: 80 + 112 = 192px.
+- `ArticleHeading`: `scroll-mt-[16rem]` to `scroll-mt-[17rem]` (272px), 80px below the bar. `SectionIndex` activation line: 272 to 288, 16px below that.
+- Section index nav: `top-[12.5rem]` to `top-[13.5rem]` (216px), 24px below the bar. That leaves 684px on a 900px screen for an index of about 460px.
+
+Content: `skills.kicker` changed from "Stack" to "Skill", and `education.publication` now opens "Publication:" instead of "Published:". The publication line takes the institution's type treatment - serif, 1.0625rem, `leading-snug` - in italic and `--text-muted` instead of 0.875rem in `--text-faint`, with its position and `mt-10` unchanged. It keeps regular weight, not the institutions' semibold, so it reads as a note under the list rather than a fourth entry.

@@ -17,7 +17,7 @@ export default function WorkSection({
   studies: CaseStudyFrontmatter[];
 }) {
   return (
-    <section id="work" aria-labelledby="work-title" className="scroll-mt-20 py-16 sm:py-24">
+    <section id="work" aria-labelledby="work-title" className="scroll-mt-24 py-16 sm:py-24">
       <SectionHeader
         titleId="work-title"
         number={content.number}

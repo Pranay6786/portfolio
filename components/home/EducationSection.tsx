@@ -8,7 +8,7 @@ export default function EducationSection({
   content: HomepageContent["education"];
 }) {
   return (
-    <section id="education" aria-labelledby="education-title" className="scroll-mt-20 py-16 sm:py-24">
+    <section id="education" aria-labelledby="education-title" className="scroll-mt-24 py-16 sm:py-24">
       <SectionHeader
         titleId="education-title"
         number={content.number}
@@ -35,7 +35,7 @@ export default function EducationSection({
         ))}
       </ul>
 
-      <p className="mt-10 max-w-[40rem] font-serif text-[0.875rem] italic leading-6 text-faint">
+      <p className="mt-10 max-w-[40rem] font-serif text-[1.0625rem] italic leading-snug text-muted">
         {content.publication}
       </p>
     </section>

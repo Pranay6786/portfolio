@@ -93,7 +93,7 @@
 
   "skills": {
     "number": "04",
-    "kicker": "Stack",
+    "kicker": "Skill",
     "title": "Skills & Stack",
     "groups": [
       {
@@ -157,7 +157,7 @@
         "detail": "SSC"
       }
     ],
-    "publication": "Published: MetaCampus - Advancing Online Education with Virtual Classroom, INOCON 2024."
+    "publication": "Publication: MetaCampus - Advancing Online Education with Virtual Classroom, INOCON 2024."
   },
 
   "contact": {
