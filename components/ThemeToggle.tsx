@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useSyncExternalStore } from "react";
 import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
 
 /** Dark is the default: light is the only theme carrying a data attribute. */
@@ -22,41 +22,68 @@ function readStoredTheme(): Theme | null {
   }
 }
 
+/*
+ * The theme as an external store, read with useSyncExternalStore instead of
+ * copied into state from an effect. The stored preference is the source of
+ * truth. `chosen` holds a choice made on this page, so a switch still applies
+ * when localStorage cannot be written. Listeners are the mounted toggles.
+ */
+let chosen: Theme | null = null;
+const listeners = new Set<() => void>();
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+function getSnapshot(): Theme {
+  return chosen ?? readStoredTheme() ?? "dark";
+}
+
+/** The server cannot see localStorage, so it renders the default. */
+function getServerSnapshot(): Theme {
+  return "dark";
+}
+
+function setTheme(theme: Theme) {
+  chosen = theme;
+  applyTheme(theme);
+
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch {
+    // Preference cannot be persisted here; the switch still applies.
+  }
+
+  listeners.forEach((listener) => listener());
+}
+
 /**
  * Switches between the dark and light token sets. The inline script in the root
- * layout has already applied the stored choice before first paint; this syncs
- * the button's own label to it in a layout effect, which runs before paint, so
- * the label never shows the wrong state. The same effect re-applies the
- * attribute, which React's Strict Mode remount clears in development.
+ * layout has already applied the stored choice before first paint, so the
+ * colours never flash; this component only owns the button.
+ *
+ * The label reads the store. During hydration React uses the server snapshot,
+ * matching the server HTML, then re-renders with the stored theme straight
+ * after. The layout effect re-applies the stored attribute before paint, which
+ * React's Strict Mode remount clears in development. It reads the store rather
+ * than the rendered value, which is still the server default at that point.
  */
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   useLayoutEffect(() => {
-    const stored = readStoredTheme();
-    if (stored) {
-      setTheme(stored);
-      applyTheme(stored);
-    }
+    applyTheme(getSnapshot());
   }, []);
 
   const next: Theme = theme === "dark" ? "light" : "dark";
 
-  function toggle() {
-    setTheme(next);
-    applyTheme(next);
-
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, next);
-    } catch {
-      // Preference cannot be persisted here; the switch still applies.
-    }
-  }
-
   return (
     <button
       type="button"
-      onClick={toggle}
+      onClick={() => setTheme(next)}
       aria-label={`Switch to ${next} theme`}
       className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted"
     >
