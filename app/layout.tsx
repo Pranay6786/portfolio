@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import SiteHeader from "@/components/SiteHeader";
+import { getHomepageNav } from "@/lib/homepage";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
 import "./globals.css";
 
@@ -47,7 +48,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col">
-        <SiteHeader />
+        {/* The homepage nav labels are read here, on the server, from homepage.json. */}
+        <SiteHeader navItems={getHomepageNav()} />
         {children}
       </body>
     </html>

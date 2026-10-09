@@ -5,7 +5,7 @@ import type { HomepageContent } from "@/lib/homepage";
 /** Closing lines and the ways to get in touch. */
 export default function ContactSection({ content }: { content: HomepageContent["contact"] }) {
   return (
-    <section aria-labelledby="contact-title" className="py-16 sm:py-24">
+    <section id="contact" aria-labelledby="contact-title" className="scroll-mt-16 py-16 sm:py-24">
       <SectionHeader
         titleId="contact-title"
         number={content.number}

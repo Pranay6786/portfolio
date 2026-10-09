@@ -276,3 +276,20 @@ Four edits:
 - The grades were removed from the homepage education details: "B.E. Computer Engineering with Honors in AI & ML", "HSC" and "SSC".
 - `TextLink` opens files and other sites in a new tab with `target="_blank"` and `rel="noopener noreferrer"`. App routes, `mailto:` links and in-page anchors such as `#work` stay in the current tab. The anchors are left out because opening an in-page jump in a new tab would be wrong.
 - `WorkCard` shows the study title in `--accent` instead of `--text-muted`. Only the colour changed.
+
+## 2026-10-09 - Floating pill nav, icons, and two small fixes
+
+The site header is now a pill floating in a sticky 56px band. `SiteHeader` became a client component, the fifth, to read `usePathname()` and track the active section. The pill is 40px tall (`h-10`), fully rounded, with a `--surface` background and a `--border` hairline, centred in the band with 8px above and below.
+
+- On `/` the pill holds a home mark (`href="#"`, named "Back to top"), a hairline divider, links to the seven homepage sections, and the theme toggle. The band is transparent and ignores pointer events, so the page shows around the pill and stays clickable beside it. Below `md` the divider and section links are hidden, leaving the home mark and toggle.
+- Elsewhere the pill holds "Pranay Patil" linking to `/`, and the toggle. The band keeps a solid `--bg` background there, because the case study bar sits directly under it at `top-14` and article text must not show between them. The band is 56px on every page, so the case study offsets (bar at 56px, headings landing at 248px, activation at 264px, index at 192px) are unchanged.
+
+The section link labels are the section kickers from `content/homepage.json`. `getHomepageNav` in `lib/homepage.ts` maps the seven content keys to `{ id, label }`, and the root layout reads it on the server and passes it to `SiteHeader` as props. No label appears in component source. Each homepage section now has an `id` matching its content key, with `work` unchanged so the hero's "View work" link still resolves, and `scroll-mt-16` (64px), so a clicked section lands 8px below the band. Its link is active once the section's top passes 80px, 16px below where it lands.
+
+Active-section tracking is shared, not duplicated. The section index and the homepage nav need the same algorithm: positions read on a passive scroll listener throttled to one pass per animation frame, plus resize and hash changes, with the last element whose top has passed an activation line winning, and the last element winning outright at the bottom of the page. That moved into `useActiveSection` and `resolveActiveId` in `lib/use-active-section.ts`. The only real difference is a parameter: before anything has passed the line, the index falls back to its first section and the nav to none, since the homepage opens on a hero that is not in the nav. `SectionIndex` now calls the hook with its existing 264px line and the fallback on, and its behaviour is unchanged. That one change to `SectionIndex` was the cost of sharing the logic.
+
+Icons arrive for the first time, in `components/icons.tsx` only: a home mark, a sun and a moon, hand-written on a 24-unit grid, rendered at 16px in `currentColor` with one shared 1.75 stroke width, `aria-hidden` and `focusable="false"`. `ThemeToggle` shows the sun while light is active and the moon while dark is, in place of the text label. Its `aria-label` ("Switch to light theme" or "Switch to dark theme") still names the control. The toggle and home mark are 32px hit areas. Hover changes colour only.
+
+Two small fixes: the first background paragraph on the homepage gained one sentence naming the two engineering-degree projects, and `TextLink` adds a visually hidden " (opens in new tab)" to links that open in a new tab, so screen reader users are warned.
+
+Watch item: the nav labels are the kickers as written, so "Build" links to the Work section and "Work" links to Background.

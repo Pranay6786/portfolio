@@ -281,6 +281,31 @@ export function validateHomepage(value: unknown): HomepageContent {
   };
 }
 
+export type HomepageNavItem = {
+  id: string;
+  label: string;
+};
+
+/**
+ * The homepage sections the site header links to, in page order. Each id is
+ * the section's content key, which is also its element id on the page.
+ */
+const NAV_SECTIONS = [
+  "work",
+  "decide",
+  "background",
+  "skills",
+  "certifications",
+  "education",
+  "contact",
+] as const;
+
+/** The site header's section links, labelled with each section's kicker. */
+export function getHomepageNav(): HomepageNavItem[] {
+  const content = getHomepageContent();
+  return NAV_SECTIONS.map((key) => ({ id: key, label: content[key].kicker }));
+}
+
 /** The homepage copy from content/homepage.json, parsed and validated. */
 export function getHomepageContent(): HomepageContent {
   const source = fs.readFileSync(path.join(process.cwd(), HOMEPAGE_FILE), "utf8");

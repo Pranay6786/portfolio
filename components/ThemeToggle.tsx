@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useSyncExternalStore } from "react";
+import { MoonIcon, SunIcon } from "@/components/icons";
 import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
 
 /** Dark is the default: light is the only theme carrying a data attribute. */
@@ -65,7 +66,11 @@ function setTheme(theme: Theme) {
  * layout has already applied the stored choice before first paint, so the
  * colours never flash; this component only owns the button.
  *
- * The label reads the store. During hydration React uses the server snapshot,
+ * The button shows the sun while light is active and the moon while dark is.
+ * The icons are hidden from assistive technology; the aria-label names the
+ * control and says what pressing it does.
+ *
+ * The icon reads the store. During hydration React uses the server snapshot,
  * matching the server HTML, then re-renders with the stored theme straight
  * after. The layout effect re-applies the stored attribute before paint, which
  * React's Strict Mode remount clears in development. It reads the store rather
@@ -85,9 +90,9 @@ export default function ThemeToggle() {
       type="button"
       onClick={() => setTheme(next)}
       aria-label={`Switch to ${next} theme`}
-      className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted"
+      className="inline-flex h-8 w-8 items-center justify-center rounded-full text-muted hover:text-text"
     >
-      {theme}
+      {theme === "light" ? <SunIcon /> : <MoonIcon />}
     </button>
   );
 }

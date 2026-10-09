@@ -19,7 +19,8 @@ const CLASS_NAME =
 /**
  * An inline link in the accent, underlined like article links. App routes go
  * through next/link; anchors, files, mailto and external links are plain <a>,
- * and files and external links open in a new tab.
+ * and files and external links open in a new tab, with a visually hidden
+ * warning for screen reader users.
  */
 export default function TextLink({ href, children }: { href: string; children: string }) {
   if (isRoute(href)) {
@@ -34,6 +35,7 @@ export default function TextLink({ href, children }: { href: string; children: s
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={CLASS_NAME}>
         {children}
+        <span className="sr-only"> (opens in new tab)</span>
       </a>
     );
   }

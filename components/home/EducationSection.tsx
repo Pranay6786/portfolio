@@ -8,7 +8,7 @@ export default function EducationSection({
   content: HomepageContent["education"];
 }) {
   return (
-    <section aria-labelledby="education-title" className="py-16 sm:py-24">
+    <section id="education" aria-labelledby="education-title" className="scroll-mt-16 py-16 sm:py-24">
       <SectionHeader
         titleId="education-title"
         number={content.number}
