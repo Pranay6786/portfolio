@@ -497,3 +497,5 @@ Guards: everything flip-related sits inside `@media (hover: hover)`, so touch de
 Screen readers: the link's name is still the heading plus title. Reading its content gives the front face, then "Method" and the method string once, from the back face. Opacity and backface visibility do not hide anything from assistive technology, and nothing is duplicated.
 
 Checked against a build of the previous commit: every featured card, on `/` and `/work`, and every card without a method renders byte-identical markup. All ten studies build.
+
+- 2026-10-10: Contact's closing lines lost their card (border, background, radius, padding) and are plain prose again, `flex max-w-[50rem] flex-col gap-2`, flush left under the header. The form card is unchanged and is now the only box in the section; the icon row stays centred.

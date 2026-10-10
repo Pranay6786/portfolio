@@ -27,10 +27,11 @@ const FIELD_CLASS =
 
 /**
  * Closing lines, a contact form, and the ways to get in touch as icon links.
- * The closing lines and the form each sit in a bordered card matching the
+ * The closing lines are plain prose at the body measure (`max-w-[50rem]`),
+ * flush left under the header. The form sits in a bordered card matching the
  * Background section's "Now" card - `max-w-[50rem]`, `--border`, `--surface` -
- * left-aligned, so the three boxes share a width and a left edge. The icon row
- * stays centred.
+ * the one box in the section, sharing the lines' width and left edge. The icon
+ * row stays centred.
  *
  * The form is plain HTML posting to Formspree, with no client code: it works
  * with JavaScript disabled, and Formspree answers with its own thank-you page.
@@ -49,14 +50,12 @@ export default function ContactSection({ content }: { content: HomepageContent["
         title={content.title}
       />
 
-      <div className="max-w-[50rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
-        <div className="flex flex-col gap-2">
-          {content.lines.map((line) => (
-            <p key={line} className="font-serif text-[1.3125rem] leading-snug text-text">
-              {line}
-            </p>
-          ))}
-        </div>
+      <div className="flex max-w-[50rem] flex-col gap-2">
+        {content.lines.map((line) => (
+          <p key={line} className="font-serif text-[1.3125rem] leading-snug text-text">
+            {line}
+          </p>
+        ))}
       </div>
 
       <div className="mt-10 max-w-[50rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
