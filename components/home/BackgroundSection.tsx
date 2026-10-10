@@ -9,9 +9,9 @@ import type { HomepageContent } from "@/lib/homepage";
  * timeline: a 16px column, a 14px accent-dim-ringed dot and a 2px segment from
  * the dot's centre to the same distance past each paragraph's bottom, with
  * `pb-10` on every paragraph, the last included. Only the offsets differ,
- * because the dot is tuned to serif text rather than the 13px mono period: a 17px line at 1.7 is a 28.9px line box, centre 14.45px
- * (0.903125rem) down, so the 14px dot's top margin is 14.45 - 7 = 7.45px
- * (0.465625rem). The segments draw in on scroll like the education ones (see
+ * because the dot is tuned to serif text rather than the 13px mono period: a
+ * 17px line at 1.7 is a 28.9px line box, centre 14.45px (0.903125rem) down, so
+ * the 14px dot's top margin is 14.45 - 7 = 7.45px (0.465625rem). The segments draw in on scroll like the education ones (see
  * [data-timeline-segment] in globals.css), and the marker column is hidden
  * from assistive technology. The intro above and the link below have no
  * marker.
