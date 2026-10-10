@@ -27,8 +27,10 @@ const FIELD_CLASS =
 
 /**
  * Closing lines, a contact form, and the ways to get in touch as icon links.
- * The header sits left like every other section; the lines, the form card and
- * the icon row are centred, with the fields left-aligned inside the card.
+ * The closing lines and the form each sit in a bordered card matching the
+ * Background section's "Now" card - `max-w-[50rem]`, `--border`, `--surface` -
+ * left-aligned, so the three boxes share a width and a left edge. The icon row
+ * stays centred.
  *
  * The form is plain HTML posting to Formspree, with no client code: it works
  * with JavaScript disabled, and Formspree answers with its own thank-you page.
@@ -47,15 +49,17 @@ export default function ContactSection({ content }: { content: HomepageContent["
         title={content.title}
       />
 
-      <div className="mx-auto flex max-w-[40rem] flex-col gap-2 text-center">
-        {content.lines.map((line) => (
-          <p key={line} className="font-serif text-[1.3125rem] leading-snug text-text">
-            {line}
-          </p>
-        ))}
+      <div className="max-w-[50rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
+        <div className="flex flex-col gap-2">
+          {content.lines.map((line) => (
+            <p key={line} className="font-serif text-[1.3125rem] leading-snug text-text">
+              {line}
+            </p>
+          ))}
+        </div>
       </div>
 
-      <div className="mx-auto mt-10 max-w-[40rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
+      <div className="mt-10 max-w-[50rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
         <form method="POST" action={form.endpoint} className="flex flex-col gap-5">
           <input type="hidden" name="_subject" value={FORM_SUBJECT} />
 
