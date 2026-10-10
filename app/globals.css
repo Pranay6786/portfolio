@@ -225,11 +225,12 @@ body {
  * first, which is the hero: it is on screen at load and must not fade in.
  *
  * Progress follows scroll position, not time. The animation runs from the
- * moment a section's top edge enters the bottom of the viewport until it is
- * 420px in (`entry 0%` to `entry 420px`), moving 24px up and from 0 to full
- * opacity, then holds its end state for the rest of the page (`fill: both`).
- * A fixed length, rather than a percentage, keeps the run the same for short
- * and tall sections.
+ * moment a section's top edge enters the bottom of the viewport until the
+ * section is 30% of the way through crossing it (`entry 0%` to `cover 30%`),
+ * moving 24px up and from 0 to full opacity, then holds its end state for the
+ * rest of the page (`fill: both`). The cover range spans the viewport height
+ * plus the section's own height, so the run scales with the section: a taller
+ * section takes longer to arrive.
  *
  * Every rule that hides content sits inside both guards. A browser without
  * scroll-driven animations skips the @supports block and renders sections at
@@ -256,7 +257,7 @@ body {
       animation-timing-function: ease-out;
       animation-fill-mode: both;
       animation-timeline: view();
-      animation-range: entry 0% entry 420px;
+      animation-range: entry 0% cover 30%;
     }
   }
 }

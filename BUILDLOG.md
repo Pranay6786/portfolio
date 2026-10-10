@@ -398,3 +398,18 @@ The brief said the case study masthead loads behind the 76px header band because
 - `/`: the hero's own `pt-12 sm:pt-20` gives the same 124px or 156px.
 
 Client-side navigation lands at the same place. Next's layout router sets `document.documentElement.scrollTop = 0` and only calls `scrollIntoView()` on the page if its top is still off screen, which with an in-flow header it is not. Raising the padding to clear 76px on its own terms would push the title to about 172px at load without fixing anything. If the overlap shows up somewhere, the route and how it was reached (link, back button, reload mid-page, a `#` link) will locate it.
+
+## 2026-10-10 - Masthead under the header after navigation; reveal range tied to coverage
+
+Fixed: navigating from a scrolled page to a case study left the masthead's top under the 76px header. The scroll chain, read from Next 16's layout router and its upgrade guide, since there was no browser here to measure in:
+
+1. The site sets `html { scroll-behavior: smooth }` for readers without reduced motion, so in-page anchor jumps glide.
+2. Next 16 no longer switches smooth scrolling off during route transitions unless `<html>` carries `data-scroll-behavior="smooth"`. The site did not have it.
+3. On navigation the router sets `scrollTop = 0`, then checks whether the new page's top is on screen. Under smooth scrolling the assignment only starts an animation, so the check still sees the old position, finds the page top off screen and falls back to `scrollIntoView()`.
+4. `scrollIntoView()` puts `<main>`'s top at the viewport top. `<main>` starts 76px down, below the in-flow sticky header, so the page settles at `scrollY` 76 with `<main>` under the header. The masthead then begins only its own padding (32px, or 48px from `sm`) below the viewport top, leaving 44px or 28px of it hidden.
+
+The fix is the attribute, `data-scroll-behavior="smooth"` on `<html>` in `app/layout.tsx`. Next then turns smooth scrolling off for the transition, `scrollTop = 0` takes effect at once, the page top is on screen when checked, and the `scrollIntoView()` fallback never runs. In-page anchors keep their smooth glide. More top padding was not the fix: at scroll 0 the masthead already clears the band (108px or 124px down). The fault was the scroll position after navigation, and padding at least 76px would only have pushed every case study's title down on a normal load. Readers with reduced motion never hit the bug, because smooth scrolling was already off for them.
+
+Reveal: `animation-range` changed from `entry 0% entry 420px` to `entry 0% cover 30%`. The end now depends on the section's own coverage rather than a fixed length. The cover range spans the viewport height plus the section height, so on a 900px screen a 600px section finishes after about 450px of scroll and a 1,200px one after about 630px. The effect scales with the section. The 24px rise, `ease-out`, `fill-mode: both`, both guards and the hero exclusion are unchanged.
+
+Side effect recorded separately: running `next dev` to look for Next's smooth-scroll warning regenerated the Next-managed block at the top of `AGENTS.md`, changing its first heading from `#` to `##`. That change is committed on its own, as the block's own note advises, so the tree stays clean. The warning itself is browser-console only (`warnOnce` in Next's client router, in development), so the dev server's terminal cannot show it either way. With the attribute present, the branch that would print it is never reached.
