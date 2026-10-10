@@ -30,18 +30,18 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --bg: #fbfaf7;
-  --surface: #f2f0ea;
+  --bg: #f3f1ea;
+  --surface: #f1efe8;
   --text: #1a1a18;
   --text-muted: #57544e;
   --text-faint: #6e6a62;
   --accent: #c2410c;
   --accent-dim: #d1692e;
   --accent-tint: #fbede5;
-  --border: #dedad1;
+  --border: #d7d2c7;
 
-  /* Background grid: --border (#dedad1) at 18% alpha, about dark's strength. */
-  --grid-line: rgb(222 218 209 / 0.18);
+  /* Background grid: --border (#d7d2c7) at 18% alpha, about dark's strength. */
+  --grid-line: rgb(215 210 199 / 0.18);
   --grid-size: 72px;
 }
 
