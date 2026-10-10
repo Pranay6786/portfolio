@@ -13,8 +13,8 @@ const ACTION_ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
 export default function HeroSection({ content }: { content: HomepageContent["hero"] }) {
   return (
     <section aria-labelledby="hero-title" className="pt-12 pb-16 sm:pt-20 sm:pb-24">
-      {/* The lines arrive one after another on load: see [data-hero-lines] in
-          globals.css. */}
+      {/* The lines, then the subhead and the actions, arrive one after another
+          on load: see [data-hero-lines] in globals.css. */}
       <h1
         id="hero-title"
         data-hero-lines=""
@@ -27,10 +27,13 @@ export default function HeroSection({ content }: { content: HomepageContent["her
         ))}
       </h1>
       {/* Between the body size and the h1: the case study subtitle's sizes. */}
-      <p className="mt-6 font-sans text-[1.1875rem] leading-snug text-muted sm:text-[1.3125rem]">
+      <p
+        data-hero-subhead=""
+        className="mt-6 font-sans text-[1.1875rem] leading-snug text-muted sm:text-[1.3125rem]"
+      >
         {content.subhead}
       </p>
-      <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
+      <ul data-hero-actions="" className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
         {content.actions.map((action) => {
           const icon = ACTION_ICONS[action.label];
           if (!icon) {

@@ -12,9 +12,20 @@ const ROOT_MARGIN = "0px 0px -40px 0px";
 /** Any overlap at all counts, so tall blocks start as soon as their top shows. */
 const THRESHOLD = 0;
 
-/** Siblings arriving together start this far apart, up to the cap. */
-const STAGGER_MS = 110;
-const STAGGER_CAP_MS = 550;
+/**
+ * Elements whose top is in the bottom quarter of the first screen or lower
+ * float in; anything higher renders plainly on load.
+ */
+const FIRST_SCREEN_CUTOFF = 0.75;
+
+/**
+ * Siblings arriving together start this far apart, up to the cap: slower on
+ * the homepage, quicker in case study articles, where every paragraph reveals.
+ */
+const HOME_STAGGER_MS = 110;
+const HOME_STAGGER_CAP_MS = 550;
+const ARTICLE_STAGGER_MS = 80;
+const ARTICLE_STAGGER_CAP_MS = 400;
 
 /**
  * Entrance reveals for the whole site: one IntersectionObserver over every
@@ -24,12 +35,13 @@ const STAGGER_CAP_MS = 550;
  * Case study articles are MDX output, which cannot carry the attribute, so
  * their block children ([data-article] > *) get it here first.
  *
- * Only elements wholly below the viewport are hidden ("pending") and watched.
- * Anything on screen or above it on first paint is never touched, so the top
- * of a page never fades in. When a watched element intersects, it gets its
- * stagger delay, switches to "in" (which plays the animation once) and is
- * unobserved. Under reduced motion nothing is hidden or watched: everything
- * stays in its default, visible state.
+ * Only elements whose top is in the bottom quarter of the viewport or below
+ * are hidden ("pending") and watched. Anything higher on first paint is never
+ * touched, so the top of a page never fades in. When a watched element
+ * intersects, it gets its stagger delay (by context: homepage or article),
+ * switches to "in" (which plays the animation once) and is unobserved. Under
+ * reduced motion nothing is hidden or watched: everything stays in its
+ * default, visible state.
  */
 export default function Reveal() {
   const pathname = usePathname();
@@ -48,7 +60,8 @@ export default function Reveal() {
     const viewportHeight = window.innerHeight;
     const pending = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]")).filter(
       (element) =>
-        element.dataset.reveal === "" && element.getBoundingClientRect().top >= viewportHeight,
+        element.dataset.reveal === "" &&
+        element.getBoundingClientRect().top >= viewportHeight * FIRST_SCREEN_CUTOFF,
     );
 
     const observer = new IntersectionObserver(
@@ -64,10 +77,10 @@ export default function Reveal() {
           const index = arrived.get(element.parentElement) ?? 0;
           arrived.set(element.parentElement, index + 1);
 
-          element.style.setProperty(
-            "--reveal-delay",
-            `${Math.min(index * STAGGER_MS, STAGGER_CAP_MS)}ms`,
-          );
+          const inArticle = element.closest("[data-article]") !== null;
+          const step = inArticle ? ARTICLE_STAGGER_MS : HOME_STAGGER_MS;
+          const cap = inArticle ? ARTICLE_STAGGER_CAP_MS : HOME_STAGGER_CAP_MS;
+          element.style.setProperty("--reveal-delay", `${Math.min(index * step, cap)}ms`);
           element.dataset.reveal = "in";
           observer.unobserve(element);
         }
