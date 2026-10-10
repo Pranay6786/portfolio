@@ -261,3 +261,52 @@ body {
     }
   }
 }
+
+/*
+ * Route change: a short cross-fade, opacity only, through React's
+ * <ViewTransition> and the browser's View Transitions API - no hand-rolled
+ * JavaScript. Each page.tsx wraps its content with enter and exit set to
+ * `page-fade`, so on navigation the old page fades out while the new one fades
+ * in, using the browser's default fade keyframes, which animate opacity only.
+ * The two are separate, unpaired snapshots, so nothing moves or resizes.
+ *
+ * The header carries its own transition name (`site-header`) and switches
+ * instantly above the fading pages, so content never draws over it. The
+ * transition overlay lets clicks through to the live page.
+ *
+ * Browsers without the API swap pages instantly. With reduced motion on,
+ * nothing animates and the swap is instant.
+ */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(.page-fade),
+::view-transition-old(.page-fade),
+::view-transition-new(.page-fade),
+::view-transition-group(root),
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

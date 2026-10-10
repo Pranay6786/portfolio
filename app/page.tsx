@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import BackgroundSection from "@/components/home/BackgroundSection";
 import CertificationsSection from "@/components/home/CertificationsSection";
 import ContactSection from "@/components/home/ContactSection";
@@ -26,20 +27,24 @@ export default function Home() {
     .map((study) => study.frontmatter)
     .filter((frontmatter) => frontmatter.kind === "featured");
 
+  // Cross-fades the page in and out on navigation; see ::view-transition in
+  // globals.css. Updates within the page do not animate.
   return (
-    <main className="mx-auto w-full max-w-[61rem] px-5 sm:px-6">
-      {/* Sections after the hero fade up as they scroll into view, in CSS: see
-          [data-reveal-sections] in globals.css. */}
-      <div data-reveal-sections="" className="divide-y divide-border">
-        <HeroSection content={content.hero} />
-        <WorkSection content={content.work} studies={featured} />
-        <DecideSection content={content.decide} />
-        <BackgroundSection content={content.background} />
-        <SkillsSection content={content.skills} />
-        <CertificationsSection content={content.certifications} />
-        <EducationSection content={content.education} />
-        <ContactSection content={content.contact} />
-      </div>
-    </main>
+    <ViewTransition enter="page-fade" exit="page-fade" default="none">
+      <main className="mx-auto w-full max-w-[61rem] px-5 sm:px-6">
+        {/* Sections after the hero fade up as they scroll into view, in CSS: see
+            [data-reveal-sections] in globals.css. */}
+        <div data-reveal-sections="" className="divide-y divide-border">
+          <HeroSection content={content.hero} />
+          <WorkSection content={content.work} studies={featured} />
+          <DecideSection content={content.decide} />
+          <BackgroundSection content={content.background} />
+          <SkillsSection content={content.skills} />
+          <CertificationsSection content={content.certifications} />
+          <EducationSection content={content.education} />
+          <ContactSection content={content.contact} />
+        </div>
+      </main>
+    </ViewTransition>
   );
 }
