@@ -28,7 +28,9 @@ export default function Home() {
 
   return (
     <main className="mx-auto w-full max-w-[61rem] px-5 sm:px-6">
-      <div className="divide-y divide-border">
+      {/* Sections after the hero fade up as they scroll into view, in CSS: see
+          [data-reveal-sections] in globals.css. */}
+      <div data-reveal-sections="" className="divide-y divide-border">
         <HeroSection content={content.hero} />
         <WorkSection content={content.work} studies={featured} />
         <DecideSection content={content.decide} />
