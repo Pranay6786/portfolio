@@ -548,18 +548,21 @@ body::before {
  * Entrance reveal: content floats in once, on a fixed-duration animation, as
  * it nears the viewport. components/Reveal.tsx runs one IntersectionObserver
  * for the whole site over [data-reveal]. Elements below the viewport on load
- * become "pending" (hidden, 16px low). When one comes within 48px of the
- * bottom of the viewport it becomes "in" and plays reveal-in once, then is
- * never watched again. Anything already on screen is never touched.
+ * become "pending" (hidden, 24px low). When one is 40px inside the bottom of
+ * the viewport it becomes "in" and plays reveal-in once, then is never
+ * watched again, so the whole float plays in view. Anything already on screen
+ * is never touched.
  *
  * The default state is visible: the hidden state only exists once JavaScript
  * has marked an element, so without JavaScript everything simply shows. Under
  * reduced motion the component marks nothing, and these rules do not apply
  * anyway.
  *
- * 500ms with a strong ease-out, so most of the movement is over in the first
- * half and it settles rather than drifting. Siblings that arrive together
- * stagger by 80ms, capped at 400ms (--reveal-delay, set by the component).
+ * 700ms on a gentle ease-out that spreads the travel across the whole
+ * duration, so it reads as floating rather than a snap followed by a stall.
+ * The 24px offset must match in the keyframe and the pending rule, or the
+ * element jumps as the animation starts. Siblings that arrive together
+ * stagger by 110ms, capped at 550ms (--reveal-delay, set by the component).
  * Fill mode is backwards only: the first frame holds through the delay, and
  * afterwards no translate is left on the element, so it creates no lasting
  * stacking context. Opacity and translate only, never layout.
@@ -568,7 +571,7 @@ body::before {
   @keyframes reveal-in {
     from {
       opacity: 0;
-      translate: 0 16px;
+      translate: 0 24px;
     }
 
     to {
@@ -579,10 +582,10 @@ body::before {
 
   [data-reveal="pending"] {
     opacity: 0;
-    translate: 0 16px;
+    translate: 0 24px;
   }
 
   [data-reveal="in"] {
-    animation: reveal-in 500ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) backwards;
+    animation: reveal-in 700ms cubic-bezier(0.33, 1, 0.68, 1) var(--reveal-delay, 0ms) backwards;
   }
 }

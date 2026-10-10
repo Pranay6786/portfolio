@@ -4,17 +4,17 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 /**
- * Start a reveal when an element comes within 48px of the bottom of the
- * viewport, so the movement has begun by the time it is in sight.
+ * Start a reveal once an element is 40px inside the bottom of the viewport,
+ * so the whole float plays in view rather than partly below the fold.
  */
-const ROOT_MARGIN = "0px 0px 48px 0px";
+const ROOT_MARGIN = "0px 0px -40px 0px";
 
 /** Any overlap at all counts, so tall blocks start as soon as their top shows. */
 const THRESHOLD = 0;
 
 /** Siblings arriving together start this far apart, up to the cap. */
-const STAGGER_MS = 80;
-const STAGGER_CAP_MS = 400;
+const STAGGER_MS = 110;
+const STAGGER_CAP_MS = 550;
 
 /**
  * Entrance reveals for the whole site: one IntersectionObserver over every
