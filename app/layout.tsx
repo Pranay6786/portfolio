@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
+import GridParallax from "@/components/GridParallax";
 import SiteHeader from "@/components/SiteHeader";
 import { getHomepageNav } from "@/lib/homepage";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* The homepage nav labels are read here, on the server, from homepage.json. */}
         <SiteHeader navItems={getHomepageNav()} />
         {children}
+        <GridParallax />
       </body>
     </html>
   );

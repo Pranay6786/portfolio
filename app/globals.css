@@ -21,6 +21,10 @@
   /* Background grid: --border (#2a2a28) at 20% alpha, and its module. */
   --grid-line: rgb(42 42 40 / 0.2);
   --grid-size: 72px;
+
+  /* Cursor drift of the grid, written by GridParallax; 0 until it runs. */
+  --grid-shift-x: 0px;
+  --grid-shift-y: 0px;
 }
 
 :root[data-theme="light"] {
@@ -92,11 +96,19 @@ body {
  * they cannot disagree with the gradient's. Without mask support the grid
  * renders unmasked. Opaque surfaces - the header pill, work cards and others
  * on --bg or --surface - cover it where they sit.
+ *
+ * Cursor drift: GridParallax shifts the layer by up to 10px across and 6px
+ * down via `translate`. The layer bleeds 16px past the viewport on every side
+ * (`inset: -16px`) so a shift never uncovers an un-gridded strip. The mask
+ * moves with the layer, so its box is inset by 26px per side (the 16px bleed
+ * plus the 10px maximum shift, `mask-size: calc(100% - 52px) 100%`): with
+ * `no-repeat`, everything outside it is masked out, and the fade reaches zero
+ * at or inside the viewport edge at any shift.
  */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -16px;
   z-index: -1;
   pointer-events: none;
   background-image:
@@ -114,10 +126,18 @@ body::before {
   mask-image: radial-gradient(50% 1000% at 50% 50%, black 30%, transparent 100%);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
+  -webkit-mask-size: calc(100% - 52px) 100%;
+  mask-size: calc(100% - 52px) 100%;
   -webkit-mask-position: center;
   mask-position: center;
+  translate: var(--grid-shift-x) var(--grid-shift-y);
+}
+
+/* The drift never runs under reduced motion, whatever the component does. */
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    translate: none;
+  }
 }
 
 @media print {
