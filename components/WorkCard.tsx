@@ -7,8 +7,9 @@ import type { CaseStudyFrontmatter } from "@/lib/content";
  * One case study as a card, built entirely from its frontmatter: subtitle as
  * the heading, then title, summary, badges and metric strip. The whole card
  * links to the study. On hover or keyboard focus the border turns accent-dim
- * and, unless the reader prefers reduced motion, the card rises 2px. Shared by the homepage work section and the /work index,
- * where it always sits under an h2, so its heading is an h3.
+ * and, unless the reader prefers reduced motion, the card rises 2px. Shared by
+ * the homepage work section and the /work index, where it always sits under an
+ * h2, so its heading is an h3.
  */
 export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
   return (
