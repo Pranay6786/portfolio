@@ -9,7 +9,7 @@ function isRoute(href: string): boolean {
  * Another site or a file in public/, which opens in a new tab. App routes,
  * mailto: and in-page anchors stay in the current tab.
  */
-function opensNewTab(href: string): boolean {
+export function opensNewTab(href: string): boolean {
   return !isRoute(href) && !href.startsWith("mailto:") && !href.startsWith("#");
 }
 

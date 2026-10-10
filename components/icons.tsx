@@ -50,6 +50,48 @@ export function SunIcon(props: IconProps) {
   );
 }
 
+/** An envelope: a rectangle with its flap folded in. */
+export function MailIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3.5 6.5 8.5 6.5 8.5-6.5" />
+    </Icon>
+  );
+}
+
+/** A rounded square holding a lowercase i and n, drawn as plain strokes. */
+export function LinkedInIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="3" />
+      <path d="M8 10.5V17M8 7.5v.01M12 17v-6.5M12 13.5a2.5 2.5 0 0 1 5 0V17" />
+    </Icon>
+  );
+}
+
+/** A branch: three commits, one line forking off the main one. */
+export function GitHubIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="7" cy="5.5" r="2" />
+      <circle cx="7" cy="18.5" r="2" />
+      <circle cx="17" cy="8.5" r="2" />
+      <path d="M7 7.5v9M17 10.5c0 4-10 2-10 6" />
+    </Icon>
+  );
+}
+
+/** A page with a folded corner and two lines of text. */
+export function FileIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" />
+      <path d="M14 3v5h5M9 13h6M9 17h6" />
+    </Icon>
+  );
+}
+
 /** A crescent moon. */
 export function MoonIcon(props: IconProps) {
   return (

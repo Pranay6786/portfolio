@@ -57,7 +57,18 @@ export type HomepageContent = {
   contact: HomepageSectionFrame & {
     lines: string[];
     actions: HomepageLink[];
+    form: HomepageContactForm;
   };
+};
+
+/** The contact form, posted as plain HTML to a Formspree endpoint. */
+export type HomepageContactForm = {
+  endpoint: string;
+  nameLabel: string;
+  emailLabel: string;
+  messageLabel: string;
+  messagePlaceholder: string;
+  submitLabel: string;
 };
 
 const HOMEPAGE_FILE = "content/homepage.json";
@@ -132,6 +143,34 @@ function list<T>(
   return value.map((entry, index) => item(entry, `${field}[${index}]`));
 }
 
+/** A non-empty string that is an absolute https:// URL. */
+function httpsUrl(value: unknown, field: string): string {
+  const url = text(value, field);
+  if (!/^https:\/\/[^\s/]+\/\S*$/.test(url)) {
+    fail(field, `must be an absolute https:// URL, received ${JSON.stringify(url)}`);
+  }
+  return url;
+}
+
+function contactForm(value: unknown, field: string): HomepageContactForm {
+  const form = record(value, field, [
+    "endpoint",
+    "nameLabel",
+    "emailLabel",
+    "messageLabel",
+    "messagePlaceholder",
+    "submitLabel",
+  ]);
+  return {
+    endpoint: httpsUrl(form.endpoint, `${field}.endpoint`),
+    nameLabel: text(form.nameLabel, `${field}.nameLabel`),
+    emailLabel: text(form.emailLabel, `${field}.emailLabel`),
+    messageLabel: text(form.messageLabel, `${field}.messageLabel`),
+    messagePlaceholder: text(form.messagePlaceholder, `${field}.messagePlaceholder`),
+    submitLabel: text(form.submitLabel, `${field}.submitLabel`),
+  };
+}
+
 function link(value: unknown, field: string): HomepageLink {
   const data = record(value, field, ["label", "href"]);
   return {
@@ -195,7 +234,12 @@ export function validateHomepage(value: unknown): HomepageContent {
     "items",
     "publication",
   ]);
-  const contact = record(root.contact, "contact", [...FRAME_KEYS, "lines", "actions"]);
+  const contact = record(root.contact, "contact", [
+    ...FRAME_KEYS,
+    "lines",
+    "actions",
+    "form",
+  ]);
 
   return {
     hero: {
@@ -277,6 +321,7 @@ export function validateHomepage(value: unknown): HomepageContent {
       ...frame(contact, "contact"),
       lines: list(contact.lines, "contact.lines", text),
       actions: list(contact.actions, "contact.actions", link),
+      form: contactForm(contact.form, "contact.form"),
     },
   };
 }

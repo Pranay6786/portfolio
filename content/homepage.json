@@ -98,28 +98,23 @@
     "groups": [
       {
         "title": "Product Craft",
-        "items": [
-          "User Research",
-          "Problem Framing",
-          "Prioritisation",
-          "PRD Writing",
-          "Metric Definition",
-          "Cohort Analysis",
-          "Competitive Analysis",
-          "Heuristic Evaluation"
-        ]
+        "items": ["User Research", "Problem Framing", "Prioritisation", "PRD Writing", "Metric Definition", "Cohort Analysis", "Competitive Analysis", "Heuristic Evaluation"]
+      },
+      {
+        "title": "Business Analysis",
+        "items": ["Requirements Elicitation", "Requirements Documentation", "User Stories & Acceptance Criteria", "Process Mapping", "Stakeholder Management", "UAT Planning & Execution"]
       },
       {
         "title": "Analytics & Data",
-        "items": ["SQL", "Funnel Analysis"]
+        "items": ["SQL", "Data Analysis", "Funnel Analysis", "Power BI", "Excel"]
       },
       {
         "title": "Technical",
-        "items": ["AI-Assisted Build", "GitHub"]
+        "items": ["AI-Assisted Build", "GitHub", "Postman"]
       },
       {
         "title": "Tools",
-        "items": ["Jira", "Figma", "Google Analytics", "Notion"]
+        "items": ["Jira", "Confluence", "Figma", "Google Analytics", "Notion"]
       }
     ]
   },
@@ -173,6 +168,14 @@
       { "label": "LinkedIn", "href": "https://www.linkedin.com/in/pranaypatil6786" },
       { "label": "GitHub", "href": "https://github.com/Pranay6786" },
       { "label": "Résumé", "href": "/resume.pdf" }
-    ]
+    ],
+    "form": {
+      "endpoint": "https://formspree.io/f/myekjeqq",
+      "nameLabel": "Your Name",
+      "emailLabel": "Your Email",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Hi Pranay, I'd love to talk about...",
+      "submitLabel": "Send Message"
+    }
   }
 }
