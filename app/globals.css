@@ -259,6 +259,70 @@ body {
       animation-timeline: view();
       animation-range: entry 0% cover 30%;
     }
+
+    /*
+     * Education timeline: each segment between two dots grows downward from
+     * its own dot (`scaleY` 0 to 1, origin top) as it scrolls into view. It
+     * starts once the whole segment is inside the viewport (`entry 100%`) and
+     * finishes when its middle reaches the middle of the viewport (`cover 50%`),
+     * so the line draws while the entry rises through the lower half of the
+     * screen, where it is being read. View timelines measure the layout box
+     * and ignore transforms, so the scaled segment does not shift its own
+     * timeline.
+     */
+    @keyframes timeline-draw {
+      from {
+        transform: scaleY(0);
+      }
+
+      to {
+        transform: scaleY(1);
+      }
+    }
+
+    [data-timeline-segment] {
+      transform-origin: top;
+      animation-name: timeline-draw;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 100% cover 50%;
+    }
+  }
+}
+
+/*
+ * Hero lines on load: each fades in and rises 12px over 400ms, ease-out, the
+ * second 120ms after the first and the third 120ms after that, so the third is
+ * fully visible 640ms after the hero first paints. A plain time-based
+ * animation that plays once per page load - not scroll-driven, so it sits
+ * outside the @supports guard. Every browser supports it. With reduced motion,
+ * the rule never applies and the lines are there at once.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-line-in {
+    from {
+      opacity: 0;
+      translate: 0 12px;
+    }
+
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  [data-hero-lines] > span {
+    animation: hero-line-in 400ms ease-out both;
+  }
+
+  [data-hero-lines] > span:nth-child(2) {
+    animation-delay: 120ms;
+  }
+
+  [data-hero-lines] > span:nth-child(3) {
+    animation-delay: 240ms;
   }
 }
 

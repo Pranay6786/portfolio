@@ -5,8 +5,11 @@ import type { HomepageContent } from "@/lib/homepage";
 export default function HeroSection({ content }: { content: HomepageContent["hero"] }) {
   return (
     <section aria-labelledby="hero-title" className="pt-12 pb-16 sm:pt-20 sm:pb-24">
+      {/* The lines arrive one after another on load: see [data-hero-lines] in
+          globals.css. */}
       <h1
         id="hero-title"
+        data-hero-lines=""
         className="font-serif text-[2rem] font-semibold leading-[1.15] text-text sm:text-[2.375rem]"
       >
         {content.lines.map((line) => (

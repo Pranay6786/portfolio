@@ -12,7 +12,9 @@ import type { HomepageContent } from "@/lib/homepage";
  * spaced with bottom padding rather than a gap, so a segment can reach the
  * next entry exactly. It never extends above the first dot or below the last,
  * and the dots, drawn above it, hide its ends. The marker column is hidden
- * from assistive technology, so screen readers get a plain list.
+ * from assistive technology, so screen readers get a plain list. Each segment
+ * draws itself downward as it scrolls into view: see [data-timeline-segment]
+ * in globals.css.
  */
 export default function EducationSection({
   content,
@@ -40,7 +42,10 @@ export default function EducationSection({
               {/* The dot sits on the period's first line, centred 0.6rem down. */}
               <div aria-hidden="true" className="relative w-2.5 shrink-0">
                 {isLast ? null : (
-                  <span className="absolute top-[0.6rem] -bottom-[0.6rem] left-[calc(50%-0.5px)] w-px bg-border" />
+                  <span
+                    data-timeline-segment=""
+                    className="absolute top-[0.6rem] -bottom-[0.6rem] left-[calc(50%-0.5px)] w-px bg-border"
+                  />
                 )}
                 <span className="relative mt-[0.3rem] block h-2.5 w-2.5 rounded-full border-2 border-accent-dim bg-bg" />
               </div>
