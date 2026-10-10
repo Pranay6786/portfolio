@@ -226,7 +226,7 @@ body {
  *
  * Progress follows scroll position, not time. The animation runs from the
  * moment a section's top edge enters the bottom of the viewport until it is
- * 160px in (`entry 0%` to `entry 160px`), moving 12px up and from 0 to full
+ * 420px in (`entry 0%` to `entry 420px`), moving 24px up and from 0 to full
  * opacity, then holds its end state for the rest of the page (`fill: both`).
  * A fixed length, rather than a percentage, keeps the run the same for short
  * and tall sections.
@@ -241,7 +241,7 @@ body {
     @keyframes section-reveal {
       from {
         opacity: 0;
-        translate: 0 12px;
+        translate: 0 24px;
       }
 
       to {
@@ -256,7 +256,7 @@ body {
       animation-timing-function: ease-out;
       animation-fill-mode: both;
       animation-timeline: view();
-      animation-range: entry 0% entry 160px;
+      animation-range: entry 0% entry 420px;
     }
   }
 }

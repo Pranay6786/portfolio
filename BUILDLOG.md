@@ -386,3 +386,15 @@ Fallbacks, both read from the built stylesheet, where the keyframes and the rule
 - A reader with `prefers-reduced-motion: reduce` fails the inner media query, with the same result: no starting opacity, no movement, content visible at once.
 
 Known limits of scroll-linked animation: the effect is tied to position, not played once. Scrolling back up until a section's top drops below the bottom of the viewport runs it backwards in that bottom 160px strip, and a section resting with its top inside that strip shows its first lines partly faded. Making it play once would need JavaScript, which this feature rules out.
+
+## 2026-10-10 - Stronger section reveal; masthead padding checked and left alone
+
+The homepage section reveal was strengthened so it reads as motion: `translate` from `0 12px` to `0 24px`, and `animation-range` from `entry 0% entry 160px` to `entry 0% entry 420px`. Everything else stays as it was: `ease-out`, `fill-mode: both`, both guards (`@supports (animation-timeline: view())` and `prefers-reduced-motion: no-preference`) and the hero exclusion. Trade-off: a section whose top edge sits inside the bottom 420px of the viewport is partly faded and lowered while at rest, and in the 160px version that band was only 160px. On a laptop-height screen the first section after the hero is likely to start inside it at load, so it may sit partly faded until the reader scrolls.
+
+The brief said the case study masthead loads behind the 76px header band because `main`'s top padding (`pt-8 sm:pt-12`, 32px and 48px) is less than the band. Checked against the build, that premise does not hold, so the padding was not changed. The header is `position: sticky`, and a sticky element stays in normal flow: on every route the built HTML has `<body class="min-h-full flex flex-col">` with the 76px `<header>` first and `<main>` straight after it, so `main` starts 76px down at scroll 0. Its top padding is added below the band, not under it. Measured to the top of the first line's box at scroll 0:
+
+- `/work/[slug]`: 76 + 32 = 108px, or 76 + 48 = 124px from `sm`. That is 32-48px clear of the band.
+- `/work`: 76 + 48 = 124px, or 76 + 80 = 156px from `sm`.
+- `/`: the hero's own `pt-12 sm:pt-20` gives the same 124px or 156px.
+
+Client-side navigation lands at the same place. Next's layout router sets `document.documentElement.scrollTop = 0` and only calls `scrollIntoView()` on the page if its top is still off screen, which with an in-flow header it is not. Raising the padding to clear 76px on its own terms would push the title to about 172px at load without fixing anything. If the overlap shows up somewhere, the route and how it was reached (link, back button, reload mid-page, a `#` link) will locate it.
