@@ -16,7 +16,7 @@ export default function CertificationsSection({
         title={content.title}
       />
 
-      <ul data-reveal="" className="max-w-[40rem] divide-y divide-border border-y border-border">
+      <ul data-reveal="pending" className="max-w-[40rem] divide-y divide-border border-y border-border">
         {content.items.map((item) => (
           <li
             key={`${item.issuer}-${item.name}`}

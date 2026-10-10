@@ -41,7 +41,7 @@ export default function EducationSection({
         title={content.title}
       />
 
-      <ul data-reveal="" className="max-w-[50rem]">
+      <ul data-reveal="pending" className="max-w-[50rem]">
         {content.items.map((item) => (
           <li key={`${item.period}-${item.institution}`} className="flex gap-6 pb-10">
             {/* The dot sits on the period's first line, centred 0.609375rem down. */}
@@ -65,7 +65,7 @@ export default function EducationSection({
         ))}
       </ul>
 
-      <p data-reveal="" className="mt-10 max-w-[50rem] font-serif text-[1.0625rem] italic leading-snug text-muted">
+      <p data-reveal="pending" className="mt-10 max-w-[50rem] font-serif text-[1.0625rem] italic leading-snug text-muted">
         {content.publication}
       </p>
     </section>

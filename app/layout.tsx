@@ -36,10 +36,13 @@ export const metadata: Metadata = {
 
 // Runs synchronously while the browser parses the head, so the stored theme is
 // on the document before anything paints. Dark is the default and carries no
-// attribute, so only a saved "light" needs applying.
-const themeScript = `(function(){try{if(localStorage.getItem(${JSON.stringify(
+// attribute, so only a saved "light" needs applying. It also sets data-js, which
+// lets reveal targets start hidden (see components/Reveal.tsx), and removes it
+// again after 2s unless Reveal has marked <html> data-reveal-ready, so the page
+// can never stay blank if hydration fails.
+const themeScript = `(function(){var d=document.documentElement;try{if(localStorage.getItem(${JSON.stringify(
   THEME_STORAGE_KEY,
-)})==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}})()`;
+)})==="light")d.setAttribute("data-theme","light")}catch(e){}d.setAttribute("data-js","1");setTimeout(function(){if(!d.hasAttribute("data-reveal-ready"))d.removeAttribute("data-js")},2000)})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

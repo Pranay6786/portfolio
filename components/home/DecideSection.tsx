@@ -14,7 +14,7 @@ export default function DecideSection({ content }: { content: HomepageContent["d
         intro={content.intro}
       />
 
-      <ol data-reveal="" className="flex flex-col gap-10">
+      <ol data-reveal="pending" className="flex flex-col gap-10">
         {content.steps.map((step) => (
           <li key={step.number} className="grid gap-2 sm:grid-cols-[3rem_1fr] sm:gap-6">
             <p className="pt-1.5 font-mono text-[0.8125rem] text-faint">{step.number}</p>

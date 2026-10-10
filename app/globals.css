@@ -337,9 +337,8 @@ body::before {
 /*
  * Load stagger: one chain, each step fading in and rising 12px over 400ms,
  * ease-out, 120ms after the last - the header pill at 0ms, the three hero
- * lines at 120, 240 and 360ms, the subhead at 480ms, the actions row (as one
- * unit) at 600ms and the Work section header at 720ms, so the chain is
- * complete 1120ms after first paint. A plain time-based animation that plays
+ * lines at 120, 240 and 360ms, the subhead at 480ms and the actions row (as
+ * one unit) at 600ms, so the chain is complete 1000ms after first paint. A plain time-based animation that plays
  * when each element first renders - not scroll-driven, so it sits outside the
  * @supports guard. Every browser supports it, and without JavaScript it still
  * plays. The pill lives in the persistent layout, so it plays on the first
@@ -382,10 +381,6 @@ body::before {
 
   [data-hero-actions] {
     animation: hero-line-in 400ms ease-out 600ms both;
-  }
-
-  [data-load-in="section-header"] {
-    animation: hero-line-in 400ms ease-out 720ms both;
   }
 }
 
@@ -568,17 +563,18 @@ body::before {
 /*
  * Entrance reveal: content floats in once, on a fixed-duration animation, as
  * it nears the viewport. components/Reveal.tsx runs one IntersectionObserver
- * for the whole site over [data-reveal]. Elements whose top is in the bottom
- * quarter of the viewport or below on load become "pending" (hidden, 24px
- * low, or 16px in articles). When one is 40px inside the bottom of the
- * viewport it becomes "in" and plays its animation once, then is never
- * watched again, so the whole float plays in view. Anything higher on load is
- * never touched.
+ * for the whole site over [data-reveal="pending"]. Reveal targets arrive from
+ * the server as "pending" (and case study article blocks, which the component
+ * tags at runtime, are held the same way until it does). On each route the
+ * component reveals what is already in the viewport at once, and anything else
+ * when it is 40px inside the bottom of the viewport: it becomes "in", plays
+ * its animation once and is never watched again.
  *
- * The default state is visible: the hidden state only exists once JavaScript
- * has marked an element, so without JavaScript everything simply shows. Under
- * reduced motion the component marks nothing, and these rules do not apply
- * anyway.
+ * The hidden state needs [data-js] on <html>, which the inline head script
+ * sets before first paint, so nothing is hidden after the reader has seen it.
+ * Without JavaScript the flag is never set and everything simply shows; if
+ * the component never runs, the script's fallback timer removes the flag after
+ * 2s. Under reduced motion none of these rules apply.
  *
  * Homepage: 700ms on a gentle ease-out that spreads the travel across the
  * whole duration, so it reads as floating rather than a snap followed by a
@@ -605,12 +601,12 @@ body::before {
     }
   }
 
-  [data-reveal="pending"] {
+  [data-js] [data-reveal="pending"] {
     opacity: 0;
     translate: 0 24px;
   }
 
-  [data-reveal="in"] {
+  [data-js] [data-reveal="in"] {
     animation: reveal-in 700ms cubic-bezier(0.33, 1, 0.68, 1) var(--reveal-delay, 0ms) backwards;
   }
 
@@ -626,11 +622,13 @@ body::before {
     }
   }
 
-  [data-article] [data-reveal="pending"] {
+  [data-js] [data-article] [data-reveal="pending"],
+  [data-js] [data-article] > :not([data-reveal]) {
+    opacity: 0;
     translate: 0 16px;
   }
 
-  [data-article] [data-reveal="in"] {
+  [data-js] [data-article] [data-reveal="in"] {
     animation: reveal-in-article 500ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms)
       backwards;
   }
