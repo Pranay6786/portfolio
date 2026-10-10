@@ -261,14 +261,17 @@ body {
     }
 
     /*
-     * Education timeline: each segment between two dots grows downward from
-     * its own dot (`scaleY` 0 to 1, origin top) as it scrolls into view. It
-     * starts once the whole segment is inside the viewport (`entry 100%`) and
-     * finishes when its middle reaches the middle of the viewport (`cover 50%`),
-     * so the line draws while the entry rises through the lower half of the
-     * screen, where it is being read. View timelines measure the layout box
-     * and ignore transforms, so the scaled segment does not shift its own
-     * timeline.
+     * Education timeline: each segment, and the tail under the last dot,
+     * grows downward from its own dot (`scaleY` 0 to 1, origin top) as it
+     * scrolls into view. It starts the moment the segment's top edge enters
+     * the bottom of the viewport (`entry 0%`) and finishes when it is 60% of
+     * the way through crossing it (`cover 60%`), roughly the upper middle of
+     * the screen. So the line is visibly drawing from its first appearance
+     * through most of the lower half and the middle, over about 600px of
+     * scroll on a 900px screen, instead of finishing in the narrow band
+     * between fully entering and the middle. View timelines measure the
+     * layout box and ignore transforms, so the scaled segment does not shift
+     * its own timeline.
      */
     @keyframes timeline-draw {
       from {
@@ -287,7 +290,7 @@ body {
       animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: view();
-      animation-range: entry 100% cover 50%;
+      animation-range: entry 0% cover 60%;
     }
   }
 }
