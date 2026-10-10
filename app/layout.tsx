@@ -52,6 +52,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col">
+        {/* Decorative scroll progress bar, fixed and out of flow: see
+            [data-scroll-progress] in globals.css. */}
+        <div aria-hidden="true" data-scroll-progress="">
+          <div data-scroll-progress-fill="" />
+        </div>
         {/* The homepage nav labels are read here, on the server, from homepage.json. */}
         <SiteHeader navItems={getHomepageNav()} />
         {children}

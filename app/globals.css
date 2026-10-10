@@ -133,76 +133,6 @@ body::before {
   translate: var(--grid-shift-x) var(--grid-shift-y);
 }
 
-/*
- * Homepage scroll rail: a 1px hairline fixed beside the content column, its
- * fill growing from the top as the whole page scrolls. Decorative only - the
- * element is aria-hidden, unfocusable and ignores the pointer - and out of
- * flow, so it never moves the layout.
- *
- * It sits 2.5rem outside the left edge of main's 61rem box: 50% - 30.5rem -
- * 2.5rem = calc(50% - 33rem), which is 4rem (64px) left of where the text
- * starts. That reaches 24px from the window's left edge at a 1104px (69rem)
- * window, so below that the rail is hidden. It stacks at z-index -1 inside the
- * isolated body: after the grid layer (also -1, but body::before comes first
- * in tree order), under all content and under the header at z-index 50.
- *
- * The track is static. The fill only exists where scroll-driven animations do
- * and motion is welcome; otherwise the track shows alone, never half-drawn.
- */
-[data-scroll-rail] {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: calc(50% - 33rem);
-  z-index: -1;
-  width: 1px;
-  background: var(--border);
-  pointer-events: none;
-}
-
-[data-scroll-rail-fill] {
-  display: none;
-}
-
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    @keyframes scroll-rail-fill {
-      from {
-        transform: scaleY(0);
-      }
-
-      to {
-        transform: scaleY(1);
-      }
-    }
-
-    [data-scroll-rail-fill] {
-      display: block;
-      position: absolute;
-      inset: 0;
-      background: var(--accent-dim);
-      transform-origin: top;
-      animation-name: scroll-rail-fill;
-      animation-duration: auto;
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: scroll(root block);
-    }
-  }
-}
-
-@media (width < 69rem) {
-  [data-scroll-rail] {
-    display: none;
-  }
-}
-
-@media print {
-  [data-scroll-rail] {
-    display: none;
-  }
-}
-
 /* The drift never runs under reduced motion, whatever the component does. */
 @media (prefers-reduced-motion: reduce) {
   body::before {
@@ -576,5 +506,81 @@ body::before {
     [data-flip-card]:focus-visible [data-flip-back] {
       opacity: 1;
     }
+  }
+}
+
+/*
+ * Scroll progress bar: a 3px --accent bar across the top of the window on
+ * every page, growing from the left as the whole page scrolls (scaleX on
+ * scroll(root block)). Decorative: aria-hidden, unfocusable, ignores the
+ * pointer, fixed and out of flow. It sits in the 3px above the header pill,
+ * which starts 24px down, so it never covers the pill's controls.
+ *
+ * It renders only where scroll-driven animations exist and motion is
+ * welcome; otherwise it is not drawn at all, never stuck at zero or full.
+ *
+ * Stacking: z-index 60, above the header (50) in the page. During a route
+ * change the browser draws transition snapshots in an overlay above the whole
+ * document, where the header's group sits at z-index 100, so the bar has its
+ * own view-transition-name and its group sits at 101, swapping instantly like
+ * the header's.
+ */
+[data-scroll-progress] {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes scroll-progress {
+      from {
+        transform: scaleX(0);
+      }
+
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    [data-scroll-progress] {
+      display: block;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 60;
+      height: 3px;
+      pointer-events: none;
+      view-transition-name: scroll-progress;
+    }
+
+    [data-scroll-progress-fill] {
+      height: 100%;
+      background: var(--accent);
+      transform-origin: left;
+      animation-name: scroll-progress;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+::view-transition-group(scroll-progress) {
+  animation: none;
+  z-index: 101;
+}
+
+::view-transition-old(scroll-progress) {
+  display: none;
+}
+
+::view-transition-new(scroll-progress) {
+  animation: none;
+}
+
+@media print {
+  [data-scroll-progress] {
+    display: none;
   }
 }

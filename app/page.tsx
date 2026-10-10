@@ -32,12 +32,6 @@ export default function Home() {
   return (
     <ViewTransition enter="page-fade" exit="page-fade" default="none">
       <main className="mx-auto w-full max-w-[61rem] px-5 sm:px-6">
-        {/* Decorative scroll rail beside the content column, fixed and out of
-            flow: see [data-scroll-rail] in globals.css. */}
-        <div aria-hidden="true" data-scroll-rail="">
-          <div data-scroll-rail-fill="" />
-        </div>
-
         {/* Sections after the hero fade up as they scroll into view, in CSS: see
             [data-reveal-sections] in globals.css. */}
         <div data-reveal-sections="">
