@@ -479,3 +479,5 @@ Background: the paragraphs and the "Now" card widened from `max-w-[40rem]` to `m
 Education: its list was unconstrained, using the full 58rem content width, and is now `max-w-[50rem]`. The publication line widened from `max-w-[40rem]` to `max-w-[50rem]`. Both now match Background.
 
 Contact: the whole section is centred. `SectionHeader` gained `align` ("start" by default, "center" adds `text-center` and centres the intro), and only Contact passes it, so every other section's header renders as before. The closing lines are `mx-auto text-center`, the form card is `mx-auto` with its fields still left-aligned inside, and the icon row is `justify-center`.
+
+- 2026-10-10: OutLoud's `metricStrip` trimmed to "100+ sessions · 30+ devices" (byte-level edit, BOM kept). The Contact section header no longer passes `align="center"`, so its kicker and title sit left like every other section. The closing lines, form card and icon row stay centred. `SectionHeader`'s `align` prop is now unused but kept.

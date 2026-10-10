@@ -26,8 +26,9 @@ const FIELD_CLASS =
   "w-full rounded-[4px] border border-border bg-surface px-3.5 py-2.5 font-sans text-[1.0625rem] text-text placeholder:text-faint focus:outline-2 focus:outline-offset-2 focus:outline-accent";
 
 /**
- * Closing lines, a contact form, and the ways to get in touch as icon links,
- * all centred. Inside the form card the fields stay left-aligned.
+ * Closing lines, a contact form, and the ways to get in touch as icon links.
+ * The header sits left like every other section; the lines, the form card and
+ * the icon row are centred, with the fields left-aligned inside the card.
  *
  * The form is plain HTML posting to Formspree, with no client code: it works
  * with JavaScript disabled, and Formspree answers with its own thank-you page.
@@ -44,7 +45,6 @@ export default function ContactSection({ content }: { content: HomepageContent["
         number={content.number}
         kicker={content.kicker}
         title={content.title}
-        align="center"
       />
 
       <div className="mx-auto flex max-w-[40rem] flex-col gap-2 text-center">
