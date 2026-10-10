@@ -16,15 +16,16 @@ const FACE_CLASS =
  * h2, so its heading is an h3.
  *
  * A library study with both a `method` and a `finding` flips on hover and
- * keyboard focus to show them, as two labelled blocks on the back face. The link stays the one outer element, with the same target, name and
- * 2px lift (the `translate` property, on the link). Inside it a wrapper turns
- * with `transform` - a different element and a different property, so the
- * two never fight. The front face is the card as it always was and sets the
- * height; the back face is absolutely positioned over it, so the card never
- * changes size. The border moves onto both faces and still turns accent-dim
- * on the link's hover. All flip styling is in globals.css under
- * [data-flip-card], inside `@media (hover: hover)` and the reduced-motion
- * guard. Every other card renders exactly as before.
+ * keyboard focus to show them, as two labelled blocks on the back face. The
+ * link stays the one outer element, with the same target, name and 2px lift
+ * (the `translate` property, on the link). Inside it a wrapper turns with
+ * `transform` - a different element and a different property, so the two never
+ * fight. The front face is the card as it always was and sets the height; the
+ * back face is absolutely positioned over it, so the card never changes size.
+ * The border moves onto both faces and still turns accent-dim on the link's
+ * hover. All flip styling is in globals.css under [data-flip-card], inside
+ * `@media (hover: hover)` and the reduced-motion guard. Every other card
+ * renders exactly as before.
  */
 export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
   const href = `/work/${study.slug}`;
