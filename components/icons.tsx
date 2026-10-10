@@ -92,6 +92,30 @@ export function FileIcon(props: IconProps) {
   );
 }
 
+/** A single folder: a body with a tab on its top-left edge. */
+export function FolderIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M3 7.5a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+    </Icon>
+  );
+}
+
+/**
+ * Several folders: a smaller front folder, with the top and right edges of a
+ * second folder showing behind it, offset 4 units up and right. The second
+ * outline, about 3px clear of the first at 18px, is what tells it apart from
+ * FolderIcon's single closed shape.
+ */
+export function FoldersIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M7 7V6a2 2 0 0 1 2-2h3l2 2h5a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-1" />
+      <path d="M3 11a2 2 0 0 1 2-2h3l2 2h4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+    </Icon>
+  );
+}
+
 /** A box with an arrow leaving its top-right corner: opens elsewhere. */
 export function ExternalLinkIcon(props: IconProps) {
   return (

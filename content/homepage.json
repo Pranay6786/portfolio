@@ -8,8 +8,7 @@
     "subhead": "Pranay Patil - targeting APM / Junior PM roles",
     "actions": [
       { "label": "View work", "href": "#work" },
-      { "label": "Résumé", "href": "/resume.pdf" },
-      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/pranaypatil6786" }
+      { "label": "Résumé", "href": "/resume.pdf" }
     ]
   },
 

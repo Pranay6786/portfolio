@@ -1,6 +1,7 @@
 /**
  * Framing shared by homepage sections 01-07: a mono kicker line reading
  * "{kicker} / {number}", the section title, then an optional subtitle and intro.
+ * Left-aligned by default; `align="center"` centres the whole block.
  */
 export default function SectionHeader({
   titleId,
@@ -9,6 +10,7 @@ export default function SectionHeader({
   title,
   subtitle,
   intro,
+  align = "start",
 }: {
   titleId: string;
   number: string;
@@ -16,9 +18,12 @@ export default function SectionHeader({
   title: string;
   subtitle?: string;
   intro?: string;
+  align?: "start" | "center";
 }) {
+  const centred = align === "center";
+
   return (
-    <header className="mb-10 sm:mb-12">
+    <header className={centred ? "mb-10 text-center sm:mb-12" : "mb-10 sm:mb-12"}>
       <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
         {kicker} / {number}
       </p>
@@ -34,7 +39,13 @@ export default function SectionHeader({
         </p>
       ) : null}
       {intro ? (
-        <p className="mt-4 max-w-[40rem] font-serif text-[1.0625rem] leading-[1.7] text-muted">
+        <p
+          className={
+            centred
+              ? "mx-auto mt-4 max-w-[40rem] font-serif text-[1.0625rem] leading-[1.7] text-muted"
+              : "mt-4 max-w-[40rem] font-serif text-[1.0625rem] leading-[1.7] text-muted"
+          }
+        >
           {intro}
         </p>
       ) : null}

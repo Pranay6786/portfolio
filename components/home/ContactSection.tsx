@@ -1,6 +1,6 @@
 import type { ComponentType, SVGProps } from "react";
+import IconLink from "@/components/home/IconLink";
 import SectionHeader from "@/components/home/SectionHeader";
-import { opensNewTab } from "@/components/home/TextLink";
 import { FileIcon, GitHubIcon, LinkedInIcon, MailIcon } from "@/components/icons";
 import type { HomepageContent, HomepageLink } from "@/lib/homepage";
 
@@ -26,7 +26,8 @@ const FIELD_CLASS =
   "w-full rounded-[4px] border border-border bg-surface px-3.5 py-2.5 font-sans text-[1.0625rem] text-text placeholder:text-faint focus:outline-2 focus:outline-offset-2 focus:outline-accent";
 
 /**
- * Closing lines, a contact form, and the ways to get in touch as icon links.
+ * Closing lines, a contact form, and the ways to get in touch as icon links,
+ * all centred. Inside the form card the fields stay left-aligned.
  *
  * The form is plain HTML posting to Formspree, with no client code: it works
  * with JavaScript disabled, and Formspree answers with its own thank-you page.
@@ -43,9 +44,10 @@ export default function ContactSection({ content }: { content: HomepageContent["
         number={content.number}
         kicker={content.kicker}
         title={content.title}
+        align="center"
       />
 
-      <div className="flex max-w-[40rem] flex-col gap-2">
+      <div className="mx-auto flex max-w-[40rem] flex-col gap-2 text-center">
         {content.lines.map((line) => (
           <p key={line} className="font-serif text-[1.3125rem] leading-snug text-text">
             {line}
@@ -53,7 +55,7 @@ export default function ContactSection({ content }: { content: HomepageContent["
         ))}
       </div>
 
-      <div className="mt-10 max-w-[40rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
+      <div className="mx-auto mt-10 max-w-[40rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
         <form method="POST" action={form.endpoint} className="flex flex-col gap-5">
           <input type="hidden" name="_subject" value={FORM_SUBJECT} />
 
@@ -120,7 +122,7 @@ export default function ContactSection({ content }: { content: HomepageContent["
         </form>
       </div>
 
-      <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-6">
+      <ul className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-6">
         {content.actions.map((action) => (
           <li key={`${action.label}-${action.href}`}>
             <ContactIconLink action={action} />
@@ -141,21 +143,5 @@ function ContactIconLink({ action }: { action: HomepageLink }) {
     );
   }
 
-  const newTab = opensNewTab(action.href);
-
-  return (
-    <a
-      href={action.href}
-      {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="flex flex-col items-center gap-2 text-muted hover:text-accent"
-    >
-      <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface">
-        <Icon width={20} height={20} />
-      </span>
-      <span className="font-mono text-[0.6875rem] uppercase tracking-[0.08em]">
-        {action.label}
-        {newTab ? <span className="sr-only"> (opens in new tab)</span> : null}
-      </span>
-    </a>
-  );
+  return <IconLink href={action.href} label={action.label} icon={Icon} layout="stacked" />;
 }

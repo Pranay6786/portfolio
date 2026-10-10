@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 /** An app route, as opposed to an anchor, a file in public/ or another site. */
-function isRoute(href: string): boolean {
+export function isRoute(href: string): boolean {
   return href.startsWith("/") && !/\.[a-z0-9]+$/i.test(href);
 }
 

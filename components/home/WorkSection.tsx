@@ -1,5 +1,6 @@
 import SectionHeader from "@/components/home/SectionHeader";
-import TextLink from "@/components/home/TextLink";
+import IconLink from "@/components/home/IconLink";
+import { FoldersIcon } from "@/components/icons";
 import WorkCard from "@/components/WorkCard";
 import type { CaseStudyFrontmatter } from "@/lib/content";
 import type { HomepageContent } from "@/lib/homepage";
@@ -35,7 +36,12 @@ export default function WorkSection({
       </ul>
 
       <p className="mt-8">
-        <TextLink href={content.allWorkHref}>{content.allWorkLabel}</TextLink>
+        <IconLink
+          href={content.allWorkHref}
+          label={content.allWorkLabel}
+          icon={FoldersIcon}
+          layout="inline"
+        />
       </p>
     </section>
   );

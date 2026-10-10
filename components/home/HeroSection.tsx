@@ -1,5 +1,13 @@
-import ActionLinks from "@/components/home/ActionLinks";
+import type { ComponentType, SVGProps } from "react";
+import IconLink from "@/components/home/IconLink";
+import { FileIcon, FolderIcon } from "@/components/icons";
 import type { HomepageContent } from "@/lib/homepage";
+
+/** Each hero action's icon, matched by its label in homepage.json. */
+const ACTION_ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
+  "View work": FolderIcon,
+  "Résumé": FileIcon,
+};
 
 /** The opening statement: stacked serif lines, a subhead and the actions. No kicker. */
 export default function HeroSection({ content }: { content: HomepageContent["hero"] }) {
@@ -18,12 +26,26 @@ export default function HeroSection({ content }: { content: HomepageContent["her
           </span>
         ))}
       </h1>
-      <p className="mt-6 font-sans text-[1.0625rem] leading-relaxed text-muted">
+      {/* Between the body size and the h1: the case study subtitle's sizes. */}
+      <p className="mt-6 font-sans text-[1.1875rem] leading-snug text-muted sm:text-[1.3125rem]">
         {content.subhead}
       </p>
-      <div className="mt-8">
-        <ActionLinks actions={content.actions} />
-      </div>
+      <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
+        {content.actions.map((action) => {
+          const icon = ACTION_ICONS[action.label];
+          if (!icon) {
+            throw new Error(
+              `No hero icon for the action labelled "${action.label}" in content/homepage.json. ` +
+                `Known labels: ${Object.keys(ACTION_ICONS).join(", ")}.`,
+            );
+          }
+          return (
+            <li key={`${action.label}-${action.href}`}>
+              <IconLink href={action.href} label={action.label} icon={icon} layout="inline" />
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }
