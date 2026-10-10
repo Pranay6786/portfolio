@@ -15,8 +15,8 @@ const FACE_CLASS =
  * the homepage work section and the /work index, where it always sits under an
  * h2, so its heading is an h3.
  *
- * A library study with a `method` flips on hover and keyboard focus to show
- * it. The link stays the one outer element, with the same target, name and
+ * A library study with both a `method` and a `finding` flips on hover and
+ * keyboard focus to show them, as two labelled blocks on the back face. The link stays the one outer element, with the same target, name and
  * 2px lift (the `translate` property, on the link). Inside it a wrapper turns
  * with `transform` - a different element and a different property, so the
  * two never fight. The front face is the card as it always was and sets the
@@ -31,7 +31,7 @@ export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
   // Named by the heading and title only, not the whole card's text.
   const labelledBy = `card-${study.slug}-heading card-${study.slug}-title`;
 
-  if (study.kind === "library" && study.method) {
+  if (study.kind === "library" && study.method && study.finding) {
     return (
       <Link
         href={href}
@@ -45,14 +45,24 @@ export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
           </div>
           <div
             data-flip-back=""
-            className={`${FACE_CLASS} absolute inset-0 flex flex-col justify-center bg-bg`}
+            className={`${FACE_CLASS} absolute inset-0 flex flex-col justify-center gap-5 bg-bg`}
           >
-            <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
-              Method
-            </p>
-            <p className="mt-3 font-serif text-[1.3125rem] leading-[1.35] text-balance text-text">
-              {study.method}
-            </p>
+            <div>
+              <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
+                Method
+              </p>
+              <p className="mt-3 font-serif text-[1.0625rem] leading-[1.35] text-balance text-text">
+                {study.method}
+              </p>
+            </div>
+            <div>
+              <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
+                Finding
+              </p>
+              <p className="mt-3 font-serif text-[1.0625rem] leading-[1.35] text-balance text-text">
+                {study.finding}
+              </p>
+            </div>
           </div>
         </div>
       </Link>

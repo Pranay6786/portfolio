@@ -25,6 +25,8 @@ export type CaseStudyFrontmatter = {
   liveUrl: string | null;
   /** How the study was done, in a line, shown on the back of a library card. */
   method: string | null;
+  /** What the study showed, in a line, shown under the method on the card back. */
+  finding: string | null;
 };
 
 export type CaseStudy = {
@@ -166,6 +168,7 @@ export function validateFrontmatter(data: unknown, file: string): CaseStudyFront
     disclaimer: nullableString(raw, "disclaimer", file),
     liveUrl: optionalHttpsUrl(raw, "liveUrl", file),
     method: optionalString(raw, "method", file),
+    finding: optionalString(raw, "finding", file),
   };
 }
 
