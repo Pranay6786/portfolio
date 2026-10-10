@@ -32,8 +32,16 @@ export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
         {study.summary}
       </p>
 
-      {study.badges.length > 0 ? (
+      {study.liveUrl || study.badges.length > 0 ? (
         <ul className="mt-5 flex flex-wrap gap-2">
+          {study.liveUrl ? (
+            // A label, not a link: the whole card already links to the study.
+            // The one pill in the accent, for a product anyone can use.
+            <li className="inline-flex items-center gap-1.5 rounded-full border border-accent-dim bg-accent-tint px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] whitespace-nowrap text-accent">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+              Live
+            </li>
+          ) : null}
           {study.badges.map((badge) => (
             <Pill key={badge}>{badge}</Pill>
           ))}

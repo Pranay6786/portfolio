@@ -9,6 +9,7 @@ import Confidence from "@/components/Confidence";
 import ContentTable from "@/components/ContentTable";
 import MetricStrip from "@/components/MetricStrip";
 import Screen from "@/components/Screen";
+import { ExternalLinkIcon } from "@/components/icons";
 import SectionIndex from "@/components/SectionIndex";
 import { MASTHEAD_SENTINEL_ID } from "@/lib/case-study-bar";
 import {
@@ -107,6 +108,21 @@ export default async function CaseStudyPage({
               <div className="mt-5">
                 <MetricStrip>{frontmatter.metricStrip}</MetricStrip>
               </div>
+            ) : null}
+
+            {frontmatter.liveUrl ? (
+              <p className="mt-4 mb-0">
+                <a
+                  href={frontmatter.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-sans text-[0.875rem] font-semibold text-accent underline decoration-accent-dim underline-offset-[0.2em] hover:decoration-accent"
+                >
+                  <ExternalLinkIcon width={16} height={16} />
+                  Try it live
+                  <span className="sr-only"> (opens in new tab)</span>
+                </a>
+              </p>
             ) : null}
 
             <p className="mt-5 mb-0 font-serif text-[1.0625rem] leading-[1.7] text-text">

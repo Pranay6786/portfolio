@@ -21,6 +21,8 @@ export type CaseStudyFrontmatter = {
   metricStrip: string | null;
   summary: string;
   disclaimer: string | null;
+  /** A publicly usable version of the product, when there is one. */
+  liveUrl: string | null;
 };
 
 export type CaseStudy = {
@@ -62,6 +64,26 @@ function nullableString(data: Record<string, unknown>, field: string, file: stri
   }
   if (typeof value !== "string") {
     fail(file, field, `must be a string or null, received ${typeof value}`);
+  }
+  return value;
+}
+
+/**
+ * The one optional field: absent and null both mean "no live product". When
+ * present it must be an absolute https:// URL. This mirrors the endpoint check
+ * in lib/homepage.ts, except that a bare host with no path is accepted, since
+ * a product's address is often just its domain.
+ */
+function optionalHttpsUrl(data: Record<string, unknown>, field: string, file: string): string | null {
+  const value = data[field];
+  if (value === undefined || value === null) {
+    return null;
+  }
+  if (typeof value !== "string") {
+    fail(file, field, `must be a string or null, received ${typeof value}`);
+  }
+  if (!/^https:\/\/[^\s/]+(\/\S*)?$/.test(value)) {
+    fail(file, field, `must be an absolute https:// URL, received ${JSON.stringify(value)}`);
   }
   return value;
 }
@@ -122,6 +144,7 @@ export function validateFrontmatter(data: unknown, file: string): CaseStudyFront
     metricStrip: nullableString(raw, "metricStrip", file),
     summary,
     disclaimer: nullableString(raw, "disclaimer", file),
+    liveUrl: optionalHttpsUrl(raw, "liveUrl", file),
   };
 }
 
