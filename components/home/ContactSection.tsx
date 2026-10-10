@@ -50,7 +50,7 @@ export default function ContactSection({ content }: { content: HomepageContent["
         title={content.title}
       />
 
-      <div className="flex max-w-[50rem] flex-col gap-2">
+      <div data-reveal="" className="flex max-w-[50rem] flex-col gap-2">
         {content.lines.map((line) => (
           <p key={line} className="font-serif text-[1.3125rem] leading-snug text-text">
             {line}
@@ -58,7 +58,7 @@ export default function ContactSection({ content }: { content: HomepageContent["
         ))}
       </div>
 
-      <div className="mt-10 max-w-[50rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
+      <div data-reveal="" className="mt-10 max-w-[50rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
         <form method="POST" action={form.endpoint} className="flex flex-col gap-5">
           <input type="hidden" name="_subject" value={FORM_SUBJECT} />
 
@@ -125,7 +125,7 @@ export default function ContactSection({ content }: { content: HomepageContent["
         </form>
       </div>
 
-      <ul className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-6">
+      <ul data-reveal="" className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-6">
         {content.actions.map((action) => (
           <li key={`${action.label}-${action.href}`}>
             <ContactIconLink action={action} />

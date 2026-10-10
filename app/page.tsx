@@ -32,18 +32,14 @@ export default function Home() {
   return (
     <ViewTransition enter="page-fade" exit="page-fade" default="none">
       <main className="mx-auto w-full max-w-[61rem] px-5 sm:px-6">
-        {/* Sections after the hero fade up as they scroll into view, in CSS: see
-            [data-reveal-sections] in globals.css. */}
-        <div data-reveal-sections="">
-          <HeroSection content={content.hero} />
-          <WorkSection content={content.work} studies={featured} />
-          <DecideSection content={content.decide} />
-          <BackgroundSection content={content.background} />
-          <SkillsSection content={content.skills} />
-          <CertificationsSection content={content.certifications} />
-          <EducationSection content={content.education} />
-          <ContactSection content={content.contact} />
-        </div>
+        <HeroSection content={content.hero} />
+        <WorkSection content={content.work} studies={featured} />
+        <DecideSection content={content.decide} />
+        <BackgroundSection content={content.background} />
+        <SkillsSection content={content.skills} />
+        <CertificationsSection content={content.certifications} />
+        <EducationSection content={content.education} />
+        <ContactSection content={content.contact} />
       </main>
     </ViewTransition>
   );

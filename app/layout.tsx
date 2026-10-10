@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import GridParallax from "@/components/GridParallax";
+import Reveal from "@/components/Reveal";
 import SiteHeader from "@/components/SiteHeader";
 import { getHomepageNav } from "@/lib/homepage";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader navItems={getHomepageNav()} />
         {children}
         <GridParallax />
+        <Reveal />
       </body>
     </html>
   );

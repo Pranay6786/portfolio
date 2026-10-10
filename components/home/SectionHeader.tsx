@@ -23,7 +23,7 @@ export default function SectionHeader({
   const centred = align === "center";
 
   return (
-    <header className={centred ? "mb-10 text-center sm:mb-12" : "mb-10 sm:mb-12"}>
+    <header data-reveal="" className={centred ? "mb-10 text-center sm:mb-12" : "mb-10 sm:mb-12"}>
       <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
         {kicker} / {number}
       </p>

@@ -18,7 +18,7 @@ export default function SkillsSection({ content }: { content: HomepageContent["s
         title={content.title}
       />
 
-      <div className="flex flex-col gap-8">
+      <div data-reveal="" className="flex flex-col gap-8">
         {content.groups.map((group) => (
           <div key={group.title} className="grid gap-3 sm:grid-cols-[11rem_1fr] sm:gap-6">
             <h3 className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint sm:pt-2">

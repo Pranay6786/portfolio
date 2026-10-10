@@ -32,7 +32,7 @@ export default function BackgroundSection({
         intro={content.intro}
       />
 
-      <div className="max-w-[50rem]">
+      <div data-reveal="" className="max-w-[50rem]">
         {content.paragraphs.map((paragraph) => (
           <div key={paragraph} className="flex gap-6 pb-10">
             {/* The dot sits on the paragraph's first line, centred 0.903125rem down. */}
@@ -50,7 +50,7 @@ export default function BackgroundSection({
         ))}
       </div>
 
-      <div className="mt-10 max-w-[50rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
+      <div data-reveal="" className="mt-10 max-w-[50rem] rounded-[4px] border border-border bg-surface p-6 sm:p-8">
         <h3 className="font-serif text-[1.3125rem] font-semibold leading-[1.35] text-text">
           {content.now.title}
         </h3>
@@ -66,7 +66,7 @@ export default function BackgroundSection({
         </dl>
       </div>
 
-      <p className="mt-8">
+      <p data-reveal="" className="mt-8">
         <TextLink href={content.linkHref}>{content.linkText}</TextLink>
       </p>
     </section>

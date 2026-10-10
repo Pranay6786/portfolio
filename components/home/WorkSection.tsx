@@ -27,7 +27,7 @@ export default function WorkSection({
         intro={content.intro}
       />
 
-      <ul className="flex flex-col gap-6">
+      <ul data-reveal="" className="flex flex-col gap-6">
         {studies.map((study) => (
           <li key={study.slug}>
             <WorkCard study={study} />
@@ -35,7 +35,7 @@ export default function WorkSection({
         ))}
       </ul>
 
-      <p className="mt-8">
+      <p data-reveal="" className="mt-8">
         <IconLink
           href={content.allWorkHref}
           label={content.allWorkLabel}

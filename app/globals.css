@@ -297,49 +297,8 @@ body::before {
   }
 }
 
-/*
- * Homepage section entrance: a fade up as each numbered section scrolls into
- * view. CSS scroll-driven animation only - no JavaScript, no observer.
- *
- * Applied to direct section children of [data-reveal-sections] except the
- * first, which is the hero: it is on screen at load and must not fade in.
- *
- * Progress follows scroll position, not time. The animation runs from the
- * moment a section's top edge enters the bottom of the viewport until the
- * section is 30% of the way through crossing it (`entry 0%` to `cover 30%`),
- * moving 24px up and from 0 to full opacity, then holds its end state for the
- * rest of the page (`fill: both`). The cover range spans the viewport height
- * plus the section's own height, so the run scales with the section: a taller
- * section takes longer to arrive.
- *
- * Every rule that hides content sits inside both guards. A browser without
- * scroll-driven animations skips the @supports block and renders sections at
- * full opacity in place. A reader who prefers reduced motion fails the media
- * query and gets the same.
- */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes section-reveal {
-      from {
-        opacity: 0;
-        translate: 0 24px;
-      }
-
-      to {
-        opacity: 1;
-        translate: 0 0;
-      }
-    }
-
-    [data-reveal-sections] > section:not(:first-child) {
-      animation-name: section-reveal;
-      animation-duration: auto;
-      animation-timing-function: ease-out;
-      animation-fill-mode: both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 30%;
-    }
-
     /*
      * Education timeline: each segment, and the tail under the last dot,
      * grows downward from its own dot (`scaleY` 0 to 1, origin top) as it
@@ -582,5 +541,48 @@ body::before {
 @media print {
   [data-scroll-progress] {
     display: none;
+  }
+}
+
+/*
+ * Entrance reveal: content floats in once, on a fixed-duration animation, as
+ * it nears the viewport. components/Reveal.tsx runs one IntersectionObserver
+ * for the whole site over [data-reveal]. Elements below the viewport on load
+ * become "pending" (hidden, 16px low). When one comes within 48px of the
+ * bottom of the viewport it becomes "in" and plays reveal-in once, then is
+ * never watched again. Anything already on screen is never touched.
+ *
+ * The default state is visible: the hidden state only exists once JavaScript
+ * has marked an element, so without JavaScript everything simply shows. Under
+ * reduced motion the component marks nothing, and these rules do not apply
+ * anyway.
+ *
+ * 500ms with a strong ease-out, so most of the movement is over in the first
+ * half and it settles rather than drifting. Siblings that arrive together
+ * stagger by 80ms, capped at 400ms (--reveal-delay, set by the component).
+ * Fill mode is backwards only: the first frame holds through the delay, and
+ * afterwards no translate is left on the element, so it creates no lasting
+ * stacking context. Opacity and translate only, never layout.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      translate: 0 16px;
+    }
+
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  [data-reveal="pending"] {
+    opacity: 0;
+    translate: 0 16px;
+  }
+
+  [data-reveal="in"] {
+    animation: reveal-in 500ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) backwards;
   }
 }
