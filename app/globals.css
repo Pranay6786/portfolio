@@ -17,6 +17,10 @@
   --accent-dim: #7a5526;
   --accent-tint: transparent;
   --border: #2a2a28;
+
+  /* Background grid: --border (#2a2a28) at 30% alpha, and its module. */
+  --grid-line: rgb(42 42 40 / 0.3);
+  --grid-size: 72px;
 }
 
 :root[data-theme="light"] {
@@ -31,6 +35,10 @@
   --accent-dim: #d1692e;
   --accent-tint: #fbede5;
   --border: #dedad1;
+
+  /* Background grid: --border (#dedad1) at 25% alpha, the same strength as dark. */
+  --grid-line: rgb(222 218 209 / 0.25);
+  --grid-size: 72px;
 }
 
 /*
@@ -61,9 +69,53 @@
 }
 
 body {
+  /* Positioned and isolated so the grid layer below can sit at z-index -1
+     inside the body: above its background colour, under all of its content. */
+  position: relative;
+  isolation: isolate;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+ * Background grid: a faint 1px drafting grid at --grid-size, behind the whole
+ * page. It is a pseudo-element, not a background on body itself, because a
+ * mask on body would fade every descendant too - the fade has to apply to the
+ * grid alone. It covers the body's full height and scrolls with the page.
+ *
+ * The radial mask fades the grid to nothing at the left and right edges of
+ * the viewport. Its vertical radius is twice the page height, so there is no
+ * visible fade towards the top or bottom, and no hard boundary anywhere.
+ * Without mask support the grid simply renders unmasked. Opaque surfaces -
+ * the header pill, cards on --surface, the case study bar on --bg - cover it
+ * where they sit.
+ */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--grid-line) 0 1px,
+      transparent 1px var(--grid-size)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--grid-line) 0 1px,
+      transparent 1px var(--grid-size)
+    );
+  -webkit-mask-image: radial-gradient(50% 200% at 50% 50%, black 30%, transparent 100%);
+  mask-image: radial-gradient(50% 200% at 50% 50%, black 30%, transparent 100%);
+}
+
+@media print {
+  body::before {
+    display: none;
+  }
 }
 
 /*
