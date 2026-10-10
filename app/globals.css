@@ -18,8 +18,8 @@
   --accent-tint: transparent;
   --border: #2a2a28;
 
-  /* Background grid: --border (#2a2a28) at 30% alpha, and its module. */
-  --grid-line: rgb(42 42 40 / 0.3);
+  /* Background grid: --border (#2a2a28) at 20% alpha, and its module. */
+  --grid-line: rgb(42 42 40 / 0.2);
   --grid-size: 72px;
 }
 
@@ -36,8 +36,8 @@
   --accent-tint: #fbede5;
   --border: #dedad1;
 
-  /* Background grid: --border (#dedad1) at 25% alpha, the same strength as dark. */
-  --grid-line: rgb(222 218 209 / 0.25);
+  /* Background grid: --border (#dedad1) at 18% alpha, about dark's strength. */
+  --grid-line: rgb(222 218 209 / 0.18);
   --grid-size: 72px;
 }
 
@@ -79,21 +79,23 @@ body {
 }
 
 /*
- * Background grid: a faint 1px drafting grid at --grid-size, behind the whole
- * page. It is a pseudo-element, not a background on body itself, because a
- * mask on body would fade every descendant too - the fade has to apply to the
- * grid alone. It covers the body's full height and scrolls with the page.
+ * Background grid: a faint 1px drafting grid at --grid-size behind every page.
+ * It is a pseudo-element, not a background on body itself, because a mask on
+ * body would fade every descendant too - the fade has to apply to the grid
+ * alone. It is fixed to the viewport, so its box is exactly the window
+ * whatever the page's size: the page scrolls over it.
  *
- * The radial mask fades the grid to nothing at the left and right edges of
- * the viewport. Its vertical radius is twice the page height, so there is no
- * visible fade towards the top or bottom, and no hard boundary anywhere.
- * Without mask support the grid simply renders unmasked. Opaque surfaces -
- * the header pill, cards on --surface, the case study bar on --bg - cover it
- * where they sit.
+ * The radial mask fades the grid to nothing at the left and right edges. Its
+ * vertical radius is ten times the viewport height, so the top and bottom rows
+ * differ from mid-height by under 1% - in effect a horizontal-only fade, with
+ * no hard boundary. The mask's box, size and position are set explicitly so
+ * they cannot disagree with the gradient's. Without mask support the grid
+ * renders unmasked. Opaque surfaces - the header pill, work cards and others
+ * on --bg or --surface - cover it where they sit.
  */
 body::before {
   content: "";
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
@@ -108,8 +110,14 @@ body::before {
       var(--grid-line) 0 1px,
       transparent 1px var(--grid-size)
     );
-  -webkit-mask-image: radial-gradient(50% 200% at 50% 50%, black 30%, transparent 100%);
-  mask-image: radial-gradient(50% 200% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(50% 1000% at 50% 50%, black 30%, transparent 100%);
+  mask-image: radial-gradient(50% 1000% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 @media print {

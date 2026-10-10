@@ -5,7 +5,7 @@ import type { CaseStudyFrontmatter } from "@/lib/content";
 
 /** The card's surface: hairline border and padding, on the link or on a face. */
 const FACE_CLASS =
-  "rounded-[4px] border border-border p-6 group-hover:border-accent-dim group-focus-visible:border-accent-dim motion-safe:transition-[border-color] motion-safe:duration-150 sm:p-8";
+  "rounded-[4px] border border-border bg-bg p-6 group-hover:border-accent-dim group-focus-visible:border-accent-dim motion-safe:transition-[border-color] motion-safe:duration-150 sm:p-8";
 
 /**
  * One case study as a card, built entirely from its frontmatter: subtitle as
@@ -22,8 +22,8 @@ const FACE_CLASS =
  * `transform` - a different element and a different property, so the two never
  * fight. The front face is the card as it always was and sets the height; the
  * back face is absolutely positioned over it, so the card never changes size.
- * The border moves onto both faces and still turns accent-dim on the link's
- * hover. All flip styling is in globals.css under [data-flip-card], inside
+ * The border and the opaque --bg background move onto both faces, and the
+ * border still turns accent-dim on the link's hover. All flip styling is in globals.css under [data-flip-card], inside
  * `@media (hover: hover)` and the reduced-motion guard. Every other card
  * renders exactly as before.
  */
@@ -46,7 +46,7 @@ export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
           </div>
           <div
             data-flip-back=""
-            className={`${FACE_CLASS} absolute inset-0 flex flex-col justify-center gap-5 bg-bg`}
+            className={`${FACE_CLASS} absolute inset-0 flex flex-col justify-center gap-5`}
           >
             <div>
               <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
@@ -74,7 +74,7 @@ export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
     <Link
       href={href}
       aria-labelledby={labelledBy}
-      className="block rounded-[4px] border border-border p-6 hover:border-accent-dim focus-visible:border-accent-dim motion-safe:transition-[border-color,translate] motion-safe:duration-150 motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5 sm:p-8"
+      className="block rounded-[4px] border border-border bg-bg p-6 hover:border-accent-dim focus-visible:border-accent-dim motion-safe:transition-[border-color,translate] motion-safe:duration-150 motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5 sm:p-8"
     >
       <CardBody study={study} />
     </Link>
