@@ -23,10 +23,11 @@ const ICON_BUTTON_CLASS =
  *
  * The band's inner wrapper copies main's frame exactly - `max-w-[61rem]`,
  * centred, `px-5 sm:px-6` - so the pill is measured against the content frame.
- * Inside it the pill is capped at 52rem and centred: narrower than the content
- * on wide screens, the full content width on smaller ones. The pill is 48px
- * tall and sits at the bottom of the band (`items-end pb-1`): 24px from the top
- * of the viewport, 4px above the band's bottom edge. The band itself starts at
+ * On the homepage the pill is capped at 52rem and centred: narrower than the
+ * content on wide screens, the full content width on smaller ones. On other
+ * pages it shrinks to wrap its two icon buttons, centred by the same margin.
+ * The pill is 48px tall and sits at the bottom of the band (`items-end pb-1`):
+ * 24px from the top of the viewport, 4px above the band's bottom edge. The band itself starts at
  * the top, so on inner pages its solid background covers the space above the
  * pill too.
  *
@@ -51,8 +52,8 @@ export default function SiteHeader({ navItems }: { navItems: HomepageNavItem[] }
     >
       <div className="mx-auto flex h-full w-full max-w-[61rem] items-end px-5 pb-1 sm:px-6">
         <div
-          className={`pointer-events-auto mx-auto flex h-12 w-full max-w-[52rem] items-center rounded-full border border-border bg-surface px-1.5 ${
-            isHome ? "justify-between" : "justify-center gap-2"
+          className={`pointer-events-auto mx-auto flex h-12 items-center rounded-full border border-border bg-surface px-1.5 ${
+            isHome ? "w-full max-w-[52rem] justify-between" : "w-auto justify-center gap-2"
           }`}
         >
           {isHome ? (

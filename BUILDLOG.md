@@ -353,3 +353,5 @@ Offsets for the 76px band:
 - `CaseStudyBar`: `top-14` to `top-[4.75rem]`, `HEADER_HEIGHT` 56 to 76. Band and bar together: 76 + 112 = 188px.
 - `ArticleHeading`: `scroll-mt-[15.5rem]` to `scroll-mt-[16.75rem]` (268px), 80px below the bar. `SectionIndex` activation line: 264 to 284, 16px below that.
 - Section index nav: `top-[12rem]` to `top-[13.25rem]` (212px), 24px below the bar, leaving 688px on a 900px screen.
+
+- 2026-10-10: On every page except `/`, the header pill shrinks to wrap its two icon buttons (`w-auto`, no max width), centred by `mx-auto`. That makes it 94px wide: 36 + 8 gap + 36, plus 6px padding and a 1px border on each side. The homepage pill keeps `w-full max-w-[52rem]`.
