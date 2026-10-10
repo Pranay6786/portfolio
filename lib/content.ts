@@ -23,6 +23,8 @@ export type CaseStudyFrontmatter = {
   disclaimer: string | null;
   /** A publicly usable version of the product, when there is one. */
   liveUrl: string | null;
+  /** How the study was done, in a line, shown on the back of a library card. */
+  method: string | null;
 };
 
 export type CaseStudy = {
@@ -89,6 +91,24 @@ function optionalHttpsUrl(data: Record<string, unknown>, field: string, file: st
 }
 
 /**
+ * An optional plain string: absent and null both mean none; anything else
+ * must be a non-empty string.
+ */
+function optionalString(data: Record<string, unknown>, field: string, file: string): string | null {
+  const value = data[field];
+  if (value === undefined || value === null) {
+    return null;
+  }
+  if (typeof value !== "string") {
+    fail(file, field, `must be a string or null, received ${typeof value}`);
+  }
+  if (value.trim() === "") {
+    fail(file, field, "must be a non-empty string or null");
+  }
+  return value;
+}
+
+/**
  * Validates one parsed frontmatter object. Throws an error naming the file and
  * the offending field. Called from the content loaders, which only run during
  * prerendering, so a bad field fails the build rather than a request.
@@ -145,6 +165,7 @@ export function validateFrontmatter(data: unknown, file: string): CaseStudyFront
     summary,
     disclaimer: nullableString(raw, "disclaimer", file),
     liveUrl: optionalHttpsUrl(raw, "liveUrl", file),
+    method: optionalString(raw, "method", file),
   };
 }
 

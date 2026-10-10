@@ -377,3 +377,54 @@ body {
     animation: none !important;
   }
 }
+
+/*
+ * Library work card flip - the one place the site uses a transform, and only
+ * in WorkCard. A card whose study has a `method` turns over on hover and
+ * keyboard focus (rotateY 180deg, 500ms) to show it on the back face.
+ *
+ * Outside the guards the back face is transparent but stays in the DOM, so
+ * screen readers still read it and touch devices see the card exactly as
+ * before - a tap opens the study. With a hover-capable pointer:
+ * - no motion preference: the wrapper turns in 3D, each face hides its back;
+ * - reduced motion: no rotation. The back face simply appears over the front,
+ *   instantly, on hover or focus, so the method is still there to read.
+ */
+[data-flip-back] {
+  opacity: 0;
+}
+
+@media (hover: hover) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-flip-card] {
+      perspective: 1200px;
+    }
+
+    [data-flip-inner] {
+      transform-style: preserve-3d;
+      transition: transform 500ms ease-in-out;
+    }
+
+    [data-flip-front],
+    [data-flip-back] {
+      backface-visibility: hidden;
+    }
+
+    [data-flip-back] {
+      opacity: 1;
+      transform: rotateY(180deg);
+    }
+
+    [data-flip-card]:hover [data-flip-inner],
+    [data-flip-card]:focus-visible [data-flip-inner] {
+      transform: rotateY(180deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-flip-card]:hover [data-flip-back],
+    [data-flip-card]:focus-visible [data-flip-back] {
+      opacity: 1;
+    }
+  }
+}
