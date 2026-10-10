@@ -19,10 +19,11 @@ import type { HomepageContent } from "@/lib/homepage";
  * 0.171875rem (2.75px), and `mx-auto` centres it in the 16px column. The 2px
  * segment sits at `calc(50% - 1px)`, so both are centred on the column's 8px
  * line, and each segment starts and ends 0.609375rem into an entry, on a dot
- * centre. The marker column is hidden
- * from assistive technology, so screen readers get a plain list. Each segment
- * draws itself downward as it scrolls into view: see [data-timeline-segment]
- * in globals.css.
+ * centre.
+ *
+ * The marker column is hidden from assistive technology, so screen readers
+ * get a plain list. Each segment draws itself downward as it scrolls into
+ * view: see [data-timeline-segment] in globals.css.
  */
 export default function EducationSection({
   content,
