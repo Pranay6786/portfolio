@@ -54,7 +54,11 @@ export default function SiteHeader({ navItems }: { navItems: HomepageNavItem[] }
       className={`sticky top-0 z-50 h-[4.75rem] w-full ${isHome ? "pointer-events-none" : "bg-bg"}`}
     >
       <div className="mx-auto flex h-full w-full max-w-[61rem] items-end px-5 pb-1 sm:px-6">
-        <div className="pointer-events-auto mx-auto flex h-12 w-full max-w-[52rem] items-center justify-between rounded-full border border-border bg-surface px-1.5">
+        {/* The pill opens the load stagger: see [data-load-in] in globals.css. */}
+        <div
+          data-load-in="nav"
+          className="pointer-events-auto mx-auto flex h-12 w-full max-w-[52rem] items-center justify-between rounded-full border border-border bg-surface px-1.5"
+        >
           {isHome ? <HomeNav items={navItems} /> : <AwayNav items={navItems} />}
           <ThemeToggle />
         </div>

@@ -25,6 +25,7 @@ export default function WorkSection({
         kicker={content.kicker}
         title={content.title}
         intro={content.intro}
+        entrance="load"
       />
 
       <ul data-reveal="" className="flex flex-col gap-6">

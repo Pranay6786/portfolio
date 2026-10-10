@@ -335,13 +335,17 @@ body::before {
 }
 
 /*
- * Hero on load: each line fades in and rises 12px over 400ms, ease-out, 120ms
- * apart, and the subhead and the actions row (as one unit) continue the same
- * cadence at 360ms and 480ms, so the actions are fully visible 880ms after the
- * hero first paints. A plain time-based
- * animation that plays once per page load - not scroll-driven, so it sits
- * outside the @supports guard. Every browser supports it. With reduced motion,
- * the rule never applies and the lines are there at once.
+ * Load stagger: one chain, each step fading in and rising 12px over 400ms,
+ * ease-out, 120ms after the last - the header pill at 0ms, the three hero
+ * lines at 120, 240 and 360ms, the subhead at 480ms, the actions row (as one
+ * unit) at 600ms and the Work section header at 720ms, so the chain is
+ * complete 1120ms after first paint. A plain time-based animation that plays
+ * when each element first renders - not scroll-driven, so it sits outside the
+ * @supports guard. Every browser supports it, and without JavaScript it still
+ * plays. The pill lives in the persistent layout, so it plays on the first
+ * load of any route and not on client-side navigation; the homepage elements
+ * play again whenever the homepage is rendered. With reduced motion, the rules
+ * never apply and everything is there at once.
  */
 @media (prefers-reduced-motion: no-preference) {
   @keyframes hero-line-in {
@@ -356,24 +360,32 @@ body::before {
     }
   }
 
-  [data-hero-lines] > span {
+  [data-load-in="nav"] {
     animation: hero-line-in 400ms ease-out both;
   }
 
-  [data-hero-lines] > span:nth-child(2) {
-    animation-delay: 120ms;
+  [data-hero-lines] > span {
+    animation: hero-line-in 400ms ease-out 120ms both;
   }
 
-  [data-hero-lines] > span:nth-child(3) {
+  [data-hero-lines] > span:nth-child(2) {
     animation-delay: 240ms;
   }
 
+  [data-hero-lines] > span:nth-child(3) {
+    animation-delay: 360ms;
+  }
+
   [data-hero-subhead] {
-    animation: hero-line-in 400ms ease-out 360ms both;
+    animation: hero-line-in 400ms ease-out 480ms both;
   }
 
   [data-hero-actions] {
-    animation: hero-line-in 400ms ease-out 480ms both;
+    animation: hero-line-in 400ms ease-out 600ms both;
+  }
+
+  [data-load-in="section-header"] {
+    animation: hero-line-in 400ms ease-out 720ms both;
   }
 }
 

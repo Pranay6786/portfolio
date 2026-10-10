@@ -13,12 +13,6 @@ const ROOT_MARGIN = "0px 0px -40px 0px";
 const THRESHOLD = 0;
 
 /**
- * Elements whose top is in the bottom quarter of the first screen or lower
- * float in; anything higher renders plainly on load.
- */
-const FIRST_SCREEN_CUTOFF = 0.75;
-
-/**
  * Siblings arriving together start this far apart, up to the cap: slower on
  * the homepage, quicker in case study articles, where every paragraph reveals.
  */
@@ -35,9 +29,9 @@ const ARTICLE_STAGGER_CAP_MS = 400;
  * Case study articles are MDX output, which cannot carry the attribute, so
  * their block children ([data-article] > *) get it here first.
  *
- * Only elements whose top is in the bottom quarter of the viewport or below
- * are hidden ("pending") and watched. Anything higher on first paint is never
- * touched, so the top of a page never fades in. When a watched element
+ * Only elements wholly below the viewport are hidden ("pending") and watched.
+ * Anything on screen or above it on first paint is never touched, so nothing
+ * the reader has already seen is hidden after the fact. When a watched element
  * intersects, it gets its stagger delay (by context: homepage or article),
  * switches to "in" (which plays the animation once) and is unobserved. Under
  * reduced motion nothing is hidden or watched: everything stays in its
@@ -60,8 +54,7 @@ export default function Reveal() {
     const viewportHeight = window.innerHeight;
     const pending = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]")).filter(
       (element) =>
-        element.dataset.reveal === "" &&
-        element.getBoundingClientRect().top >= viewportHeight * FIRST_SCREEN_CUTOFF,
+        element.dataset.reveal === "" && element.getBoundingClientRect().top >= viewportHeight,
     );
 
     const observer = new IntersectionObserver(

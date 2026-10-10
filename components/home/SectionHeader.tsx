@@ -2,6 +2,11 @@
  * Framing shared by homepage sections 01-07: a mono kicker line reading
  * "{kicker} / {number}", the section title, then an optional subtitle and intro.
  * Left-aligned by default; `align="center"` centres the whole block.
+ *
+ * By default the header floats in on scroll through the reveal observer
+ * (`data-reveal`). `entrance="load"` takes it off the observer and onto the
+ * load stagger instead (`data-load-in`, timed in globals.css), for a header
+ * that is on the first screen.
  */
 export default function SectionHeader({
   titleId,
@@ -11,6 +16,7 @@ export default function SectionHeader({
   subtitle,
   intro,
   align = "start",
+  entrance = "reveal",
 }: {
   titleId: string;
   number: string;
@@ -19,11 +25,15 @@ export default function SectionHeader({
   subtitle?: string;
   intro?: string;
   align?: "start" | "center";
+  entrance?: "reveal" | "load";
 }) {
   const centred = align === "center";
 
   return (
-    <header data-reveal="" className={centred ? "mb-10 text-center sm:mb-12" : "mb-10 sm:mb-12"}>
+    <header
+      {...(entrance === "load" ? { "data-load-in": "section-header" } : { "data-reveal": "" })}
+      className={centred ? "mb-10 text-center sm:mb-12" : "mb-10 sm:mb-12"}
+    >
       <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
         {kicker} / {number}
       </p>
