@@ -463,3 +463,5 @@ Deliberate exception: "practice" and "practicing" are used everywhere, as noun a
 `outloud.mdx` `metricStrip` changed from "89 sessions · 100% completed · 27 devices · live app" to "85+ sessions · 100% completed · 25+ devices". The live-app point is now carried by the Live badge and the try-it link. The body's exact figures are unchanged. Both `outloud.mdx` edits were made at byte level, keeping the file's leading byte-order mark.
 
 The homepage "Now" block changed two values: Learning to "AI product management, through Airtribe and self-directed projects", and Building to "OutLoud".
+
+- 2026-10-10: OutLoud's `metricStrip` now reads "100+ sessions · 100% completed · 30+ devices", the current totals. The "What the data shows" opening sentence is scoped to the September 2026 evaluation ("In the September 2026 evaluation, the app had recorded 89 sessions across 27 devices…"), and the footnotes gained a sentence saying the body's figures are that evaluation's and the strip carries the current totals. Every figure in the body is unchanged. Edited at byte level, keeping the BOM.
