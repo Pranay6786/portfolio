@@ -25,7 +25,7 @@ const sourceSerif = Source_Serif_4({
 
 export const metadata: Metadata = {
   // Open Graph and Twitter images need an absolute URL; this is the live site.
-  metadataBase: new URL("https://pranaypatil.vercel.app"),
+  metadataBase: new URL("https://pranaypatil.in"),
   title: {
     default: "Pranay Patil",
     template: "%s - Pranay Patil",
