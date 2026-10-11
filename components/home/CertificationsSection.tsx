@@ -1,7 +1,14 @@
+import CredentialCard from "@/components/home/CredentialCard";
+import IconLink from "@/components/home/IconLink";
 import SectionHeader from "@/components/home/SectionHeader";
+import { AwardIcon } from "@/components/icons";
 import type { HomepageContent } from "@/lib/homepage";
 
-/** One certification per row: issuer, then the certification itself. */
+/**
+ * Credential cards on a 12-column grid at `md` and up, one column below, each
+ * card taking its own span; then a link to the full set on /certificates. The
+ * grid is one reveal target, not one per card.
+ */
 export default function CertificationsSection({
   content,
 }: {
@@ -16,19 +23,20 @@ export default function CertificationsSection({
         title={content.title}
       />
 
-      <ul data-reveal="pending" className="max-w-[40rem] divide-y divide-border border-y border-border">
-        {content.items.map((item) => (
-          <li
-            key={`${item.issuer}-${item.name}`}
-            className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-6"
-          >
-            <span className="font-sans text-[0.875rem] text-muted sm:w-40 sm:shrink-0">
-              {item.issuer}
-            </span>
-            <span className="font-serif text-[1.0625rem] text-text">{item.name}</span>
-          </li>
+      <ul data-reveal="pending" className="grid grid-cols-1 gap-6 md:grid-cols-12">
+        {content.items.map((credential) => (
+          <CredentialCard key={`${credential.issuer}-${credential.title}`} credential={credential} />
         ))}
       </ul>
+
+      <p data-reveal="pending" className="mt-8">
+        <IconLink
+          href={content.allCertificatesHref}
+          label={content.allCertificatesLabel}
+          icon={AwardIcon}
+          layout="inline"
+        />
+      </p>
     </section>
   );
 }

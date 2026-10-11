@@ -123,11 +123,63 @@
     "kicker": "Certs",
     "title": "Certifications",
     "items": [
-      { "issuer": "Airtribe", "name": "Product Management" },
-      { "issuer": "Simplilearn", "name": "Introduction to Jira" },
-      { "issuer": "Postman", "name": "API Fundamentals" },
-      { "issuer": "AICTE", "name": "Process Mining Virtual Internship" }
-    ]
+      {
+        "issuer": "Airtribe",
+        "title": "AI-First Product Management",
+        "blurb": "Twelve-week cohort programme. The capstone is OutLoud, the case study above.",
+        "logo": "/images/certs/airtribe.png",
+        "href": "/certificates/airtribe-ai-first-product-management.jpg",
+        "linkLabel": "View certificate",
+        "span": 7
+      },
+      {
+        "issuer": "Pendo x Mind the Product",
+        "title": "Product Management Basics",
+        "blurb": "Foundations certification covering discovery, prioritisation and product analytics.",
+        "logo": "/images/certs/pendo.png",
+        "href": "https://www.credly.com/badges/62f1722e-13be-4b06-b754-c5b00c0c0ec2/public_url",
+        "linkLabel": "Verify credential",
+        "span": 5
+      },
+      {
+        "issuer": "Postman",
+        "title": "API Fundamentals Student Expert",
+        "blurb": "Working knowledge of REST, requests and collections, tested hands-on.",
+        "logo": "/images/certs/postman.png",
+        "href": "https://badges.parchment.com/public/assertions/SKxsu0NpSj6f3wVx-CYTEw",
+        "linkLabel": "Verify credential",
+        "span": 6
+      },
+      {
+        "issuer": "Simplilearn",
+        "title": "Introduction to JIRA",
+        "blurb": "Issues, workflows, boards and reporting - the tool the BA work runs on.",
+        "logo": "/images/certs/simplilearn.png",
+        "href": "https://simpli-web.app.link/e/dv9Khvjb96b",
+        "linkLabel": "Verify credential",
+        "span": 6
+      },
+      {
+        "issuer": "AICTE / EduSkills, with Celonis",
+        "title": "Process Mining Virtual Internship",
+        "blurb": "Ten weeks reading real process data to find where work actually breaks.",
+        "logo": "/images/certs/celonis.png",
+        "href": "/certificates/process-mining-virtual-internship.pdf",
+        "linkLabel": "View certificate",
+        "span": 6
+      },
+      {
+        "issuer": "Cisco Networking Academy",
+        "title": "CCNAv7: Introduction to Networks",
+        "blurb": "Addressing, switching, routing and troubleshooting - the technical grounding behind the engineering degree.",
+        "logo": "/images/certs/cisco.png",
+        "href": "/certificates/ccnav7-introduction-to-networks.pdf",
+        "linkLabel": "View certificate",
+        "span": 6
+      }
+    ],
+    "allCertificatesLabel": "View all certificates",
+    "allCertificatesHref": "/certificates"
   },
 
   "education": {

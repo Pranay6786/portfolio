@@ -116,6 +116,21 @@ export function FoldersIcon(props: IconProps) {
   );
 }
 
+/**
+ * A rosette: a round medal with two ribbon tails hanging from it, splayed
+ * outwards and notched at the bottom. The only icon built on a circle, with
+ * no straight-sided body, which is what tells it apart from FileIcon's page
+ * and the folder outlines at 18px.
+ */
+export function AwardIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="9" r="6" />
+      <path d="M8.5 14 7 21.5l5-2.5 5 2.5-1.5-7.5" />
+    </Icon>
+  );
+}
+
 /** A box with an arrow leaving its top-right corner: opens elsewhere. */
 export function ExternalLinkIcon(props: IconProps) {
   return (

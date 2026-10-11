@@ -1,0 +1,41 @@
+{
+  "title": "Certificates",
+  "intro": "Everything with a certificate behind it.",
+  "description": "Certificates and credentials, each with a link to view or verify it.",
+  "alsoCompleted": {
+    "title": "Also completed",
+    "items": [
+      {
+        "issuer": "AICTE / EduSkills, with Palo Alto Networks",
+        "title": "Cybersecurity Virtual Internship",
+        "href": "/certificates/cybersecurity-virtual-internship.pdf",
+        "linkLabel": "View certificate"
+      },
+      {
+        "issuer": "Cisco Networking Academy / C++ Institute",
+        "title": "CLA: Programming Essentials in C",
+        "href": "/certificates/programming-essentials-in-c.pdf",
+        "linkLabel": "View certificate"
+      },
+      {
+        "issuer": "Cisco Networking Academy",
+        "title": "NDG Linux Unhatched",
+        "href": "/certificates/ndg-linux-unhatched.pdf",
+        "linkLabel": "View certificate"
+      },
+      {
+        "issuer": "IBM SkillsBuild",
+        "title": "Professional Skills",
+        "href": "/certificates/ibm-skillsbuild-professional-skills.pdf",
+        "linkLabel": "View certificate"
+      },
+      {
+        "issuer": "RUDN University, via OpenLearning",
+        "title": "Cross-Cultural Features of Personality and Social Behaviour",
+        "href": "/certificates/cross-cultural-personality-social-behaviour.pdf",
+        "linkLabel": "View certificate"
+      }
+    ]
+  },
+  "closing": "Short-form reading summaries are not listed."
+}

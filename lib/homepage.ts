@@ -1,5 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
+import {
+  CREDENTIAL_LINK_LABELS,
+  CREDENTIAL_LOGO_PREFIX,
+  CREDENTIAL_SPAN_MAX,
+  CREDENTIAL_SPAN_MIN,
+  isCredentialHref,
+  isCredentialLinkLabel,
+  type Credential,
+} from "@/lib/credentials";
 
 export type HomepageLink = {
   label: string;
@@ -48,7 +57,9 @@ export type HomepageContent = {
     groups: { title: string; items: string[] }[];
   };
   certifications: HomepageSectionFrame & {
-    items: { issuer: string; name: string }[];
+    items: Credential[];
+    allCertificatesLabel: string;
+    allCertificatesHref: string;
   };
   education: HomepageSectionFrame & {
     items: { period: string; institution: string; detail: string }[];
@@ -179,6 +190,73 @@ function link(value: unknown, field: string): HomepageLink {
   };
 }
 
+/**
+ * A credential card: every field required and non-empty, the logo under
+ * /images/certs/, the link an https:// URL or a file under /certificates/, the
+ * label one of the two allowed, and the span a whole number of columns, 4 to 8.
+ */
+function credential(value: unknown, field: string): Credential {
+  const data = record(value, field, [
+    "issuer",
+    "title",
+    "blurb",
+    "logo",
+    "href",
+    "linkLabel",
+    "span",
+  ]);
+
+  const logo = text(data.logo, `${field}.logo`);
+  if (!logo.startsWith(CREDENTIAL_LOGO_PREFIX)) {
+    fail(
+      `${field}.logo`,
+      `must start with ${CREDENTIAL_LOGO_PREFIX}, received ${JSON.stringify(logo)}`,
+    );
+  }
+
+  const href = text(data.href, `${field}.href`);
+  if (!isCredentialHref(href)) {
+    fail(
+      `${field}.href`,
+      `must be an absolute https:// URL or a path starting /certificates/, received ${JSON.stringify(href)}`,
+    );
+  }
+
+  const linkLabel = text(data.linkLabel, `${field}.linkLabel`);
+  if (!isCredentialLinkLabel(linkLabel)) {
+    fail(
+      `${field}.linkLabel`,
+      `must be one of ${CREDENTIAL_LINK_LABELS.map((label) => JSON.stringify(label)).join(" or ")}, received ${JSON.stringify(linkLabel)}`,
+    );
+  }
+
+  const span = data.span;
+  if (span === undefined || span === null) {
+    fail(`${field}.span`, "is required but missing");
+  }
+  if (
+    typeof span !== "number" ||
+    !Number.isInteger(span) ||
+    span < CREDENTIAL_SPAN_MIN ||
+    span > CREDENTIAL_SPAN_MAX
+  ) {
+    fail(
+      `${field}.span`,
+      `must be an integer from ${CREDENTIAL_SPAN_MIN} to ${CREDENTIAL_SPAN_MAX}, received ${JSON.stringify(span)}`,
+    );
+  }
+
+  return {
+    issuer: text(data.issuer, `${field}.issuer`),
+    title: text(data.title, `${field}.title`),
+    blurb: text(data.blurb, `${field}.blurb`),
+    logo,
+    href,
+    linkLabel,
+    span,
+  };
+}
+
 function frame(data: Record<string, unknown>, field: string): HomepageSectionFrame {
   return {
     number: text(data.number, `${field}.number`),
@@ -228,6 +306,8 @@ export function validateHomepage(value: unknown): HomepageContent {
   const certifications = record(root.certifications, "certifications", [
     ...FRAME_KEYS,
     "items",
+    "allCertificatesLabel",
+    "allCertificatesHref",
   ]);
   const education = record(root.education, "education", [
     ...FRAME_KEYS,
@@ -297,13 +377,15 @@ export function validateHomepage(value: unknown): HomepageContent {
     },
     certifications: {
       ...frame(certifications, "certifications"),
-      items: list(certifications.items, "certifications.items", (entry, field) => {
-        const item = record(entry, field, ["issuer", "name"]);
-        return {
-          issuer: text(item.issuer, `${field}.issuer`),
-          name: text(item.name, `${field}.name`),
-        };
-      }),
+      items: list(certifications.items, "certifications.items", credential),
+      allCertificatesLabel: text(
+        certifications.allCertificatesLabel,
+        "certifications.allCertificatesLabel",
+      ),
+      allCertificatesHref: text(
+        certifications.allCertificatesHref,
+        "certifications.allCertificatesHref",
+      ),
     },
     education: {
       ...frame(education, "education"),
