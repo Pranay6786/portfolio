@@ -1,9 +1,11 @@
 import SectionHeader from "@/components/home/SectionHeader";
+import TextLink from "@/components/home/TextLink";
 import type { HomepageContent } from "@/lib/homepage";
 
 /**
  * Education entries as a vertical timeline, newest first as authored, then the
- * publication line outside it.
+ * publication outside it: a mono label, the citation, and its DOI linked,
+ * stacked at one left edge.
  *
  * Each entry has a 16px marker column holding its dot, a 14px bead with a 2px
  * accent-dim ring on the page background, then the period, institution and
@@ -65,9 +67,17 @@ export default function EducationSection({
         ))}
       </ul>
 
-      <p data-reveal="pending" className="mt-10 max-w-[50rem] font-serif text-[1.0625rem] italic leading-snug text-muted">
-        {content.publication}
-      </p>
+      <div data-reveal="pending" className="mt-10 max-w-[50rem]">
+        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-faint">
+          {content.publication.label}
+        </p>
+        <p className="mt-2 font-serif text-[1.0625rem] italic leading-snug text-muted">
+          {content.publication.citation}
+        </p>
+        <p className="mt-2 font-sans text-[0.875rem] text-muted">
+          DOI: <TextLink href={content.publication.doiHref}>{content.publication.doi}</TextLink>
+        </p>
+      </div>
     </section>
   );
 }

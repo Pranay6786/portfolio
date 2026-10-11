@@ -65,7 +65,12 @@ export type HomepageContent = {
   };
   education: HomepageSectionFrame & {
     items: { period: string; institution: string; detail: string }[];
-    publication: string;
+    publication: {
+      label: string;
+      citation: string;
+      doi: string;
+      doiHref: string;
+    };
   };
   contact: HomepageSectionFrame & {
     lines: string[];
@@ -269,6 +274,17 @@ function credential(value: unknown, field: string): Credential {
   };
 }
 
+/** The education publication: a label, the citation, and its DOI with a link. */
+function publication(value: unknown, field: string): HomepageContent["education"]["publication"] {
+  const data = record(value, field, ["label", "citation", "doi", "doiHref"]);
+  return {
+    label: text(data.label, `${field}.label`),
+    citation: text(data.citation, `${field}.citation`),
+    doi: text(data.doi, `${field}.doi`),
+    doiHref: httpsUrl(data.doiHref, `${field}.doiHref`),
+  };
+}
+
 function frame(data: Record<string, unknown>, field: string): HomepageSectionFrame {
   return {
     number: text(data.number, `${field}.number`),
@@ -409,7 +425,7 @@ export function validateHomepage(value: unknown): HomepageContent {
           detail: text(item.detail, `${field}.detail`),
         };
       }),
-      publication: text(education.publication, "education.publication"),
+      publication: publication(education.publication, "education.publication"),
     },
     contact: {
       ...frame(contact, "contact"),
