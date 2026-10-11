@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { isRoute, opensNewTab } from "@/components/home/TextLink";
 import { ExternalLinkIcon } from "@/components/icons";
-import type { Credential } from "@/lib/credentials";
+import type { Credential, CredentialLogoSize } from "@/lib/credentials";
 
 /**
  * md:col-span-* classes for every span the validator allows (4 to 8), written
@@ -14,6 +14,13 @@ const SPAN_CLASS: Record<number, string> = {
   6: "md:col-span-6",
   7: "md:col-span-7",
   8: "md:col-span-8",
+};
+
+/** The logo tile at each stated size, and the matching next/image `sizes`. */
+const LOGO_TILE: Record<CredentialLogoSize, { className: string; sizes: string }> = {
+  base: { className: "h-16 w-16", sizes: "64px" },
+  md: { className: "h-[4.75rem] w-[4.75rem]", sizes: "76px" },
+  lg: { className: "h-[5.5rem] w-[5.5rem]", sizes: "88px" },
 };
 
 /** Cards this many columns wide or wider set the logo beside the text at `md`. */
@@ -63,7 +70,8 @@ export function CredentialLink({ href, label }: { href: string; label: string })
 }
 
 /**
- * One credential as a grid card: the issuer's logo in a 64px tile, then the
+ * One credential as a grid card: the issuer's logo in a tile of its stated
+ * size (64, 76 or 88px), then the
  * issuer, title, blurb and link. The <li> takes the card's span of the
  * 12-column grid at `md` and up. Wide cards (span 7 or more) set the logo to
  * the left of the text from `md`; the rest, and every card below `md`, stack
@@ -82,19 +90,22 @@ export default function CredentialCard({
 }) {
   const horizontal = credential.span >= HORIZONTAL_MIN_SPAN;
   const Heading = headingLevel === 2 ? "h2" : "h3";
+  const tile = LOGO_TILE[credential.logoSize];
 
   return (
     <li className={SPAN_CLASS[credential.span]}>
       <div
         className={horizontal ? `${CARD_CLASS} md:flex-row md:gap-6` : CARD_CLASS}
       >
-        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[4px] border border-border">
+        <div
+          className={`relative ${tile.className} shrink-0 overflow-hidden rounded-[4px] border border-border`}
+        >
           <Image
             src={credential.logo}
             alt=""
             aria-hidden="true"
             fill
-            sizes="64px"
+            sizes={tile.sizes}
             className="object-cover"
           />
         </div>

@@ -131,6 +131,18 @@ export function AwardIcon(props: IconProps) {
   );
 }
 
+/**
+ * A left-pointing arrow: a horizontal shaft and two head strokes meeting at
+ * its left end. The only icon that is open lines with no enclosed shape.
+ */
+export function ArrowLeftIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M19 12H5M11 6l-6 6 6 6" />
+    </Icon>
+  );
+}
+
 /** A box with an arrow leaving its top-right corner: opens elsewhere. */
 export function ExternalLinkIcon(props: IconProps) {
   return (

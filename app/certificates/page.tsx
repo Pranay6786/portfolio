@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ViewTransition } from "react";
 import CredentialCard, { CredentialLink } from "@/components/home/CredentialCard";
+import { ArrowLeftIcon } from "@/components/icons";
 import { getCertificatesContent } from "@/lib/certificates";
 import { getHomepageContent } from "@/lib/homepage";
 
@@ -27,13 +29,25 @@ export default function CertificatesPage() {
   return (
     <ViewTransition enter="page-fade" exit="page-fade" default="none">
       <main className="mx-auto w-full max-w-[61rem] px-5 pt-12 pb-16 sm:px-6 sm:pt-20 sm:pb-24">
-        <header className="mb-12 sm:mb-16">
-          <h1 className="font-serif text-[2rem] font-semibold leading-[1.15] text-balance text-text sm:text-[2.375rem]">
-            {content.title}
-          </h1>
-          <p className="mt-4 max-w-[40rem] font-serif text-[1.0625rem] leading-[1.7] text-muted">
-            {content.intro}
-          </p>
+        {/* Title and intro on the left; the back control on the right, aligned
+            to the top of the block at every width. It is a plain link home to
+            the section, so browser back is left entirely to the browser. */}
+        <header className="mb-12 flex items-start justify-between gap-6 sm:mb-16">
+          <div className="min-w-0">
+            <h1 className="font-serif text-[2rem] font-semibold leading-[1.15] text-balance text-text sm:text-[2.375rem]">
+              {content.title}
+            </h1>
+            <p className="mt-4 max-w-[40rem] font-serif text-[1.0625rem] leading-[1.7] text-muted">
+              {content.intro}
+            </p>
+          </div>
+          <Link
+            href={content.back.href}
+            aria-label={content.back.label}
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-muted hover:text-accent"
+          >
+            <ArrowLeftIcon />
+          </Link>
         </header>
 
         <ul className="grid grid-cols-1 gap-6 md:grid-cols-12">

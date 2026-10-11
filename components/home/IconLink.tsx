@@ -8,7 +8,12 @@ type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
  * A link drawn as an icon in a bordered circle with a small mono label, muted
  * until hovered, when it takes the accent. `stacked` puts the label under the
  * icon (the contact row); `inline` puts it beside the icon (the hero actions
- * and the "all work" link).
+ * and the section-end links).
+ *
+ * `size` applies to the inline layout only. `base` is a 36px circle, an 18px
+ * icon and an 11px label (the hero actions); `lg` is a 44px circle, a 20px
+ * icon and a 13px label, for the links that close a section. The stacked
+ * layout has one size.
  *
  * App routes go through next/link. Files and other sites open in a new tab
  * with a visually hidden warning, by the same rule as TextLink. The icon is
@@ -19,28 +24,32 @@ export default function IconLink({
   label,
   icon: Icon,
   layout,
+  size = "base",
 }: {
   href: string;
   label: string;
   icon: IconComponent;
   layout: "stacked" | "inline";
+  size?: "base" | "lg";
 }) {
   const newTab = opensNewTab(href);
   const stacked = layout === "stacked";
+  const large = !stacked && size === "lg";
   const className = stacked
     ? "flex flex-col items-center gap-2 text-muted hover:text-accent"
-    : "inline-flex items-center gap-3 text-muted hover:text-accent";
+    : `inline-flex items-center ${large ? "gap-3.5" : "gap-3"} text-muted hover:text-accent`;
+  const circleSize = stacked || large ? "h-11 w-11" : "h-9 w-9";
+  const iconSize = stacked || large ? 20 : 18;
+  const labelSize = large ? "text-[0.8125rem]" : "text-[0.6875rem]";
 
   const content = (
     <>
       <span
-        className={`inline-flex shrink-0 items-center justify-center rounded-full border border-border bg-surface ${
-          stacked ? "h-11 w-11" : "h-9 w-9"
-        }`}
+        className={`inline-flex ${circleSize} shrink-0 items-center justify-center rounded-full border border-border bg-surface`}
       >
-        <Icon width={stacked ? 20 : 18} height={stacked ? 20 : 18} />
+        <Icon width={iconSize} height={iconSize} />
       </span>
-      <span className="font-mono text-[0.6875rem] uppercase tracking-[0.08em]">
+      <span className={`font-mono ${labelSize} uppercase tracking-[0.08em]`}>
         {label}
         {newTab ? <span className="sr-only"> (opens in new tab)</span> : null}
       </span>

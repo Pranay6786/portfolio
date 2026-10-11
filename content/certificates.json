@@ -2,6 +2,10 @@
   "title": "Certificates",
   "intro": "Everything with a certificate behind it.",
   "description": "Certificates and credentials, each with a link to view or verify it.",
+  "back": {
+    "label": "Back to certifications",
+    "href": "/#certifications"
+  },
   "alsoCompleted": {
     "title": "Also completed",
     "items": [

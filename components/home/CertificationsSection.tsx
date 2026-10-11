@@ -35,6 +35,7 @@ export default function CertificationsSection({
           label={content.allCertificatesLabel}
           icon={AwardIcon}
           layout="inline"
+          size="lg"
         />
       </p>
     </section>

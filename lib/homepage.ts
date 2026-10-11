@@ -3,10 +3,12 @@ import path from "node:path";
 import {
   CREDENTIAL_LINK_LABELS,
   CREDENTIAL_LOGO_PREFIX,
+  CREDENTIAL_LOGO_SIZES,
   CREDENTIAL_SPAN_MAX,
   CREDENTIAL_SPAN_MIN,
   isCredentialHref,
   isCredentialLinkLabel,
+  isCredentialLogoSize,
   type Credential,
 } from "@/lib/credentials";
 
@@ -192,7 +194,7 @@ function link(value: unknown, field: string): HomepageLink {
 
 /**
  * A credential card: every field required and non-empty, the logo under
- * /images/certs/, the link an https:// URL or a file under /certificates/, the
+ * /images/certs/, its size one of the three allowed, the link an https:// URL or a file under /certificates/, the
  * label one of the two allowed, and the span a whole number of columns, 4 to 8.
  */
 function credential(value: unknown, field: string): Credential {
@@ -201,6 +203,7 @@ function credential(value: unknown, field: string): Credential {
     "title",
     "blurb",
     "logo",
+    "logoSize",
     "href",
     "linkLabel",
     "span",
@@ -211,6 +214,14 @@ function credential(value: unknown, field: string): Credential {
     fail(
       `${field}.logo`,
       `must start with ${CREDENTIAL_LOGO_PREFIX}, received ${JSON.stringify(logo)}`,
+    );
+  }
+
+  const logoSize = text(data.logoSize, `${field}.logoSize`);
+  if (!isCredentialLogoSize(logoSize)) {
+    fail(
+      `${field}.logoSize`,
+      `must be one of ${CREDENTIAL_LOGO_SIZES.map((size) => JSON.stringify(size)).join(", ")}, received ${JSON.stringify(logoSize)}`,
     );
   }
 
@@ -251,6 +262,7 @@ function credential(value: unknown, field: string): Credential {
     title: text(data.title, `${field}.title`),
     blurb: text(data.blurb, `${field}.blurb`),
     logo,
+    logoSize,
     href,
     linkLabel,
     span,

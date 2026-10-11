@@ -67,7 +67,9 @@ export default function BackgroundSection({
       </div>
 
       <p data-reveal="pending" className="mt-8">
-        <TextLink href={content.linkHref}>{content.linkText}</TextLink>
+        <TextLink href={content.linkHref} size="lg">
+          {content.linkText}
+        </TextLink>
       </p>
     </section>
   );

@@ -24,6 +24,11 @@ export type CertificatesContent = {
   title: string;
   intro: string;
   description: string;
+  /** The masthead's back control: its accessible name and where it leads. */
+  back: {
+    label: string;
+    href: string;
+  };
   alsoCompleted: {
     title: string;
     items: CertificateListItem[];
@@ -96,9 +101,11 @@ export function validateCertificates(value: unknown): CertificatesContent {
     "title",
     "intro",
     "description",
+    "back",
     "alsoCompleted",
     "closing",
   ]);
+  const back = record(root.back, "back", ["label", "href"]);
   const alsoCompleted = record(root.alsoCompleted, "alsoCompleted", ["title", "items"]);
   if (!Array.isArray(alsoCompleted.items) || alsoCompleted.items.length === 0) {
     fail("alsoCompleted.items", "must be a list with at least one entry");
@@ -108,6 +115,10 @@ export function validateCertificates(value: unknown): CertificatesContent {
     title: text(root.title, "title"),
     intro: text(root.intro, "intro"),
     description: text(root.description, "description"),
+    back: {
+      label: text(back.label, "back.label"),
+      href: text(back.href, "back.href"),
+    },
     alsoCompleted: {
       title: text(alsoCompleted.title, "alsoCompleted.title"),
       items: alsoCompleted.items.map((entry, index) =>

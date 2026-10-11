@@ -10,12 +10,21 @@ export const CREDENTIAL_LINK_LABELS = ["Verify credential", "View certificate"] 
 
 export type CredentialLinkLabel = (typeof CREDENTIAL_LINK_LABELS)[number];
 
+/**
+ * The logo tile's size, stated on every card rather than inferred from its
+ * span: base 64px, md 76px, lg 88px.
+ */
+export const CREDENTIAL_LOGO_SIZES = ["base", "md", "lg"] as const;
+
+export type CredentialLogoSize = (typeof CREDENTIAL_LOGO_SIZES)[number];
+
 /** A credential shown as a card, with its issuer's logo. */
 export type Credential = {
   issuer: string;
   title: string;
   blurb: string;
   logo: string;
+  logoSize: CredentialLogoSize;
   href: string;
   linkLabel: CredentialLinkLabel;
   /** Columns of the 12-column grid the card takes at `md` and up, 4 to 8. */
@@ -34,6 +43,10 @@ export const CREDENTIAL_SPAN_MAX = 8;
 /** An absolute https:// URL, or a certificate file in public/certificates/. */
 export function isCredentialHref(href: string): boolean {
   return /^https:\/\/[^\s/]+\/\S*$/.test(href) || href.startsWith(CERTIFICATE_FILE_PREFIX);
+}
+
+export function isCredentialLogoSize(size: string): size is CredentialLogoSize {
+  return (CREDENTIAL_LOGO_SIZES as readonly string[]).includes(size);
 }
 
 export function isCredentialLinkLabel(label: string): label is CredentialLinkLabel {

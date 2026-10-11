@@ -41,6 +41,7 @@ export default function WorkSection({
           label={content.allWorkLabel}
           icon={FoldersIcon}
           layout="inline"
+          size="lg"
         />
       </p>
     </section>
