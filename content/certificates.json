@@ -41,5 +41,9 @@
       }
     ]
   },
-  "closing": "Short-form reading summaries are not listed."
+  "archive": {
+    "label": "All certificates and project reports",
+    "href": "https://drive.google.com/drive/folders/1RVW5-t5LX9jROTiLV5c_xNx1ofiD9j1-?usp=sharing"
+  },
+  "closing": "Short-form reading summaries are not listed here. The folder above has everything."
 }

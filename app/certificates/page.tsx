@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import CredentialCard, { CredentialLink } from "@/components/home/CredentialCard";
-import { ArrowLeftIcon } from "@/components/icons";
+import IconLink from "@/components/home/IconLink";
+import { ArrowLeftIcon, ExternalLinkIcon } from "@/components/icons";
 import { getCertificatesContent } from "@/lib/certificates";
 import { getHomepageContent } from "@/lib/homepage";
 
@@ -80,6 +81,15 @@ export default function CertificatesPage() {
               </li>
             ))}
           </ul>
+          <p className="mt-8">
+            <IconLink
+              href={content.archive.href}
+              label={content.archive.label}
+              icon={ExternalLinkIcon}
+              layout="inline"
+              size="lg"
+            />
+          </p>
           <p className="mt-8 font-serif text-[1.0625rem] leading-[1.7] text-muted">
             {content.closing}
           </p>

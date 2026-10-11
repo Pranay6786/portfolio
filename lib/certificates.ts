@@ -33,6 +33,11 @@ export type CertificatesContent = {
     title: string;
     items: CertificateListItem[];
   };
+  /** The external folder holding every certificate and project report. */
+  archive: {
+    label: string;
+    href: string;
+  };
   closing: string;
 };
 
@@ -59,6 +64,15 @@ function record(value: unknown, field: string, keys: readonly string[]): Record<
     }
   }
   return data;
+}
+
+/** A non-empty string that is an absolute https:// URL, as in lib/homepage.ts. */
+function httpsUrl(value: unknown, field: string): string {
+  const url = text(value, field);
+  if (!/^https:\/\/[^\s/]+\/\S*$/.test(url)) {
+    fail(field, `must be an absolute https:// URL, received ${JSON.stringify(url)}`);
+  }
+  return url;
 }
 
 function text(value: unknown, field: string): string {
@@ -103,8 +117,10 @@ export function validateCertificates(value: unknown): CertificatesContent {
     "description",
     "back",
     "alsoCompleted",
+    "archive",
     "closing",
   ]);
+  const archive = record(root.archive, "archive", ["label", "href"]);
   const back = record(root.back, "back", ["label", "href"]);
   const alsoCompleted = record(root.alsoCompleted, "alsoCompleted", ["title", "items"]);
   if (!Array.isArray(alsoCompleted.items) || alsoCompleted.items.length === 0) {
@@ -124,6 +140,10 @@ export function validateCertificates(value: unknown): CertificatesContent {
       items: alsoCompleted.items.map((entry, index) =>
         listItem(entry, `alsoCompleted.items[${index}]`),
       ),
+    },
+    archive: {
+      label: text(archive.label, "archive.label"),
+      href: httpsUrl(archive.href, "archive.href"),
     },
     closing: text(root.closing, "closing"),
   };

@@ -23,9 +23,6 @@ const LOGO_TILE: Record<CredentialLogoSize, { className: string; sizes: string }
   lg: { className: "h-[5.5rem] w-[5.5rem]", sizes: "88px" },
 };
 
-/** Cards this many columns wide or wider set the logo beside the text at `md`. */
-const HORIZONTAL_MIN_SPAN = 7;
-
 const CARD_CLASS =
   "flex h-full flex-col gap-5 rounded-[4px] border border-border bg-bg p-6 sm:p-8";
 
@@ -71,11 +68,9 @@ export function CredentialLink({ href, label }: { href: string; label: string })
 
 /**
  * One credential as a grid card: the issuer's logo in a tile of its stated
- * size (64, 76 or 88px), then the
- * issuer, title, blurb and link. The <li> takes the card's span of the
- * 12-column grid at `md` and up. Wide cards (span 7 or more) set the logo to
- * the left of the text from `md`; the rest, and every card below `md`, stack
- * the logo above it. The card is opaque (`bg-bg`) so the background grid does
+ * size (64, 76 or 88px), then the issuer, title, blurb and link, stacked at
+ * every width. The <li> takes the card's span of the 12-column grid at `md`
+ * and up; the span sets width only, never layout. The card is opaque (`bg-bg`) so the background grid does
  * not show through, and full height so cards in a row match.
  *
  * The logo is decorative - the issuer is named in text beside it - so it has
@@ -88,15 +83,12 @@ export default function CredentialCard({
   credential: Credential;
   headingLevel?: 2 | 3;
 }) {
-  const horizontal = credential.span >= HORIZONTAL_MIN_SPAN;
   const Heading = headingLevel === 2 ? "h2" : "h3";
   const tile = LOGO_TILE[credential.logoSize];
 
   return (
     <li className={SPAN_CLASS[credential.span]}>
-      <div
-        className={horizontal ? `${CARD_CLASS} md:flex-row md:gap-6` : CARD_CLASS}
-      >
+      <div className={CARD_CLASS}>
         <div
           className={`relative ${tile.className} shrink-0 overflow-hidden rounded-[4px] border border-border`}
         >
