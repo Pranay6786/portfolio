@@ -26,7 +26,7 @@ export default function HeroSection({ content }: { content: HomepageContent["her
       </h1>
       <p
         data-hero-lines=""
-        className="mt-6 font-serif text-[1.3125rem] leading-[1.35] text-text sm:text-[1.5rem]"
+        className="mt-10 font-serif text-[1.4375rem] leading-[1.35] text-text sm:text-[1.6875rem]"
       >
         {content.lines.map((line) => (
           <span key={line} className="block text-balance">

@@ -18,8 +18,8 @@
   --accent-tint: transparent;
   --border: #2a2a28;
 
-  /* Background grid: --border (#2a2a28) at 20% alpha, and its module. */
-  --grid-line: rgb(42 42 40 / 0.2);
+  /* Background grid: --border (#2a2a28) at 25% alpha, and its module. */
+  --grid-line: rgb(42 42 40 / 0.25);
   --grid-size: 72px;
 
   /* Cursor drift of the grid, written by GridParallax; 0 until it runs. */
@@ -40,8 +40,8 @@
   --accent-tint: #fbede5;
   --border: #d7d2c7;
 
-  /* Background grid: --border (#d7d2c7) at 18% alpha, about dark's strength. */
-  --grid-line: rgb(215 210 199 / 0.18);
+  /* Background grid: --border (#d7d2c7) at 21% alpha, about dark's strength. */
+  --grid-line: rgb(215 210 199 / 0.21);
   --grid-size: 72px;
 }
 
