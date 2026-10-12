@@ -10,8 +10,8 @@ const FACE_CLASS =
 
 /**
  * One case study as a card, built entirely from its frontmatter: subtitle as
- * the heading, then title, summary, badges with the reading time after them,
- * and metric strip. The whole card
+ * the heading, then title, summary, badges and metric strip, with the reading
+ * time in the top-right corner. The whole card
  * links to the study. On hover or keyboard focus the border turns accent-dim
  * and, unless the reader prefers reduced motion, the card rises 2px. Shared by
  * the homepage work section and the /work index, where it always sits under an
@@ -43,7 +43,8 @@ export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
         className="group block motion-safe:transition-[translate] motion-safe:duration-150 motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5"
       >
         <div data-flip-inner="" className="relative">
-          <div data-flip-front="" className={FACE_CLASS}>
+          {/* relative anchors the reading time to the front face only. */}
+          <div data-flip-front="" className={`${FACE_CLASS} relative`}>
             <CardBody study={study} />
           </div>
           <div
@@ -76,14 +77,24 @@ export default function WorkCard({ study }: { study: CaseStudyFrontmatter }) {
     <Link
       href={href}
       aria-labelledby={labelledBy}
-      className="block rounded-[4px] border border-border bg-bg p-6 hover:border-accent-dim focus-visible:border-accent-dim motion-safe:transition-[border-color,translate] motion-safe:duration-150 motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5 sm:p-8"
+      className="relative block rounded-[4px] border border-border bg-bg p-6 hover:border-accent-dim focus-visible:border-accent-dim motion-safe:transition-[border-color,translate] motion-safe:duration-150 motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5 sm:p-8"
     >
       <CardBody study={study} />
     </Link>
   );
 }
 
-/** The card's content: the front face of a flipping card, or the whole card. */
+/**
+ * The card's content: the front face of a flipping card, or the whole card.
+ *
+ * The reading time sits out of flow in the face's top-right corner, inset to
+ * the padding, in a 28px row centred on the heading's first line. It is about
+ * 95px wide (102px with two digits: 11px Geist Mono at 0.6em plus 0.08em
+ * tracking, a 14px icon and a 6px gap). Rather than pad the whole heading,
+ * which would push long subtitles onto extra lines at narrow widths, a 112px
+ * float of one line's height (`h-7`) starts the heading, so only its first
+ * line wraps short of the chip and every later line keeps the full width.
+ */
 function CardBody({ study }: { study: CaseStudyFrontmatter }) {
   return (
     <>
@@ -91,8 +102,14 @@ function CardBody({ study }: { study: CaseStudyFrontmatter }) {
         id={`card-${study.slug}-heading`}
         className="font-serif text-[1.3125rem] font-semibold leading-[1.35] text-balance text-text"
       >
+        <span aria-hidden="true" className="float-right h-7 w-28" />
         {study.subtitle}
       </h3>
+      {/* After the heading in reading order; placed in the corner by CSS. */}
+      <p className="absolute top-6 right-6 flex h-7 items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.08em] whitespace-nowrap text-faint sm:top-8 sm:right-8">
+        <ClockIcon width={14} height={14} />
+        {study.readingMinutes} min read
+      </p>
       <p id={`card-${study.slug}-title`} className="mt-2 font-sans text-[0.875rem] text-accent">
         {study.title}
       </p>
@@ -100,25 +117,21 @@ function CardBody({ study }: { study: CaseStudyFrontmatter }) {
         {study.summary}
       </p>
 
-      {/* Always rendered: the reading time is in it even with no badges. */}
-      <ul className="mt-5 flex flex-wrap gap-2">
-        {study.liveUrl ? (
-          // A label, not a link: the whole card already links to the study.
-          // The one pill in the accent, for a product anyone can use.
-          <li className="inline-flex items-center gap-1.5 rounded-full border border-accent-dim bg-accent-tint px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] whitespace-nowrap text-accent">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
-            Live
-          </li>
-        ) : null}
-        {study.badges.map((badge) => (
-          <Pill key={badge}>{badge}</Pill>
-        ))}
-        {/* Metadata, not a badge: the badge type with no border or fill. */}
-        <li className="inline-flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.08em] whitespace-nowrap text-faint">
-          <ClockIcon width={14} height={14} />
-          {study.readingMinutes} min read
-        </li>
-      </ul>
+      {study.liveUrl || study.badges.length > 0 ? (
+        <ul className="mt-5 flex flex-wrap gap-2">
+          {study.liveUrl ? (
+            // A label, not a link: the whole card already links to the study.
+            // The one pill in the accent, for a product anyone can use.
+            <li className="inline-flex items-center gap-1.5 rounded-full border border-accent-dim bg-accent-tint px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] whitespace-nowrap text-accent">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+              Live
+            </li>
+          ) : null}
+          {study.badges.map((badge) => (
+            <Pill key={badge}>{badge}</Pill>
+          ))}
+        </ul>
+      ) : null}
 
       {study.metricStrip ? (
         <div className="mt-4">
