@@ -23,6 +23,8 @@ export type CaseStudyFrontmatter = {
   disclaimer: string | null;
   /** A publicly usable version of the product, when there is one. */
   liveUrl: string | null;
+  /** A short note shown under the live link, such as which device suits it. */
+  liveNote: string | null;
   /** How the study was done, in a line, shown on the back of a library card. */
   method: string | null;
   /** What the study showed, in a line, shown under the method on the card back. */
@@ -167,6 +169,7 @@ export function validateFrontmatter(data: unknown, file: string): CaseStudyFront
     summary,
     disclaimer: nullableString(raw, "disclaimer", file),
     liveUrl: optionalHttpsUrl(raw, "liveUrl", file),
+    liveNote: optionalString(raw, "liveNote", file),
     method: optionalString(raw, "method", file),
     finding: optionalString(raw, "finding", file),
   };

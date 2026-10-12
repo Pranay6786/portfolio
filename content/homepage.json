@@ -71,19 +71,20 @@
     "kicker": "About",
     "title": "Background",
     "subtitle": "The Short Version",
-    "intro": "Three things that didn't look connected until they did.",
+    "intro": "How I got here, and what each part taught me.",
     "paragraphs": [
-      "I studied computer engineering at Mumbai University and graduated in 2024. Somewhere in there a friend and I noticed our area had barbershops for men and parlours for women, but no unisex salon with decent hygiene. We opened one in 2023 and I still run it. I joined Ampcus Tech Pvt. Ltd. in Thane as an intern in November 2025 and moved into a business analyst role there in January 2026, working on requirements, user interviews, SQL and UAT. The engineering degree produced two projects worth naming: a virtual classroom platform, published at INOCON 2024, and a crypto tracking app.",
-      "Looked at as a CV, that's three unrelated things and an obvious question about why I keep switching.",
-      "Looked at from the inside, it's the same question three times. What do people actually need, what stops them getting it, and can you deliver it with the resources you've got. Engineering gave me the technical half. The salon gave me customers, pricing, and every constraint at once. The BA role gave me stakeholders and the discipline of writing requirements someone else has to build from.",
-      "Product management is where all three stop being separate skills."
+      "I trained as an engineer, expecting to spend my time writing code. In 2023, before I graduated, a friend and I co-founded a unisex salon in our area, where none existed yet.",
+      "Running the salon gave me a different perspective on building a business. I began paying closer attention to how customers made decisions, how pricing affected demand, and how staffing and day-to-day operations shaped the experience. It was a side of problem-solving I hadn’t encountered much in the classroom.",
+      "Over time, I realised I enjoyed both the technical side of building things and the process of understanding what people actually need. I wanted to bring those two sides together rather than treat them as separate paths.",
+      "Today, the salon runs with just a few hours of my time each week, allowing me to focus on my business analyst role at Ampcus Tech Pvt. Ltd. and projects like OutLoud :)",
+      "Engineering gave me the technical half. The salon gave me customers and constraints. The analyst work gave me stakeholders and the discipline of writing something someone else has to build from. Product management is where the three stop being separate skills"
     ],
     "now": {
       "title": "Now",
       "items": [
         { "label": "Role", "value": "Business Analyst, Ampcus Tech Pvt. Ltd., Thane" },
         { "label": "Learning", "value": "AI product management, through Airtribe and self-directed projects" },
-        { "label": "Building", "value": "OutLoud" },
+        { "label": "Shipped", "value": "OutLoud - an AI speaking coach, live with real users" },
         { "label": "Co-managing", "value": "a unisex salon, since 2023" }
       ]
     },

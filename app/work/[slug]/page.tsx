@@ -124,6 +124,11 @@ export default async function CaseStudyPage({
                 </a>
               </p>
             ) : null}
+            {frontmatter.liveUrl && frontmatter.liveNote ? (
+              <p className="mt-1 mb-0 font-sans text-[0.8125rem] text-faint">
+                {frontmatter.liveNote}
+              </p>
+            ) : null}
 
             <p className="mt-5 mb-0 font-serif text-[1.0625rem] leading-[1.7] text-text">
               {frontmatter.summary}
