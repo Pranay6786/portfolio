@@ -132,6 +132,22 @@ export function AwardIcon(props: IconProps) {
 }
 
 /**
+ * A clock: a round dial with two hands meeting at its centre, one up to
+ * twelve and a shorter one out towards three. AwardIcon is also a circle, but
+ * a smaller one set high with two ribbon tails hanging below it and an empty
+ * middle; here the circle fills the grid, nothing hangs off it, and the hands
+ * sit well inside the dial.
+ */
+export function ClockIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3.5 2" />
+    </Icon>
+  );
+}
+
+/**
  * A left-pointing arrow: a horizontal shaft and two head strokes meeting at
  * its left end. The only icon that is open lines with no enclosed shape.
  */

@@ -29,7 +29,15 @@ export type CaseStudyFrontmatter = {
   method: string | null;
   /** What the study showed, in a line, shown under the method on the card back. */
   finding: string | null;
+  /**
+   * Estimated reading time in whole minutes, at least 1. Derived from the body
+   * at build time by readingMinutes(); never authored in frontmatter.
+   */
+  readingMinutes: number;
 };
+
+/** The frontmatter as written in the file: everything except derived fields. */
+type AuthoredFrontmatter = Omit<CaseStudyFrontmatter, "readingMinutes">;
 
 export type CaseStudy = {
   frontmatter: CaseStudyFrontmatter;
@@ -39,6 +47,16 @@ export type CaseStudy = {
 const CASE_STUDY_DIR = path.join(process.cwd(), "content", "case-studies");
 
 const KINDS: readonly CaseStudyKind[] = ["featured", "library"];
+
+/**
+ * Reading speed for the card's reading time: 220 words a minute, a standard
+ * average for non-fiction read for comprehension rather than skimmed. Change
+ * it here and every card follows.
+ */
+export const READING_WORDS_PER_MINUTE = 220;
+
+/** Frontmatter fields the build computes, which a file must never set. */
+const DERIVED_FIELDS = ["readingMinutes"] as const;
 
 function fail(file: string, field: string, problem: string): never {
   throw new Error(
@@ -117,12 +135,18 @@ function optionalString(data: Record<string, unknown>, field: string, file: stri
  * the offending field. Called from the content loaders, which only run during
  * prerendering, so a bad field fails the build rather than a request.
  */
-export function validateFrontmatter(data: unknown, file: string): CaseStudyFrontmatter {
+export function validateFrontmatter(data: unknown, file: string): AuthoredFrontmatter {
   if (typeof data !== "object" || data === null || Array.isArray(data)) {
     throw new Error(`Invalid frontmatter in ${file}: expected a block of key/value pairs.`);
   }
 
   const raw = data as Record<string, unknown>;
+
+  for (const field of DERIVED_FIELDS) {
+    if (field in raw) {
+      fail(file, field, "is computed from the body at build time and must not be set in frontmatter");
+    }
+  }
 
   const slug = requireString(raw, "slug", file);
   const title = requireString(raw, "title", file);
@@ -175,6 +199,34 @@ export function validateFrontmatter(data: unknown, file: string): CaseStudyFront
   };
 }
 
+/**
+ * The words a reader actually reads in an MDX body: JSX component tags are
+ * removed with all their attributes (so BeforeAfter and Screen alt text and
+ * captions, and Confidence's type, never count), while text between an opening
+ * and closing tag, such as a Callout's, is kept. Markdown images are dropped,
+ * link text is kept and its URL dropped, and syntax characters (emphasis,
+ * headings, quotes, code ticks, table pipes) become spaces, so **bold** is one
+ * word. A word is any whitespace-separated token with a letter or digit in it,
+ * so a spaced hyphen or a table rule is not one.
+ */
+export function countReadingWords(body: string): number {
+  const attribute = String.raw`\s+[\w:-]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|\{[^}]*\}))?`;
+  const jsxTag = new RegExp(String.raw`<\/?[A-Z][A-Za-z0-9]*(?:${attribute})*\s*\/?>`, "g");
+
+  const prose = body
+    .replace(jsxTag, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/[*_`#>|~]/g, " ");
+
+  return prose.split(/\s+/).filter((token) => /[\p{L}\p{N}]/u.test(token)).length;
+}
+
+/** Whole minutes to read a body at READING_WORDS_PER_MINUTE, rounded, at least 1. */
+export function readingMinutes(body: string): number {
+  return Math.max(1, Math.round(countReadingWords(body) / READING_WORDS_PER_MINUTE));
+}
+
 function readCaseStudyFile(fileName: string): CaseStudy {
   const filePath = path.join(CASE_STUDY_DIR, fileName);
   const source = fs.readFileSync(filePath, "utf8");
@@ -182,7 +234,10 @@ function readCaseStudyFile(fileName: string): CaseStudy {
   const relativePath = path.posix.join("content/case-studies", fileName);
 
   return {
-    frontmatter: validateFrontmatter(parsed.data, relativePath),
+    frontmatter: {
+      ...validateFrontmatter(parsed.data, relativePath),
+      readingMinutes: readingMinutes(parsed.content),
+    },
     body: parsed.content,
   };
 }

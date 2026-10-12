@@ -1,6 +1,7 @@
 import Link from "next/link";
 import MetricStrip from "@/components/MetricStrip";
 import Pill from "@/components/home/Pill";
+import { ClockIcon } from "@/components/icons";
 import type { CaseStudyFrontmatter } from "@/lib/content";
 
 /** The card's surface: hairline border and padding, on the link or on a face. */
@@ -9,7 +10,8 @@ const FACE_CLASS =
 
 /**
  * One case study as a card, built entirely from its frontmatter: subtitle as
- * the heading, then title, summary, badges and metric strip. The whole card
+ * the heading, then title, summary, badges with the reading time after them,
+ * and metric strip. The whole card
  * links to the study. On hover or keyboard focus the border turns accent-dim
  * and, unless the reader prefers reduced motion, the card rises 2px. Shared by
  * the homepage work section and the /work index, where it always sits under an
@@ -98,21 +100,25 @@ function CardBody({ study }: { study: CaseStudyFrontmatter }) {
         {study.summary}
       </p>
 
-      {study.liveUrl || study.badges.length > 0 ? (
-        <ul className="mt-5 flex flex-wrap gap-2">
-          {study.liveUrl ? (
-            // A label, not a link: the whole card already links to the study.
-            // The one pill in the accent, for a product anyone can use.
-            <li className="inline-flex items-center gap-1.5 rounded-full border border-accent-dim bg-accent-tint px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] whitespace-nowrap text-accent">
-              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Live
-            </li>
-          ) : null}
-          {study.badges.map((badge) => (
-            <Pill key={badge}>{badge}</Pill>
-          ))}
-        </ul>
-      ) : null}
+      {/* Always rendered: the reading time is in it even with no badges. */}
+      <ul className="mt-5 flex flex-wrap gap-2">
+        {study.liveUrl ? (
+          // A label, not a link: the whole card already links to the study.
+          // The one pill in the accent, for a product anyone can use.
+          <li className="inline-flex items-center gap-1.5 rounded-full border border-accent-dim bg-accent-tint px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] whitespace-nowrap text-accent">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+            Live
+          </li>
+        ) : null}
+        {study.badges.map((badge) => (
+          <Pill key={badge}>{badge}</Pill>
+        ))}
+        {/* Metadata, not a badge: the badge type with no border or fill. */}
+        <li className="inline-flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.08em] whitespace-nowrap text-faint">
+          <ClockIcon width={14} height={14} />
+          {study.readingMinutes} min read
+        </li>
+      </ul>
 
       {study.metricStrip ? (
         <div className="mt-4">
