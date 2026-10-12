@@ -336,9 +336,10 @@ body::before {
 
 /*
  * Load stagger: one chain, each step fading in and rising 12px over 400ms,
- * ease-out, 120ms after the last - the header pill at 0ms, the three hero
- * lines at 120, 240 and 360ms, the subhead at 480ms and the actions row (as
- * one unit) at 600ms, so the chain is complete 1000ms after first paint. A plain time-based animation that plays
+ * ease-out, 120ms after the last - the header pill at 0ms, the name at
+ * 120ms, the three hero lines at 240, 360 and 480ms, the role line at 600ms
+ * and the actions row (as one unit) at 720ms, so the chain is complete 1120ms
+ * after first paint. A plain time-based animation that plays
  * when each element first renders - not scroll-driven, so it sits outside the
  * @supports guard. Every browser supports it, and without JavaScript it still
  * plays. The pill lives in the persistent layout, so it plays on the first
@@ -363,24 +364,28 @@ body::before {
     animation: hero-line-in 400ms ease-out both;
   }
 
-  [data-hero-lines] > span {
+  [data-hero-name] {
     animation: hero-line-in 400ms ease-out 120ms both;
   }
 
-  [data-hero-lines] > span:nth-child(2) {
-    animation-delay: 240ms;
+  [data-hero-lines] > span {
+    animation: hero-line-in 400ms ease-out 240ms both;
   }
 
-  [data-hero-lines] > span:nth-child(3) {
+  [data-hero-lines] > span:nth-child(2) {
     animation-delay: 360ms;
   }
 
+  [data-hero-lines] > span:nth-child(3) {
+    animation-delay: 480ms;
+  }
+
   [data-hero-subhead] {
-    animation: hero-line-in 400ms ease-out 480ms both;
+    animation: hero-line-in 400ms ease-out 600ms both;
   }
 
   [data-hero-actions] {
-    animation: hero-line-in 400ms ease-out 600ms both;
+    animation: hero-line-in 400ms ease-out 720ms both;
   }
 }
 

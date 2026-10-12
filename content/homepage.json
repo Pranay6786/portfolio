@@ -1,11 +1,12 @@
 {
   "hero": {
+    "name": "Pranay Patil",
     "lines": [
       "Engineering taught me how things are built.",
       "Running a business taught me how customers actually behave.",
       "Product management is where both become useful."
     ],
-    "subhead": "Pranay Patil - targeting APM / Junior PM roles",
+    "subhead": "Targeting APM / Junior PM roles",
     "actions": [
       { "label": "View work", "href": "#work" },
       { "label": "Résumé", "href": "/resume.pdf" }

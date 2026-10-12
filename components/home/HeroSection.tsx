@@ -9,27 +9,34 @@ const ACTION_ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   "Résumé": FileIcon,
 };
 
-/** The opening statement: stacked serif lines, a subhead and the actions. No kicker. */
+/**
+ * The opening: the name as the page's one h1, then the three-line statement,
+ * the role line and the actions. Each arrives in that order on load: see
+ * [data-hero-name] and [data-hero-lines] in globals.css. No kicker.
+ */
 export default function HeroSection({ content }: { content: HomepageContent["hero"] }) {
   return (
     <section aria-labelledby="hero-title" className="pt-12 pb-16 sm:pt-20 sm:pb-24">
-      {/* The lines, then the subhead and the actions, arrive one after another
-          on load: see [data-hero-lines] in globals.css. */}
       <h1
         id="hero-title"
+        data-hero-name=""
+        className="font-serif text-[2.75rem] font-semibold leading-[1.05] tracking-[-0.015em] text-text sm:text-[4rem]"
+      >
+        {content.name}
+      </h1>
+      <p
         data-hero-lines=""
-        className="font-serif text-[2rem] font-semibold leading-[1.15] text-text sm:text-[2.375rem]"
+        className="mt-6 font-serif text-[1.3125rem] leading-[1.35] text-text sm:text-[1.5rem]"
       >
         {content.lines.map((line) => (
           <span key={line} className="block text-balance">
             {line}
           </span>
         ))}
-      </h1>
-      {/* Between the body size and the h1: the case study subtitle's sizes. */}
+      </p>
       <p
         data-hero-subhead=""
-        className="mt-6 font-sans text-[1.1875rem] leading-snug text-muted sm:text-[1.3125rem]"
+        className="mt-6 font-sans text-[1.0625rem] text-muted sm:text-[1.1875rem]"
       >
         {content.subhead}
       </p>

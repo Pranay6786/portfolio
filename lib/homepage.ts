@@ -25,6 +25,7 @@ export type HomepageSectionFrame = {
 
 export type HomepageContent = {
   hero: {
+    name: string;
     lines: string[];
     subhead: string;
     actions: HomepageLink[];
@@ -312,7 +313,7 @@ export function validateHomepage(value: unknown): HomepageContent {
     "contact",
   ]);
 
-  const hero = record(root.hero, "hero", ["lines", "subhead", "actions"]);
+  const hero = record(root.hero, "hero", ["name", "lines", "subhead", "actions"]);
   const work = record(root.work, "work", [
     ...FRAME_KEYS,
     "intro",
@@ -351,6 +352,7 @@ export function validateHomepage(value: unknown): HomepageContent {
 
   return {
     hero: {
+      name: text(hero.name, "hero.name"),
       lines: list(hero.lines, "hero.lines", text),
       subhead: text(hero.subhead, "hero.subhead"),
       actions: list(hero.actions, "hero.actions", link),

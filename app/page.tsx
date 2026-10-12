@@ -11,12 +11,15 @@ import WorkSection from "@/components/home/WorkSection";
 import { getAllCaseStudies } from "@/lib/content";
 import { getHomepageContent } from "@/lib/homepage";
 
-// Both strings come from content/homepage.json, so no copy lives here.
+// Both strings come from content/homepage.json, so no copy lives here. The
+// title joins the name and the role line, which reads mid-sentence there, so
+// its first letter is lowered: "Pranay Patil - targeting APM / Junior PM roles".
 export function generateMetadata(): Metadata {
   const { hero } = getHomepageContent();
+  const role = hero.subhead.charAt(0).toLowerCase() + hero.subhead.slice(1);
 
   return {
-    title: hero.subhead,
+    title: `${hero.name} - ${role}`,
     description: hero.lines.join(" "),
   };
 }
