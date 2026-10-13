@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ViewTransition } from "react";
+import { ViewTransition, type ReactNode } from "react";
 import ArticleHeading from "@/components/ArticleHeading";
 import BeforeAfter from "@/components/BeforeAfter";
 import Callout from "@/components/Callout";
@@ -9,6 +10,7 @@ import Confidence from "@/components/Confidence";
 import ContentTable from "@/components/ContentTable";
 import MetricStrip from "@/components/MetricStrip";
 import Screen from "@/components/Screen";
+import { isRoute, opensNewTab } from "@/components/home/TextLink";
 import { ExternalLinkIcon } from "@/components/icons";
 import SectionIndex from "@/components/SectionIndex";
 import { MASTHEAD_SENTINEL_ID } from "@/lib/case-study-bar";
@@ -23,7 +25,70 @@ import {
 // Only the slugs returned by generateStaticParams are served; anything else 404s.
 export const dynamicParams = false;
 
+/**
+ * A link in a case study, in the body or the masthead disclaimer, by the same
+ * rule as TextLink: app routes go through next/link, other sites and files open
+ * in a new tab with a visually hidden warning, and anchors stay in place. Body
+ * links take their look from `[data-article] a` in globals.css.
+ */
+function ArticleLink({
+  href = "",
+  className,
+  children,
+}: {
+  href?: string;
+  className?: string;
+  children?: ReactNode;
+}) {
+  if (isRoute(href)) {
+    return (
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    );
+  }
+
+  if (opensNewTab(href)) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {children}
+        <span className="sr-only"> (opens in new tab)</span>
+      </a>
+    );
+  }
+
+  return (
+    <a href={href} className={className}>
+      {children}
+    </a>
+  );
+}
+
+/** A markdown-style [text](https://...) link inside the plain-text disclaimer. */
+const DISCLAIMER_LINK = /\[([^\]]+)\]\((https:\/\/[^)\s]+)\)/g;
+
+const DISCLAIMER_LINK_CLASS =
+  "text-accent underline decoration-accent-dim underline-offset-[0.2em] hover:decoration-accent";
+
+/** The disclaimer as text, with any [text](https://...) turned into an ArticleLink. */
+function disclaimerWithLinks(disclaimer: string): ReactNode[] {
+  const parts: ReactNode[] = [];
+  let last = 0;
+  for (const match of disclaimer.matchAll(DISCLAIMER_LINK)) {
+    parts.push(disclaimer.slice(last, match.index));
+    parts.push(
+      <ArticleLink key={match.index} href={match[2]} className={DISCLAIMER_LINK_CLASS}>
+        {match[1]}
+      </ArticleLink>,
+    );
+    last = match.index + match[0].length;
+  }
+  parts.push(disclaimer.slice(last));
+  return parts;
+}
+
 const mdxComponents: MdxComponentMap = {
+  a: ArticleLink,
   BeforeAfter,
   Callout,
   Confidence,
@@ -136,7 +201,7 @@ export default async function CaseStudyPage({
 
             {frontmatter.disclaimer ? (
               <p className="mt-6 mb-0 font-sans text-[0.8125rem] leading-6 text-faint">
-                {frontmatter.disclaimer}
+                {disclaimerWithLinks(frontmatter.disclaimer)}
               </p>
             ) : null}
           </header>
