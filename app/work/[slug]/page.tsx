@@ -176,7 +176,15 @@ export default async function CaseStudyPage({
             ) : null}
 
             {frontmatter.liveUrl ? (
-              <p className="mt-4 mb-0">
+              // With a note, the link and the note share a centred row that
+              // wraps, so on narrow screens the note drops below the link.
+              <p
+                className={
+                  frontmatter.liveNote
+                    ? "mt-4 mb-0 flex flex-wrap items-center justify-center gap-x-3 gap-y-2"
+                    : "mt-4 mb-0"
+                }
+              >
                 <a
                   href={frontmatter.liveUrl}
                   target="_blank"
@@ -187,11 +195,13 @@ export default async function CaseStudyPage({
                   Try it live
                   <span className="sr-only"> (opens in new tab)</span>
                 </a>
-              </p>
-            ) : null}
-            {frontmatter.liveUrl && frontmatter.liveNote ? (
-              <p className="mt-1 mb-0 font-sans text-[0.8125rem] text-faint">
-                {frontmatter.liveNote}
+                {frontmatter.liveNote ? (
+                  // The work card's Live pill classes, without whitespace-nowrap:
+                  // the note is wider than a phone's column, so it may wrap.
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-dim bg-accent-tint px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-accent">
+                    {frontmatter.liveNote}
+                  </span>
+                ) : null}
               </p>
             ) : null}
 
